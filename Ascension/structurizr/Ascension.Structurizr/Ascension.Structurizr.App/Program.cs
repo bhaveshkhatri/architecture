@@ -30,7 +30,16 @@ namespace Ascension.Structurizr.App
             otherBackOfficeApplication.Uses(ascensionAutomationPlatform, "Uses");
 
             // Containers
-            Container webApplication = ascensionAutomationPlatform.AddContainer("Intelligent Automations Service", "Provides automation related services.", "TBD");
+
+            Container intelligentAutomationsService = ascensionAutomationPlatform.AddContainer("Intelligent Automations Service", "Provides automation related services.", "TBD");
+
+            Container vendorPortal = ascensionAutomationPlatform.AddContainer("Vendor Portal", "Provides vendor self service capabilities.", "TBD");
+            //vendorPortal.Uses(intelligentAutomationsService, "Uses");
+
+            Container dataProviderService = ascensionAutomationPlatform.AddContainer("Data Provider Service", "Provides data to other services.", "TBD");
+
+            // Components
+            //Component 
 
             // Views
 

@@ -2,6 +2,8 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs
-/Ascension/structurizr/Ascension.Structurizr/packages
-/Ascension/structurizr/Ascension.Structurizr/.vs/Ascension.Structurizr/v15
+/**/.vs
+/**/packages
+/**/v15
+/**/[Bb]in
+/**/[Oo]bj
