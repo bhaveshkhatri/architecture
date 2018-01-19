@@ -41,7 +41,7 @@ namespace Ascension.Structurizr.App
             // Components
             //Component 
 
-            // Views
+            // Views 
 
             EnterpriseContextView enterpriseContextView = views.CreateEnterpriseContextView("SystemLandscape", "The system landscape diagram for Ascension Automation Platform.");
             enterpriseContextView.AddAllElements();
