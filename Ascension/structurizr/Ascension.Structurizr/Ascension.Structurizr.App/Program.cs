@@ -1,16 +1,21 @@
 ﻿using Structurizr;
 using Structurizr.Api;
+using System.Configuration;
 
 namespace Ascension.Structurizr.App
 {
     class Program
     {
-        private const long WorkspaceId = 38101;
-        private const string ApiKey = "66fe366b-708d-4d38-b0f0-e45d1620200b";
-        private const string ApiSecret = "69b55f1a-01b9-4da5-9577-e6373c542972";
+        private static long WorkspaceId;
+        private static string ApiKey;
+        private static string ApiSecret;
 
         static void Main(string[] args)
         {
+            WorkspaceId = long.Parse(ConfigurationManager.AppSettings["WorkspaceId"]);
+            ApiKey = ConfigurationManager.AppSettings["ApiKey"];
+            ApiSecret = ConfigurationManager.AppSettings["ApiSecret"];
+
             var workspace = new Workspace("Ascension", "Model of the Automation Platform.");
             var model = workspace.Model;
 
@@ -39,7 +44,7 @@ namespace Ascension.Structurizr.App
 
             var vendorPortalContainer = platformSoftwareSystem.AddContainer("Vendor Portal", "Provides vendor self service capabilities.", "TBD");
             vendorPerson.Uses(vendorPortalContainer, "Uses");
-            
+
             var dataProviderServiceContainer = platformSoftwareSystem.AddContainer("Data Provider Service", "Provides data to other services.", "TBD");
 
             // Data Provider Service Components
@@ -53,7 +58,7 @@ namespace Ascension.Structurizr.App
 
             var systemLandscapeEnterpriseContextView = views.CreateEnterpriseContextView("Enterprise Context", "The system landscape diagram for Ascension Automation Platform.");
             systemLandscapeEnterpriseContextView.AddAllSoftwareSystems();
-            foreach(var softwareSystem in model.SoftwareSystems)
+            foreach (var softwareSystem in model.SoftwareSystems)
             {
                 systemLandscapeEnterpriseContextView.AddNearestNeighbours(softwareSystem);
             }
