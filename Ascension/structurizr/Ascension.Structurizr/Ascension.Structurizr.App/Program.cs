@@ -4,7 +4,7 @@ using System.Configuration;
 
 namespace Ascension.Structurizr.App
 {
-    class Program
+    public class Program
     {
         private static long WorkspaceId;
         private static string ApiKey;
