@@ -11,48 +11,66 @@ namespace Ascension.Structurizr.App
 
         static void Main(string[] args)
         {
-            Workspace workspace = new Workspace("Ascension", "Model of the Automation Platform.");
-            Model model = workspace.Model;
+            var workspace = new Workspace("Ascension", "Model of the Automation Platform.");
+            var model = workspace.Model;
 
             // Enterprise
 
-            Enterprise enterprise = model.Enterprise = new Enterprise("Ascension");
+            var enterprise = model.Enterprise = new Enterprise("Ascension");
 
-            // Systems and Users
+            // Users
+            var meProcessorPerson = model.AddPerson("ME Processor", "User that processes match exceptions.");
+            var vendorPerson = model.AddPerson("Vendor", "A vendor of Ascension.");
 
-            SoftwareSystem platformSoftwareSystem = model.AddSoftwareSystem("Automation Platform", "Ascension Automation Platform.");
+            // Software Systems
 
-            SoftwareSystem meTrackerSoftwareSystem = model.AddSoftwareSystem("ME Tracker", "Tracks and manages match exceptions and related work.");
+            var platformSoftwareSystem = model.AddSoftwareSystem("Automation Platform", "Ascension Automation Platform.");
+
+            var meTrackerSoftwareSystem = model.AddSoftwareSystem("ME Tracker", "Tracks and manages match exceptions and related work.");
             meTrackerSoftwareSystem.Uses(platformSoftwareSystem, "Uses");
+            meProcessorPerson.Uses(meTrackerSoftwareSystem, "Uses");
 
-            SoftwareSystem otherBackOfficeSoftwareSystem = model.AddSoftwareSystem("Other Back Office Application", "Tracks and manages match other back office related work.");
+            var otherBackOfficeSoftwareSystem = model.AddSoftwareSystem("Other Back Office Application", "Tracks and manages match other back office related work.");
             otherBackOfficeSoftwareSystem.Uses(platformSoftwareSystem, "Uses");
 
             // Containers
 
-            Container intelligentAutomationServiceContainer = platformSoftwareSystem.AddContainer("Intelligent Automations Service", "Provides automation related services.", "TBD");
+            var intelligentAutomationServiceContainer = platformSoftwareSystem.AddContainer("Intelligent Automations Service", "Provides automation related services.", "TBD");
 
-            Container vendorPortalContainer = platformSoftwareSystem.AddContainer("Vendor Portal", "Provides vendor self service capabilities.", "TBD");
-            //vendorPortal.Uses(intelligentAutomationsService, "Uses");
+            var vendorPortalContainer = platformSoftwareSystem.AddContainer("Vendor Portal", "Provides vendor self service capabilities.", "TBD");
+            vendorPerson.Uses(vendorPortalContainer, "Uses");
+            
+            var dataProviderServiceContainer = platformSoftwareSystem.AddContainer("Data Provider Service", "Provides data to other services.", "TBD");
 
-            Container dataProviderServiceContainer = platformSoftwareSystem.AddContainer("Data Provider Service", "Provides data to other services.", "TBD");
-
-            // Components
-            Component automationAdapterComponent = dataProviderServiceContainer.AddComponent("Automation Adapter", "Adapter to read automation information.");
+            // Data Provider Service Components
+            var automationAdapterComponent = dataProviderServiceContainer.AddComponent("Automation Adapter", "Adapter to read automation information.");
 
             // Views 
 
-            ViewSet views = workspace.Views;
-            EnterpriseContextView systemLandscapeEnterpriseContextView = views.CreateEnterpriseContextView("Enterprise Context", "The system landscape diagram for Ascension Automation Platform.");
-            systemLandscapeEnterpriseContextView.AddAllElements();
+            var views = workspace.Views;
 
-            SystemContextView platformSystemContextView = views.CreateSystemContextView(platformSoftwareSystem, "Platform Context", "System Context Diagram.");
+            // Context Views
+
+            var systemLandscapeEnterpriseContextView = views.CreateEnterpriseContextView("Enterprise Context", "The system landscape diagram for Ascension Automation Platform.");
+            systemLandscapeEnterpriseContextView.AddAllSoftwareSystems();
+            foreach(var softwareSystem in model.SoftwareSystems)
+            {
+                systemLandscapeEnterpriseContextView.AddNearestNeighbours(softwareSystem);
+            }
+
+            var platformSystemContextView = views.CreateSystemContextView(platformSoftwareSystem, "Platform Context", "System Context Diagram.");
             platformSystemContextView.AddNearestNeighbours(platformSoftwareSystem);
 
-            ContainerView platformContainerView = views.CreateContainerView(platformSoftwareSystem, "Platform Containers", "The container diagram for the Ascension Automation Platform.");
-            platformContainerView.AddAllContainers();
+            // Container Views
 
-            ComponentView dataProviderServiceComponentView = views.CreateComponentView(dataProviderServiceContainer, "Data Provider Components", "The component diagram for the Data Provider Service.");
+            var platformContainerView = views.CreateContainerView(platformSoftwareSystem, "Platform Containers", "The container diagram for the Ascension Automation Platform.");
+            platformContainerView.AddAllContainers();
+            platformContainerView.AddNearestNeighbours(vendorPortalContainer);
+            platformContainerView.AddNearestNeighbours(intelligentAutomationServiceContainer);
+
+
+            // Component Views
+            var dataProviderServiceComponentView = views.CreateComponentView(dataProviderServiceContainer, "Data Provider Components", "The component diagram for the Data Provider Service.");
             dataProviderServiceComponentView.Add(automationAdapterComponent);
 
             // Styles
