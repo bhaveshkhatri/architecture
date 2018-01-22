@@ -26,10 +26,14 @@ namespace Ascension.Structurizr.App
             // Users
             var meProcessorPerson = model.AddPerson("ME Processor", "User that processes match exceptions.");
             var vendorPerson = model.AddPerson("Vendor", "A vendor of Ascension.");
+            var automationAnalyst = model.AddPerson("Automation Analyst", "An individual that analyzes areas for automation.");
 
             // Software Systems
 
             var platformSoftwareSystem = model.AddSoftwareSystem("Automation Platform", "Ascension Automation Platform.");
+
+            var platformUserDesktopSoftwareSystem = model.AddSoftwareSystem("Platform User Desktop", "The desktop of an automation platform end user.");
+            platformUserDesktopSoftwareSystem.Uses(platformSoftwareSystem, "Uses");
 
             var meTrackerSoftwareSystem = model.AddSoftwareSystem("ME Tracker", "Tracks and manages match exceptions and related work.");
             meTrackerSoftwareSystem.Uses(platformSoftwareSystem, "Uses");
@@ -39,6 +43,8 @@ namespace Ascension.Structurizr.App
             otherBackOfficeSoftwareSystem.Uses(platformSoftwareSystem, "Uses");
 
             // Containers
+
+            var openSpanContainer = platformUserDesktopSoftwareSystem.AddContainer("OpenSpan Runtime", "Runtime environment for Pega OpenSpan.", "TBD");
 
             var intelligentAutomationServiceContainer = platformSoftwareSystem.AddContainer("Intelligent Automations Service", "Provides automation related services.", "TBD");
 
@@ -67,6 +73,10 @@ namespace Ascension.Structurizr.App
             platformSystemContextView.AddNearestNeighbours(platformSoftwareSystem);
 
             // Container Views
+
+            var platformUserDesktopContainerView = views.CreateContainerView(platformUserDesktopSoftwareSystem, "Platform User Desktop Containers", "The container diagram for the platform user desktop.");
+            platformUserDesktopContainerView.Add(openSpanContainer);
+            platformUserDesktopContainerView.AddNearestNeighbours(openSpanContainer);
 
             var platformContainerView = views.CreateContainerView(platformSoftwareSystem, "Platform Containers", "The container diagram for the Ascension Automation Platform.");
             platformContainerView.AddAllContainers();
