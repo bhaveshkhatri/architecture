@@ -7,6 +7,7 @@ namespace Ascension.Structurizr.App
 {
     public class Program
     {
+        private static int CurrentVersion = 2;
         private static long WorkspaceId;
         private static string ApiKey;
         private static string ApiSecret;
@@ -20,6 +21,23 @@ namespace Ascension.Structurizr.App
             var workspace = new Workspace("Ascension", "Model of the Automation Platform.");
             var model = workspace.Model;
 
+            switch (CurrentVersion)
+            {
+                case 1:
+                    BuildV1(workspace, model);
+                    break;
+                case 2:
+                    BuildV2(workspace, model);
+                    break;
+                default:
+                    break;
+            }
+
+            Upload(workspace);
+        }
+
+        private static void BuildV1(Workspace workspace, Model model)
+        {
             // Enterprise
 
             var enterprise = model.Enterprise = new Enterprise("Ascension");
@@ -139,11 +157,14 @@ namespace Ascension.Structurizr.App
             Styles styles = views.Configuration.Styles;
             styles.Add(new ElementStyle(Tags.SoftwareSystem) { Background = "#1168bd", Color = "#ffffff" });
             styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });
-
-            Build(workspace);
         }
 
-        private static void Build(Workspace workspace)
+        private static void BuildV2(Workspace workspace, Model model)
+        {
+
+        }
+
+        private static void Upload(Workspace workspace)
         {
             // Build
 
