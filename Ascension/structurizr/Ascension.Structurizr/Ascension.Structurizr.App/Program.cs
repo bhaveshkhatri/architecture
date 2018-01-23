@@ -63,6 +63,7 @@ namespace Ascension.Structurizr.App
             var cognitiveScaleCortexContainer = platformSoftwareSystem.AddContainer("Cortex", "Cortex platform provided by CognitiveScale", "TBD");
 
             var matchExceptionDatabaseContainer = matchExceptionTrackerSoftwareSystem.AddContainer("ME Database", "Match Exception Tracker operational DB.", "TBD");
+            platformSoftwareSystem.Uses(matchExceptionDatabaseContainer, "Uses");
 
             var matchExceptionTrackerWebApplicationContainer = matchExceptionTrackerSoftwareSystem.AddContainer("ME Tracker Web Application", "Match Exception Tracker Web Application.", "TBD");
             matchExceptionTrackerWebApplicationContainer.Uses(matchExceptionDatabaseContainer, "Uses");
