@@ -19,15 +19,14 @@ namespace Ascension.Structurizr.App
             ApiSecret = ConfigurationManager.AppSettings["ApiSecret"];
 
             var workspace = new Workspace("Ascension", "Model of the Automation Platform.");
-            var model = workspace.Model;
-
+            
             switch (CurrentVersion)
             {
                 case 1:
-                    BuildV1(workspace, model);
+                    BuildV1(workspace);
                     break;
                 case 2:
-                    BuildV2(workspace, model);
+                    BuildV2(workspace);
                     break;
                 default:
                     break;
@@ -36,8 +35,10 @@ namespace Ascension.Structurizr.App
             Upload(workspace);
         }
 
-        private static void BuildV1(Workspace workspace, Model model)
+        private static void BuildV1(Workspace workspace)
         {
+            var model = workspace.Model;
+
             // Enterprise
 
             var enterprise = model.Enterprise = new Enterprise("Ascension");
@@ -159,8 +160,10 @@ namespace Ascension.Structurizr.App
             styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });
         }
 
-        private static void BuildV2(Workspace workspace, Model model)
+        private static void BuildV2(Workspace workspace)
         {
+            var model = workspace.Model;
+
             // Enterprise
 
             var enterprise = model.Enterprise = new Enterprise("Ascension");
@@ -176,42 +179,54 @@ namespace Ascension.Structurizr.App
             var platformSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Automation Platform", "Ascension Automation Platform.");
 
             var platformUserDesktopSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Platform User Desktop", "The desktop of an automation platform end user.");
-            matchExceptionProcessorPerson.Uses(platformUserDesktopSoftwareSystem, "Uses");
-            backOfficeUserPerson.Uses(platformUserDesktopSoftwareSystem, "Uses");
-            vendorPerson.Uses(platformSoftwareSystem, "Uses");
-            automationAnalyst.Uses(platformSoftwareSystem, "Uses");
-            platformUserDesktopSoftwareSystem.Uses(platformSoftwareSystem, "Uses");
+            matchExceptionProcessorPerson.Uses(platformUserDesktopSoftwareSystem, "Uses", "TBD");
+            backOfficeUserPerson.Uses(platformUserDesktopSoftwareSystem, "Uses", "TBD");
+            vendorPerson.Uses(platformSoftwareSystem, "Uses", "TBD");
+            automationAnalyst.Uses(platformSoftwareSystem, "Uses", "TBD");
+            platformUserDesktopSoftwareSystem.Uses(platformSoftwareSystem, "Uses", "TBD");
 
             var pegaWorkforceIntelligenceSoftwareSystem = model.AddSoftwareSystem(Location.External, "Pega Workforce Intelligence", "The cloud hosted desktop activity analytics software.");
-            platformSoftwareSystem.Uses(pegaWorkforceIntelligenceSoftwareSystem, "Uses");
+            platformSoftwareSystem.Uses(pegaWorkforceIntelligenceSoftwareSystem, "Uses", "TBD");
 
             var matchExceptionTrackerSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Match Exception Tracker", "Tracks and manages match exceptions and related work.");
-            matchExceptionTrackerSoftwareSystem.Uses(platformSoftwareSystem, "Uses");
-            matchExceptionProcessorPerson.Uses(matchExceptionTrackerSoftwareSystem, "Uses");
-            platformUserDesktopSoftwareSystem.Uses(matchExceptionTrackerSoftwareSystem, "Uses");
+            matchExceptionTrackerSoftwareSystem.Uses(platformSoftwareSystem, "Uses", "TBD");
+            matchExceptionProcessorPerson.Uses(matchExceptionTrackerSoftwareSystem, "Uses", "TBD");
+            platformUserDesktopSoftwareSystem.Uses(matchExceptionTrackerSoftwareSystem, "Uses", "TBD");
 
             var otherBackOfficeSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Other Back Office Application", "Tracks and manages match other back office related work.");
-            backOfficeUserPerson.Uses(otherBackOfficeSoftwareSystem, "Uses");
-            otherBackOfficeSoftwareSystem.Uses(platformSoftwareSystem, "Uses");
-            platformUserDesktopSoftwareSystem.Uses(otherBackOfficeSoftwareSystem, "Uses");
+            backOfficeUserPerson.Uses(otherBackOfficeSoftwareSystem, "Uses", "TBD");
+            otherBackOfficeSoftwareSystem.Uses(platformSoftwareSystem, "Uses", "TBD");
+            platformUserDesktopSoftwareSystem.Uses(otherBackOfficeSoftwareSystem, "Uses", "TBD");
 
             var enterpriseDataLakeSystem = model.AddSoftwareSystem(Location.Internal, "Enterprise Data Lake", "Enterprise Data Lake.");
-            platformSoftwareSystem.Uses(enterpriseDataLakeSystem, "Uses");
+            platformSoftwareSystem.Uses(enterpriseDataLakeSystem, "Uses", "TBD");
 
             var cortexPlatformSystem = model.AddSoftwareSystem(Location.External, "Cortex V5", "Cognitive Scale Cortex Platform.");
-            platformSoftwareSystem.Uses(cortexPlatformSystem, "Uses");
+            platformSoftwareSystem.Uses(cortexPlatformSystem, "Uses", "TBD");
 
             // Containers
 
             var webBrowserContainer = platformUserDesktopSoftwareSystem.AddContainer("Web Browser", "Web Browser (e.g. Chrome, IE, Firefox).", "TBD");
+            webBrowserContainer.Uses(matchExceptionTrackerSoftwareSystem, "Uses", "TBD");
+            webBrowserContainer.Uses(otherBackOfficeSoftwareSystem, "Uses", "TBD");
 
             var openSpanContainer = platformUserDesktopSoftwareSystem.AddContainer("OpenSpan Runtime", "Runtime environment for Pega OpenSpan.", "TBD");
-            webBrowserContainer.Uses(openSpanContainer, "Triggers RDA and provides data");
-            openSpanContainer.Uses(webBrowserContainer, "Automates");
+            webBrowserContainer.Uses(openSpanContainer, "Triggers RDA and provides data", "TBD");
+            openSpanContainer.Uses(webBrowserContainer, "Automates", "TBD");
 
             var radiloContainer = platformUserDesktopSoftwareSystem.AddContainer("RADILO", "Unified Desktop.", "TBD");
-            openSpanContainer.Uses(radiloContainer, "Automates");
-            radiloContainer.Uses(openSpanContainer, "Collects data, triggers RDA and provides data");
+            openSpanContainer.Uses(radiloContainer, "Automates", "TBD");
+            radiloContainer.Uses(openSpanContainer, "Collects data, triggers RDA and provides data", "TBD");
+
+            var matchExceptionTrackerWebApplicationContainer = matchExceptionTrackerSoftwareSystem.AddContainer("Match Exception Tracker Web", "The Match Exception Tracker Web Application.", "TBD - Angular?");
+            matchExceptionProcessorPerson.Uses(matchExceptionTrackerWebApplicationContainer, "Uses", "TBD");
+            var matchExceptionTrackerServiceContainer = matchExceptionTrackerSoftwareSystem.AddContainer("Match Exception Tracker App Service", "The Match Exception Tracker Application Specific Service.", "TBD - .NET Core Web API?");
+            matchExceptionTrackerWebApplicationContainer.Uses(matchExceptionTrackerServiceContainer, "Uses", "TBD");
+            matchExceptionTrackerWebApplicationContainer.Uses(platformSoftwareSystem, "Uses", "TBD");
+            var matchExceptionTrackerDatabaseContainer = matchExceptionTrackerSoftwareSystem.AddContainer("Match Exception Tracker Database", "The Match Exception Tracker Application Specific Database.", "SQL Server");
+            matchExceptionTrackerDatabaseContainer.AddTags(AdditionalTags.Database);
+            matchExceptionTrackerServiceContainer.Uses(matchExceptionTrackerDatabaseContainer, "Uses", "TBD");
+            platformSoftwareSystem.Uses(matchExceptionTrackerDatabaseContainer, "Uses", "TBD");
 
             // Views 
 
@@ -227,6 +242,10 @@ namespace Ascension.Structurizr.App
             platformUserDesktopSystemContextView.AddNearestNeighbours(platformUserDesktopSoftwareSystem);
             systemLandscapeEnterpriseContextView.PaperSize = PaperSize.A4_Landscape;
 
+            var matchExceptionTrackerSystemContextView = views.CreateSystemContextView(matchExceptionTrackerSoftwareSystem, "Match Exception Tracker System Context", "The system context for the Match Exception Tracker");
+            matchExceptionTrackerSystemContextView.AddNearestNeighbours(matchExceptionTrackerSoftwareSystem);
+            matchExceptionTrackerSystemContextView.PaperSize = PaperSize.A4_Landscape;
+
             // Container Views
 
             var platformUserDesktopContainerView = views.CreateContainerView(platformUserDesktopSoftwareSystem, "Platform User Desktop Containers", "The container diagram for the platform user desktop.");
@@ -239,11 +258,21 @@ namespace Ascension.Structurizr.App
             }
             platformUserDesktopContainerView.PaperSize = PaperSize.A5_Landscape;
 
+            var matchExceptionTrackerContainerView = views.CreateContainerView(matchExceptionTrackerSoftwareSystem, "Match Exception Tracker Containers", "The container diagram for the Match Exception Tracker.");
+            foreach (var container in matchExceptionTrackerSoftwareSystem.Containers)
+            {
+                matchExceptionTrackerContainerView.Add(container);
+                matchExceptionTrackerContainerView.AddNearestNeighbours(container);
+            }
+            matchExceptionTrackerContainerView.PaperSize = PaperSize.A5_Landscape;
+
             // Styles
 
             Styles styles = views.Configuration.Styles;
             styles.Add(new ElementStyle(Tags.SoftwareSystem) { Background = "#1168bd", Color = "#ffffff" });
             styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });
+            styles.Add(new ElementStyle(AdditionalTags.Database) { Shape = Shape.Cylinder });
+            styles.Add(new ElementStyle(AdditionalTags.Queue) { Shape = Shape.Pipe });
         }
 
         private static void Upload(Workspace workspace)
@@ -252,6 +281,24 @@ namespace Ascension.Structurizr.App
 
             StructurizrClient structurizrClient = new StructurizrClient(ApiKey, ApiSecret);
             structurizrClient.PutWorkspace(WorkspaceId, workspace);
+        }
+
+        private static class AdditionalTags
+        {
+            public static string Database
+            {
+                get
+                {
+                    return "Database";
+                }
+            }
+            public static string Queue
+            {
+                get
+                {
+                    return "Queue";
+                }
+            }
         }
     }
 }
