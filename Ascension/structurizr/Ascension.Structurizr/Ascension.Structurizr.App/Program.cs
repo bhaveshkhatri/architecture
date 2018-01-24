@@ -115,34 +115,34 @@ namespace Ascension.Structurizr.App
 
             // Context Views
 
-            CreateEnterpriseContextLandscapeView(enterprise, views);
+            CreateEnterpriseContextLandscapeViewFor(enterprise, views);
 
-            CreateSystemContextView(platformSoftwareSystem, views);
+            CreateSystemContextViewFor(platformSoftwareSystem, views);
 
-            CreateSystemContextView(platformUserDesktopSoftwareSystem, views);
+            CreateSystemContextViewFor(platformUserDesktopSoftwareSystem, views);
 
-            CreateSystemContextView(matchExceptionTrackerSoftwareSystem, views);
+            CreateSystemContextViewFor(matchExceptionTrackerSoftwareSystem, views);
 
-            CreateSystemContextView(peoplesoftSoftwareSystem, views);
+            CreateSystemContextViewFor(peoplesoftSoftwareSystem, views);
 
             // Container Views
 
-            CreateContainerView(platformSoftwareSystem, views);
+            CreateContainerViewFor(platformSoftwareSystem, views);
 
-            CreateContainerView(platformUserDesktopSoftwareSystem, views);
+            CreateContainerViewFor(platformUserDesktopSoftwareSystem, views);
 
-            CreateContainerView(matchExceptionTrackerSoftwareSystem, views);
+            CreateContainerViewFor(matchExceptionTrackerSoftwareSystem, views);
 
-            CreateContainerView(peoplesoftSoftwareSystem, views);
+            CreateContainerViewFor(peoplesoftSoftwareSystem, views);
 
-            CreateContainerView(ssisSoftwareSystem, views);
+            CreateContainerViewFor(ssisSoftwareSystem, views);
 
             // Styles
 
-            ConfigureStyles(views);
+            ConfigureStylesIn(views);
         }
 
-        private static void CreateEnterpriseContextLandscapeView(Enterprise enterprise, ViewSet views)
+        private static void CreateEnterpriseContextLandscapeViewFor(Enterprise enterprise, ViewSet views)
         {
             var enterpriseName = enterprise.Name;
             var systemLandscapeEnterpriseContextView = views.CreateEnterpriseContextView(string.Format("{0} Enterprise Context", enterpriseName), string.Format("The system landscape diagram for {0}.", enterpriseName));
@@ -150,7 +150,7 @@ namespace Ascension.Structurizr.App
             systemLandscapeEnterpriseContextView.PaperSize = PaperSize.A4_Landscape;
         }
 
-        private static void CreateSystemContextView(SoftwareSystem softwareSystem, ViewSet views)
+        private static void CreateSystemContextViewFor(SoftwareSystem softwareSystem, ViewSet views)
         {
             var softwareSystemName = softwareSystem.Name;
             var softwareSystemContextView = views.CreateSystemContextView(softwareSystem, string.Format("{0} System Context", softwareSystemName), string.Format("The system context for {0}.", softwareSystemName));
@@ -158,7 +158,7 @@ namespace Ascension.Structurizr.App
             softwareSystemContextView.PaperSize = PaperSize.A4_Landscape;
         }
 
-        private static void CreateContainerView(SoftwareSystem softwareSystem, ViewSet views)
+        private static void CreateContainerViewFor(SoftwareSystem softwareSystem, ViewSet views)
         {
             var softwareSystemName = softwareSystem.Name;
             var containerView = views.CreateContainerView(softwareSystem, string.Format("{0} Containers", softwareSystemName), string.Format("The container diagram for {0}.", softwareSystemName));
@@ -170,7 +170,7 @@ namespace Ascension.Structurizr.App
             containerView.PaperSize = PaperSize.A5_Landscape;
         }
 
-        private static void ConfigureStyles(ViewSet views)
+        private static void ConfigureStylesIn(ViewSet views)
         {
             Styles styles = views.Configuration.Styles;
             styles.Add(new ElementStyle(Tags.SoftwareSystem) { Background = "#1168bd", Color = "#ffffff", Shape = Shape.RoundedBox });
