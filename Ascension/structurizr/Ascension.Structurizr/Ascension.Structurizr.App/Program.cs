@@ -155,9 +155,7 @@ namespace Ascension.Structurizr.App
 
             // Styles
 
-            Styles styles = views.Configuration.Styles;
-            styles.Add(new ElementStyle(Tags.SoftwareSystem) { Background = "#1168bd", Color = "#ffffff" });
-            styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });
+            ConfigureStyles(views);
         }
 
         private static void BuildV2(Workspace workspace)
@@ -170,7 +168,7 @@ namespace Ascension.Structurizr.App
 
             // Users
             var matchExceptionProcessorPerson = model.AddPerson(Location.Internal, "Match Exception Processor", "User that processes match exceptions.");
-            var backOfficeUserPerson = model.AddPerson(Location.Internal, "Back Office Application User", "User of other back office applications.");
+            var backOfficeUserPerson = model.AddPerson(Location.Internal, "Back Office \n Application User", "User of other back office applications.");
             var vendorPerson = model.AddPerson(Location.External, "Vendor", "A vendor of Ascension.");
             var automationAnalyst = model.AddPerson(Location.Internal, "Automation Analyst", "An individual that analyzes areas for automation.");
 
@@ -268,6 +266,11 @@ namespace Ascension.Structurizr.App
 
             // Styles
 
+            ConfigureStyles(views);
+        }
+
+        private static void ConfigureStyles(ViewSet views)
+        {
             Styles styles = views.Configuration.Styles;
             styles.Add(new ElementStyle(Tags.SoftwareSystem) { Background = "#1168bd", Color = "#ffffff", Shape = Shape.RoundedBox });
             styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });
