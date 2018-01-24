@@ -269,7 +269,7 @@ namespace Ascension.Structurizr.App
             // Styles
 
             Styles styles = views.Configuration.Styles;
-            styles.Add(new ElementStyle(Tags.SoftwareSystem) { Background = "#1168bd", Color = "#ffffff" });
+            styles.Add(new ElementStyle(Tags.SoftwareSystem) { Background = "#1168bd", Color = "#ffffff", Shape = Shape.RoundedBox });
             styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });
             styles.Add(new ElementStyle(AdditionalTags.Database) { Shape = Shape.Cylinder });
             styles.Add(new ElementStyle(AdditionalTags.Queue) { Shape = Shape.Pipe });
