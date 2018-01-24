@@ -204,8 +204,15 @@ namespace Ascension.Structurizr.App
             // Containers
 
             var webBrowserContainer = platformUserDesktopSoftwareSystem.AddContainer("Web Browser", "Web Browser (e.g. Chrome, IE, Firefox).", "TBD");
+
             var openSpanContainer = platformUserDesktopSoftwareSystem.AddContainer("OpenSpan Runtime", "Runtime environment for Pega OpenSpan.", "TBD");
-            
+            webBrowserContainer.Uses(openSpanContainer, "Triggers RDA and provides data");
+            openSpanContainer.Uses(webBrowserContainer, "Automates");
+
+            var radiloContainer = platformUserDesktopSoftwareSystem.AddContainer("RADILO", "Unified Desktop.", "TBD");
+            openSpanContainer.Uses(radiloContainer, "Automates");
+            radiloContainer.Uses(openSpanContainer, "Collects data, triggers RDA and provides data");
+
             // Views 
 
             var views = workspace.Views;
@@ -215,6 +222,22 @@ namespace Ascension.Structurizr.App
             var systemLandscapeEnterpriseContextView = views.CreateEnterpriseContextView("Enterprise Context", "The system landscape diagram for Ascension Automation Platform.");
             systemLandscapeEnterpriseContextView.AddAllElements();
             systemLandscapeEnterpriseContextView.PaperSize = PaperSize.A4_Landscape;
+
+            var platformUserDesktopSystemContextView = views.CreateSystemContextView(platformUserDesktopSoftwareSystem, "Platform User Desktop System Context", "The system context for the platform user desktop.");
+            platformUserDesktopSystemContextView.AddNearestNeighbours(platformUserDesktopSoftwareSystem);
+            systemLandscapeEnterpriseContextView.PaperSize = PaperSize.A4_Landscape;
+
+            // Container Views
+
+            var platformUserDesktopContainerView = views.CreateContainerView(platformUserDesktopSoftwareSystem, "Platform User Desktop Containers", "The container diagram for the platform user desktop.");
+            platformUserDesktopContainerView.Add(openSpanContainer);
+            platformUserDesktopContainerView.AddNearestNeighbours(openSpanContainer);
+            var relationships = platformUserDesktopContainerView.Relationships.ToList();
+            foreach (var relationship in relationships)
+            {
+                platformUserDesktopContainerView.AddNearestNeighbours(relationship.Relationship.Destination);
+            }
+            platformUserDesktopContainerView.PaperSize = PaperSize.A5_Landscape;
 
             // Styles
 
