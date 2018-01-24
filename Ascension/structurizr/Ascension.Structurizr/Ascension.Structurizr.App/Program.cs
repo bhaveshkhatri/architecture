@@ -161,7 +161,66 @@ namespace Ascension.Structurizr.App
 
         private static void BuildV2(Workspace workspace, Model model)
         {
+            // Enterprise
 
+            var enterprise = model.Enterprise = new Enterprise("Ascension");
+
+            // Users
+            var matchExceptionProcessorPerson = model.AddPerson(Location.Internal, "Match Exception Processor", "User that processes match exceptions.");
+            var backOfficeUserPerson = model.AddPerson(Location.Internal, "Back Office Application User", "User of other back office applications.");
+            var vendorPerson = model.AddPerson(Location.External, "Vendor", "A vendor of Ascension.");
+            var automationAnalyst = model.AddPerson(Location.Internal, "Automation Analyst", "An individual that analyzes areas for automation.");
+
+            // Software Systems
+
+            var platformSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Automation Platform", "Ascension Automation Platform.");
+
+            var platformUserDesktopSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Platform User Desktop", "The desktop of an automation platform end user.");
+            matchExceptionProcessorPerson.Uses(platformUserDesktopSoftwareSystem, "Uses");
+            backOfficeUserPerson.Uses(platformUserDesktopSoftwareSystem, "Uses");
+            vendorPerson.Uses(platformSoftwareSystem, "Uses");
+            automationAnalyst.Uses(platformSoftwareSystem, "Uses");
+            platformUserDesktopSoftwareSystem.Uses(platformSoftwareSystem, "Uses");
+
+            var pegaWorkforceIntelligenceSoftwareSystem = model.AddSoftwareSystem(Location.External, "Pega Workforce Intelligence", "The cloud hosted desktop activity analytics software.");
+            platformSoftwareSystem.Uses(pegaWorkforceIntelligenceSoftwareSystem, "Uses");
+
+            var matchExceptionTrackerSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Match Exception Tracker", "Tracks and manages match exceptions and related work.");
+            matchExceptionTrackerSoftwareSystem.Uses(platformSoftwareSystem, "Uses");
+            matchExceptionProcessorPerson.Uses(matchExceptionTrackerSoftwareSystem, "Uses");
+            platformUserDesktopSoftwareSystem.Uses(matchExceptionTrackerSoftwareSystem, "Uses");
+
+            var otherBackOfficeSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Other Back Office Application", "Tracks and manages match other back office related work.");
+            backOfficeUserPerson.Uses(otherBackOfficeSoftwareSystem, "Uses");
+            otherBackOfficeSoftwareSystem.Uses(platformSoftwareSystem, "Uses");
+            platformUserDesktopSoftwareSystem.Uses(otherBackOfficeSoftwareSystem, "Uses");
+
+            var enterpriseDataLakeSystem = model.AddSoftwareSystem(Location.Internal, "Enterprise Data Lake", "Enterprise Data Lake.");
+            platformSoftwareSystem.Uses(enterpriseDataLakeSystem, "Uses");
+
+            var cortexPlatformSystem = model.AddSoftwareSystem(Location.External, "Cortex V5", "Cognitive Scale Cortex Platform.");
+            platformSoftwareSystem.Uses(cortexPlatformSystem, "Uses");
+
+            // Containers
+
+            var webBrowserContainer = platformUserDesktopSoftwareSystem.AddContainer("Web Browser", "Web Browser (e.g. Chrome, IE, Firefox).", "TBD");
+            var openSpanContainer = platformUserDesktopSoftwareSystem.AddContainer("OpenSpan Runtime", "Runtime environment for Pega OpenSpan.", "TBD");
+            
+            // Views 
+
+            var views = workspace.Views;
+
+            // Context Views
+
+            var systemLandscapeEnterpriseContextView = views.CreateEnterpriseContextView("Enterprise Context", "The system landscape diagram for Ascension Automation Platform.");
+            systemLandscapeEnterpriseContextView.AddAllElements();
+            systemLandscapeEnterpriseContextView.PaperSize = PaperSize.A4_Landscape;
+
+            // Styles
+
+            Styles styles = views.Configuration.Styles;
+            styles.Add(new ElementStyle(Tags.SoftwareSystem) { Background = "#1168bd", Color = "#ffffff" });
+            styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });
         }
 
         private static void Upload(Workspace workspace)
