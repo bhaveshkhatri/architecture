@@ -1,11 +1,12 @@
 ﻿using Structurizr;
 using Structurizr.Api;
 using System.Configuration;
+using System.Linq;
 using System;
 
 namespace Ascension.Structurizr.App
 {
-    public class Program
+    public partial class Program
     {
         private static long WorkspaceId;
         private static string ApiKey;
@@ -69,7 +70,7 @@ namespace Ascension.Structurizr.App
             platformSoftwareSystem.Uses(cortexPlatformSystem, "Uses", "TBD");
 
             var peoplesoftSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Peoplesoft", "Peoplesoft");
-            platformSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Uses", "TBD");
+            platformSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Potentially Uses", "TBD");
 
             var ssisSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SSIS", "SQL Server Integration Services");
             ssisSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Pulls Data From", "TBD");
@@ -109,6 +110,23 @@ namespace Ascension.Structurizr.App
             ssisContainer.Uses(matchExceptionTrackerSoftwareSystem, "Pushes Data To", "TBD");
             ssisContainer.Uses(peoplesoftSoftwareSystem, "Pulls Data From", "TBD");
 
+            var platformAnalyticsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Platform Analytics Service");
+            var platformManagementServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Platform Management Service");
+            var vendorServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Vendor Service");
+            var machineLearningServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Machine Learning Service");
+            var omniChannelCommunicationsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Omni Channel Communications Service");
+
+            var dataIntegrationContainer = platformSoftwareSystem.AddContainer("Data Integration Service", "Data Integration Service", "TBD");
+            var platformServicesGatewayContainer = platformSoftwareSystem.AddContainer("Services Gateway", "Automation Platform Services Gateway", "TBD");
+            var apiServiceContainers = platformSoftwareSystem.Containers.Where(container => container.Tags.Contains(AdditionalTags.ApiService));
+            foreach(var apiServiceContainer in apiServiceContainers)
+            {
+                platformServicesGatewayContainer.Uses(apiServiceContainer, "Exposes");
+                apiServiceContainer.Uses(dataIntegrationContainer, "Uses");
+            }
+
+
+
             // Views 
 
             var views = workspace.Views;
@@ -127,7 +145,7 @@ namespace Ascension.Structurizr.App
 
             // Container Views
 
-            CreateContainerViewFor(platformSoftwareSystem, views);
+            CreateContainerViewFor(platformSoftwareSystem, views, PaperSize.A4_Landscape);
 
             CreateContainerViewFor(platformUserDesktopSoftwareSystem, views);
 
@@ -158,7 +176,7 @@ namespace Ascension.Structurizr.App
             softwareSystemContextView.PaperSize = PaperSize.A4_Landscape;
         }
 
-        private static void CreateContainerViewFor(SoftwareSystem softwareSystem, ViewSet views)
+        private static void CreateContainerViewFor(SoftwareSystem softwareSystem, ViewSet views, PaperSize paperSize)
         {
             var softwareSystemName = softwareSystem.Name;
             var containerView = views.CreateContainerView(softwareSystem, string.Format("{0} Containers", softwareSystemName), string.Format("The container diagram for {0}.", softwareSystemName));
@@ -167,7 +185,12 @@ namespace Ascension.Structurizr.App
                 containerView.Add(container);
                 containerView.AddNearestNeighbours(container);
             }
-            containerView.PaperSize = PaperSize.A5_Landscape;
+            containerView.PaperSize = paperSize;
+        }
+
+        private static void CreateContainerViewFor(SoftwareSystem softwareSystem, ViewSet views)
+        {
+            CreateContainerViewFor(softwareSystem, views, PaperSize.A5_Landscape);
         }
 
         private static void ConfigureStylesIn(ViewSet views)
@@ -183,24 +206,6 @@ namespace Ascension.Structurizr.App
         {
             StructurizrClient structurizrClient = new StructurizrClient(ApiKey, ApiSecret);
             structurizrClient.PutWorkspace(WorkspaceId, workspace);
-        }
-
-        private static class AdditionalTags
-        {
-            public static string Database
-            {
-                get
-                {
-                    return "Database";
-                }
-            }
-            public static string Queue
-            {
-                get
-                {
-                    return "Queue";
-                }
-            }
         }
     }
 }
