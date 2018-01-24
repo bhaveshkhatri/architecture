@@ -202,6 +202,13 @@ namespace Ascension.Structurizr.App
             var cortexPlatformSystem = model.AddSoftwareSystem(Location.External, "Cortex V5", "Cognitive Scale Cortex Platform.");
             platformSoftwareSystem.Uses(cortexPlatformSystem, "Uses", "TBD");
 
+            var peoplesoftSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Peoplesoft", "Peoplesoft");
+            platformSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Uses", "TBD");
+
+            var ssisSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SSIS", "SQL Server Integration Services");
+            ssisSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Pulls Data From", "TBD");
+            ssisSoftwareSystem.Uses(matchExceptionTrackerSoftwareSystem, "Pushes Data To", "TBD");
+
             // Containers
 
             var webBrowserContainer = platformUserDesktopSoftwareSystem.AddContainer("Web Browser", "Web Browser (e.g. Chrome, IE, Firefox).", "TBD");
@@ -226,6 +233,15 @@ namespace Ascension.Structurizr.App
             matchExceptionTrackerServiceContainer.Uses(matchExceptionTrackerDatabaseContainer, "Uses", "TBD");
             platformSoftwareSystem.Uses(matchExceptionTrackerDatabaseContainer, "Uses", "TBD");
 
+            var peopleSoftDatabaseContainer = peoplesoftSoftwareSystem.AddContainer("Peoplesoft Database", "Peoplesoft Database", "Peoplesoft");
+            peopleSoftDatabaseContainer.AddTags(AdditionalTags.Database);
+            platformSoftwareSystem.Uses(peopleSoftDatabaseContainer, "Uses", "TBD");
+            ssisSoftwareSystem.Uses(peopleSoftDatabaseContainer, "Pulls Data From", "TBD");
+
+            var ssisContainer = ssisSoftwareSystem.AddContainer("SSIS", "SQL Server Integration Services", "SSIS");
+            ssisContainer.Uses(matchExceptionTrackerSoftwareSystem, "Pushes Data To", "TBD");
+            ssisContainer.Uses(peoplesoftSoftwareSystem, "Pulls Data From", "TBD");
+
             // Views 
 
             var views = workspace.Views;
@@ -236,6 +252,10 @@ namespace Ascension.Structurizr.App
             systemLandscapeEnterpriseContextView.AddAllElements();
             systemLandscapeEnterpriseContextView.PaperSize = PaperSize.A4_Landscape;
 
+            var platformSystemContextView = views.CreateSystemContextView(platformSoftwareSystem, "Automation Platform System Context", "The system context for the Automation Platform.");
+            platformSystemContextView.AddNearestNeighbours(platformSoftwareSystem);
+            platformSystemContextView.PaperSize = PaperSize.A4_Landscape;
+
             var platformUserDesktopSystemContextView = views.CreateSystemContextView(platformUserDesktopSoftwareSystem, "Platform User Desktop System Context", "The system context for the platform user desktop.");
             platformUserDesktopSystemContextView.AddNearestNeighbours(platformUserDesktopSoftwareSystem);
             systemLandscapeEnterpriseContextView.PaperSize = PaperSize.A4_Landscape;
@@ -244,7 +264,19 @@ namespace Ascension.Structurizr.App
             matchExceptionTrackerSystemContextView.AddNearestNeighbours(matchExceptionTrackerSoftwareSystem);
             matchExceptionTrackerSystemContextView.PaperSize = PaperSize.A4_Landscape;
 
+            var peoplesoftSystemContextView = views.CreateSystemContextView(peoplesoftSoftwareSystem, "Peoplesoft System Context", "The system context for Peoplesoft.");
+            peoplesoftSystemContextView.AddNearestNeighbours(peoplesoftSoftwareSystem);
+            peoplesoftSystemContextView.PaperSize = PaperSize.A4_Landscape;
+
             // Container Views
+
+            var platformContainerView = views.CreateContainerView(platformSoftwareSystem, "Automation Platform Containers", "The container diagram for the Automation Platform.");
+            foreach (var container in platformSoftwareSystem.Containers)
+            {
+                platformContainerView.Add(container);
+                platformContainerView.AddNearestNeighbours(container);
+            }
+            platformContainerView.PaperSize = PaperSize.A5_Landscape;
 
             var platformUserDesktopContainerView = views.CreateContainerView(platformUserDesktopSoftwareSystem, "Platform User Desktop Containers", "The container diagram for the platform user desktop.");
             platformUserDesktopContainerView.Add(openSpanContainer);
@@ -263,6 +295,22 @@ namespace Ascension.Structurizr.App
                 matchExceptionTrackerContainerView.AddNearestNeighbours(container);
             }
             matchExceptionTrackerContainerView.PaperSize = PaperSize.A5_Landscape;
+
+            var peoplesoftContainerView = views.CreateContainerView(peoplesoftSoftwareSystem, "Peoplesoft Containers", "The container diagram for Peoplesoft.");
+            foreach (var container in peoplesoftSoftwareSystem.Containers)
+            {
+                peoplesoftContainerView.Add(container);
+                peoplesoftContainerView.AddNearestNeighbours(container);
+            }
+            peoplesoftContainerView.PaperSize = PaperSize.A5_Landscape;
+
+            var ssisContainerView = views.CreateContainerView(ssisSoftwareSystem, "SSIS Containers", "The container diagram for SSIS.");
+            foreach (var container in ssisSoftwareSystem.Containers)
+            {
+                ssisContainerView.Add(container);
+                ssisContainerView.AddNearestNeighbours(container);
+            }
+            ssisContainerView.PaperSize = PaperSize.A5_Landscape;
 
             // Styles
 
