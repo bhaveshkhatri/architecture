@@ -43,25 +43,21 @@ namespace Ascension.Structurizr.App
 
             var platformSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Automation Platform", "Ascension Automation Platform.");
 
-            var platformUserDesktopSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Platform User Desktop", "The desktop of an automation platform end user.");
-            matchExceptionProcessorPerson.Uses(platformUserDesktopSoftwareSystem, "Uses");
-            backOfficeUserPerson.Uses(platformUserDesktopSoftwareSystem, "Uses");
+            matchExceptionProcessorPerson.Uses(platformSoftwareSystem, "Uses Client Desktop");
+            backOfficeUserPerson.Uses(platformSoftwareSystem, "Uses Client Desktop");
             vendorPerson.Uses(platformSoftwareSystem, "Uses", "Vendor Self Service Application");
             automationAnalyst.Uses(platformSoftwareSystem, "Uses", "Analytics Web Application");
-            platformUserDesktopSoftwareSystem.Uses(platformSoftwareSystem, "Uses", "REST API");
-
+            
             var pegaWorkforceIntelligenceSoftwareSystem = model.AddSoftwareSystem(Location.External, "Pega Workforce Intelligence", "The cloud hosted desktop activity analytics software.");
             platformSoftwareSystem.Uses(pegaWorkforceIntelligenceSoftwareSystem, "Uses", "Embeds Application");
 
             var matchExceptionTrackerSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Match Exception Tracker", "Tracks and manages match exceptions and related work.");
             matchExceptionProcessorPerson.Uses(matchExceptionTrackerSoftwareSystem, "Uses");
             matchExceptionTrackerSoftwareSystem.Uses(platformSoftwareSystem, "Uses", "REST API");
-            platformUserDesktopSoftwareSystem.Uses(matchExceptionTrackerSoftwareSystem, "Uses", "OS");
 
             var otherBackOfficeSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Other Back Office Application", "Tracks and manages match other back office related work.");
             backOfficeUserPerson.Uses(otherBackOfficeSoftwareSystem, "Uses");
             otherBackOfficeSoftwareSystem.Uses(platformSoftwareSystem, "Uses", "REST API");
-            platformUserDesktopSoftwareSystem.Uses(otherBackOfficeSoftwareSystem, "Uses", "OS");
 
             var enterpriseDataLakeSystem = model.AddSoftwareSystem(Location.Internal, "Enterprise Data Lake", "Enterprise Data Lake.");
             platformSoftwareSystem.Uses(enterpriseDataLakeSystem, "Uses");
@@ -77,18 +73,6 @@ namespace Ascension.Structurizr.App
             ssisSoftwareSystem.Uses(matchExceptionTrackerSoftwareSystem, "Pushes Data To", "Nightly Job");
 
             // Containers
-
-            var webBrowserContainer = platformUserDesktopSoftwareSystem.AddContainer("Web Browser", "Web Browser (e.g. Chrome, IE, Firefox).", "TBD");
-            webBrowserContainer.Uses(matchExceptionTrackerSoftwareSystem, "Uses", "TBD");
-            webBrowserContainer.Uses(otherBackOfficeSoftwareSystem, "Uses", "TBD");
-
-            var openSpanContainer = platformUserDesktopSoftwareSystem.AddContainer("OpenSpan Runtime", "Runtime environment for Pega OpenSpan.", "TBD");
-            webBrowserContainer.Uses(openSpanContainer, "Triggers RDA and provides data", "TBD");
-            openSpanContainer.Uses(webBrowserContainer, "Automates", "TBD");
-
-            var radiloContainer = platformUserDesktopSoftwareSystem.AddContainer("RADILO", "Unified Desktop.", "TBD");
-            openSpanContainer.Uses(radiloContainer, "Automates", "TBD");
-            radiloContainer.Uses(openSpanContainer, "Collects data, triggers RDA and provides data", "TBD");
 
             var matchExceptionTrackerWebApplicationContainer = matchExceptionTrackerSoftwareSystem.AddContainer("Match Exception Tracker Web", "The Match Exception Tracker Web Application.", "TBD - Angular?");
             matchExceptionProcessorPerson.Uses(matchExceptionTrackerWebApplicationContainer, "Uses", "TBD");
@@ -110,10 +94,14 @@ namespace Ascension.Structurizr.App
             ssisContainer.Uses(matchExceptionTrackerSoftwareSystem, "Pushes Data To", "TBD");
             ssisContainer.Uses(peoplesoftSoftwareSystem, "Pulls Data From", "TBD");
 
+            var platformClientDesktopContainer = platformSoftwareSystem.AddContainer("Platform Client Desktop", "Automation Platform Client Desktop", "TBD");
+            platformClientDesktopContainer.Uses(matchExceptionTrackerSoftwareSystem, "Uses", "OS");
+            platformClientDesktopContainer.Uses(otherBackOfficeSoftwareSystem, "Uses", "OS");
+
             var platformServicesGatewayContainer = platformSoftwareSystem.AddContainer("Services Gateway", "Automation Platform Services Gateway", "TBD");
             matchExceptionTrackerSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses", "REST API");
             otherBackOfficeSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses", "REST API");
-            platformUserDesktopSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses", "REST API");
+            platformClientDesktopContainer.Uses(platformServicesGatewayContainer, "Uses", "REST API");
 
             var vendorSelfServiceApplicationContainer = platformSoftwareSystem.AddPlatformApplicationContainer("Vendor Self Service Application", technology:"TBD - Angular?");
             var platformAnalyticsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Platform Analytics Service");
@@ -137,6 +125,20 @@ namespace Ascension.Structurizr.App
                 platformApplicationContainer.Uses(platformServicesGatewayContainer, "Uses", "REST API");
             }
 
+            // Components
+            
+            var webBrowserComponent = platformClientDesktopContainer.AddComponent("Web Browser", "Web Browser (e.g. Chrome, IE, Firefox).", "TBD");
+            webBrowserComponent.Uses(matchExceptionTrackerSoftwareSystem, "Uses", "TBD");
+            webBrowserComponent.Uses(otherBackOfficeSoftwareSystem, "Uses", "TBD");
+
+            var openSpanComponent = platformClientDesktopContainer.AddComponent("OpenSpan Runtime", "Runtime environment for Pega OpenSpan.", "TBD");
+            webBrowserComponent.Uses(openSpanComponent, "Triggers RDA and provides data", "TBD");
+            openSpanComponent.Uses(webBrowserComponent, "Automates", "TBD");
+
+            var radiloComponent = platformClientDesktopContainer.AddComponent("RADILO", "Unified Desktop.", "TBD");
+            openSpanComponent.Uses(radiloComponent, "Automates", "TBD");
+            radiloComponent.Uses(openSpanComponent, "Collects data, triggers RDA and provides data", "TBD");
+
             // Views 
 
             var views = workspace.Views;
@@ -147,8 +149,6 @@ namespace Ascension.Structurizr.App
 
             CreateSystemContextViewFor(platformSoftwareSystem, views);
 
-            CreateSystemContextViewFor(platformUserDesktopSoftwareSystem, views);
-
             CreateSystemContextViewFor(matchExceptionTrackerSoftwareSystem, views);
 
             CreateSystemContextViewFor(peoplesoftSoftwareSystem, views);
@@ -157,13 +157,15 @@ namespace Ascension.Structurizr.App
 
             CreateContainerViewFor(platformSoftwareSystem, views, PaperSize.A4_Landscape);
 
-            CreateContainerViewFor(platformUserDesktopSoftwareSystem, views);
-
             CreateContainerViewFor(matchExceptionTrackerSoftwareSystem, views);
 
             CreateContainerViewFor(peoplesoftSoftwareSystem, views);
 
             CreateContainerViewFor(ssisSoftwareSystem, views);
+
+            // Component Views
+
+            CreateComponentViewFor(platformClientDesktopContainer, views);
 
             // Styles
 
@@ -201,6 +203,23 @@ namespace Ascension.Structurizr.App
         private static void CreateContainerViewFor(SoftwareSystem softwareSystem, ViewSet views)
         {
             CreateContainerViewFor(softwareSystem, views, PaperSize.A5_Landscape);
+        }
+
+        private static void CreateComponentViewFor(Container container, ViewSet views, PaperSize paperSize)
+        {
+            var containerName = container.Name;
+            var containerView = views.CreateComponentView(container, string.Format("{0} Components", containerName), string.Format("The component diagram for {0}.", containerName));
+            foreach (var component in container.Components)
+            {
+                containerView.Add(component);
+                containerView.AddNearestNeighbours(component);
+            }
+            containerView.PaperSize = paperSize;
+        }
+
+        private static void CreateComponentViewFor(Container container, ViewSet views)
+        {
+            CreateComponentViewFor(container, views, PaperSize.A5_Landscape);
         }
 
         private static void ConfigureStylesIn(ViewSet views)
