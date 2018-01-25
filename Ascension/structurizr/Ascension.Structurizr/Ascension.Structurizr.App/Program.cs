@@ -109,7 +109,7 @@ namespace Ascension.Structurizr.App
 
             var peopleSoftDatabaseContainer = peoplesoftSoftwareSystem.AddContainer("Peoplesoft Database", "Peoplesoft Database", "Peoplesoft");
             peopleSoftDatabaseContainer.AddTags(AdditionalTags.Database);
-            platformSoftwareSystem.Uses(peopleSoftDatabaseContainer, "Uses", "TBD");
+            platformSoftwareSystem.Uses(peopleSoftDatabaseContainer, "Potentially Uses", "TBD").AddTags(AdditionalTags.PotentiallyUsedRelation);
             ssisSoftwareSystem.Uses(peopleSoftDatabaseContainer, "Pulls Data From", "TBD");
 
             var ssisContainer = ssisSoftwareSystem.AddContainer("SSIS", "SQL Server Integration Services", "SSIS");
@@ -164,96 +164,33 @@ namespace Ascension.Structurizr.App
 
             // Context Views
 
-            CreateEnterpriseContextLandscapeViewFor(enterprise, views);
+            views.CreateEnterpriseContextLandscapeViewFor(enterprise);
 
-            CreateSystemContextViewFor(platformSoftwareSystem, views);
+            views.CreateSystemContextViewFor(platformSoftwareSystem);
 
-            CreateSystemContextViewFor(backOfficeApplicationsFrontEndsSoftwareSystem, views);
+            views.CreateSystemContextViewFor(backOfficeApplicationsFrontEndsSoftwareSystem);
 
-            CreateSystemContextViewFor(peoplesoftSoftwareSystem, views);
+            views.CreateSystemContextViewFor(peoplesoftSoftwareSystem);
 
             // Container Views
 
-            CreateContainerViewFor(platformSoftwareSystem, views, PaperSize.A4_Landscape);
+            views.CreateContainerViewFor(platformSoftwareSystem, PaperSize.A4_Landscape);
 
-            CreateContainerViewFor(backOfficeApplicationsFrontEndsSoftwareSystem, views);
+            views.CreateContainerViewFor(backOfficeApplicationsFrontEndsSoftwareSystem);
 
-            CreateContainerViewFor(backOfficeApplicationsBackEndsSoftwareSystem, views, PaperSize.A4_Landscape);
+            views.CreateContainerViewFor(backOfficeApplicationsBackEndsSoftwareSystem, PaperSize.A4_Landscape);
 
-            CreateContainerViewFor(peoplesoftSoftwareSystem, views);
+            views.CreateContainerViewFor(peoplesoftSoftwareSystem);
 
-            CreateContainerViewFor(ssisSoftwareSystem, views);
+            views.CreateContainerViewFor(ssisSoftwareSystem);
 
             // Component Views
 
-            CreateComponentViewFor(platformClientDesktopContainer, views);
+            views.CreateComponentViewFor(platformClientDesktopContainer);
 
             // Styles
 
-            ConfigureStylesIn(views);
-        }
-
-        private static void CreateEnterpriseContextLandscapeViewFor(Enterprise enterprise, ViewSet views)
-        {
-            var enterpriseName = enterprise.Name;
-            var systemLandscapeEnterpriseContextView = views.CreateEnterpriseContextView(string.Format("{0} Enterprise Context", enterpriseName), string.Format("The system landscape diagram for {0}.", enterpriseName));
-            systemLandscapeEnterpriseContextView.AddAllElements();
-            systemLandscapeEnterpriseContextView.PaperSize = PaperSize.A4_Landscape;
-        }
-
-        private static void CreateSystemContextViewFor(SoftwareSystem softwareSystem, ViewSet views)
-        {
-            var softwareSystemName = softwareSystem.Name;
-            var softwareSystemContextView = views.CreateSystemContextView(softwareSystem, string.Format("{0} System Context", softwareSystemName), string.Format("The system context for {0}.", softwareSystemName));
-            softwareSystemContextView.AddNearestNeighbours(softwareSystem);
-            softwareSystemContextView.PaperSize = PaperSize.A4_Landscape;
-        }
-
-        private static void CreateContainerViewFor(SoftwareSystem softwareSystem, ViewSet views, PaperSize paperSize)
-        {
-            var softwareSystemName = softwareSystem.Name;
-            var containerView = views.CreateContainerView(softwareSystem, string.Format("{0} Containers", softwareSystemName), string.Format("The container diagram for {0}.", softwareSystemName));
-            foreach (var container in softwareSystem.Containers)
-            {
-                containerView.Add(container);
-                containerView.AddNearestNeighbours(container);
-            }
-            containerView.PaperSize = paperSize;
-        }
-
-        private static void CreateContainerViewFor(SoftwareSystem softwareSystem, ViewSet views)
-        {
-            CreateContainerViewFor(softwareSystem, views, PaperSize.A5_Landscape);
-        }
-
-        private static void CreateComponentViewFor(Container container, ViewSet views, PaperSize paperSize)
-        {
-            var containerName = container.Name;
-            var containerView = views.CreateComponentView(container, string.Format("{0} Components", containerName), string.Format("The component diagram for {0}.", containerName));
-            foreach (var component in container.Components)
-            {
-                containerView.Add(component);
-                containerView.AddNearestNeighbours(component);
-            }
-            containerView.PaperSize = paperSize;
-        }
-
-        private static void CreateComponentViewFor(Container container, ViewSet views)
-        {
-            CreateComponentViewFor(container, views, PaperSize.A5_Landscape);
-        }
-
-        private static void ConfigureStylesIn(ViewSet views)
-        {
-            Styles styles = views.Configuration.Styles;
-            styles.Add(new ElementStyle(Tags.SoftwareSystem) { Background = "#1168bd", Color = "#ffffff", Shape = Shape.RoundedBox });
-            styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });
-            styles.Add(new ElementStyle(AdditionalTags.Database) { Shape = Shape.Cylinder });
-            styles.Add(new ElementStyle(AdditionalTags.Queue) { Shape = Shape.Pipe });
-            styles.Add(new RelationshipStyle(AdditionalTags.PotentiallyUsedRelation) { Color = "#ffa500" });
-
-            //TODO
-            //styles.Add(new ElementStyle(AdditionalTags.ViewSubject) { Background = "#ffa500", Color = "#ffffff", Shape = Shape.RoundedBox });
+            views.ConfigureStyles();
         }
 
         private static void Upload(Workspace workspace)
