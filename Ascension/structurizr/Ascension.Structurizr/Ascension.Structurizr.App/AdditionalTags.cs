@@ -23,5 +23,12 @@
                 return "API Service";
             }
         }
+        public static string PlatformApplication
+        {
+            get
+            {
+                return "Platform Application";
+            }
+        }
     }
 }

@@ -44,37 +44,37 @@ namespace Ascension.Structurizr.App
             var platformSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Automation Platform", "Ascension Automation Platform.");
 
             var platformUserDesktopSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Platform User Desktop", "The desktop of an automation platform end user.");
-            matchExceptionProcessorPerson.Uses(platformUserDesktopSoftwareSystem, "Uses", "TBD");
-            backOfficeUserPerson.Uses(platformUserDesktopSoftwareSystem, "Uses", "TBD");
-            vendorPerson.Uses(platformSoftwareSystem, "Uses", "TBD");
-            automationAnalyst.Uses(platformSoftwareSystem, "Uses", "TBD");
-            platformUserDesktopSoftwareSystem.Uses(platformSoftwareSystem, "Uses", "TBD");
+            matchExceptionProcessorPerson.Uses(platformUserDesktopSoftwareSystem, "Uses");
+            backOfficeUserPerson.Uses(platformUserDesktopSoftwareSystem, "Uses");
+            vendorPerson.Uses(platformSoftwareSystem, "Uses", "Vendor Self Service Application");
+            automationAnalyst.Uses(platformSoftwareSystem, "Uses", "Analytics Web Application");
+            platformUserDesktopSoftwareSystem.Uses(platformSoftwareSystem, "Uses", "REST API");
 
             var pegaWorkforceIntelligenceSoftwareSystem = model.AddSoftwareSystem(Location.External, "Pega Workforce Intelligence", "The cloud hosted desktop activity analytics software.");
-            platformSoftwareSystem.Uses(pegaWorkforceIntelligenceSoftwareSystem, "Uses", "TBD");
+            platformSoftwareSystem.Uses(pegaWorkforceIntelligenceSoftwareSystem, "Uses", "Embeds Application");
 
             var matchExceptionTrackerSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Match Exception Tracker", "Tracks and manages match exceptions and related work.");
-            matchExceptionTrackerSoftwareSystem.Uses(platformSoftwareSystem, "Uses", "TBD");
-            matchExceptionProcessorPerson.Uses(matchExceptionTrackerSoftwareSystem, "Uses", "TBD");
-            platformUserDesktopSoftwareSystem.Uses(matchExceptionTrackerSoftwareSystem, "Uses", "TBD");
+            matchExceptionProcessorPerson.Uses(matchExceptionTrackerSoftwareSystem, "Uses");
+            matchExceptionTrackerSoftwareSystem.Uses(platformSoftwareSystem, "Uses", "REST API");
+            platformUserDesktopSoftwareSystem.Uses(matchExceptionTrackerSoftwareSystem, "Uses", "OS");
 
             var otherBackOfficeSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Other Back Office Application", "Tracks and manages match other back office related work.");
-            backOfficeUserPerson.Uses(otherBackOfficeSoftwareSystem, "Uses", "TBD");
-            otherBackOfficeSoftwareSystem.Uses(platformSoftwareSystem, "Uses", "TBD");
-            platformUserDesktopSoftwareSystem.Uses(otherBackOfficeSoftwareSystem, "Uses", "TBD");
+            backOfficeUserPerson.Uses(otherBackOfficeSoftwareSystem, "Uses");
+            otherBackOfficeSoftwareSystem.Uses(platformSoftwareSystem, "Uses", "REST API");
+            platformUserDesktopSoftwareSystem.Uses(otherBackOfficeSoftwareSystem, "Uses", "OS");
 
             var enterpriseDataLakeSystem = model.AddSoftwareSystem(Location.Internal, "Enterprise Data Lake", "Enterprise Data Lake.");
-            platformSoftwareSystem.Uses(enterpriseDataLakeSystem, "Uses", "TBD");
+            platformSoftwareSystem.Uses(enterpriseDataLakeSystem, "Uses");
 
             var cortexPlatformSystem = model.AddSoftwareSystem(Location.External, "Cortex V5", "Cognitive Scale Cortex Platform.");
-            platformSoftwareSystem.Uses(cortexPlatformSystem, "Uses", "TBD");
+            platformSoftwareSystem.Uses(cortexPlatformSystem, "Uses", "API Calls");
 
             var peoplesoftSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Peoplesoft", "Peoplesoft");
             platformSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Potentially Uses", "TBD");
 
             var ssisSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SSIS", "SQL Server Integration Services");
-            ssisSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Pulls Data From", "TBD");
-            ssisSoftwareSystem.Uses(matchExceptionTrackerSoftwareSystem, "Pushes Data To", "TBD");
+            ssisSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Pulls Data From", "Nightly Job");
+            ssisSoftwareSystem.Uses(matchExceptionTrackerSoftwareSystem, "Pushes Data To", "Nightly Job");
 
             // Containers
 
@@ -110,6 +110,12 @@ namespace Ascension.Structurizr.App
             ssisContainer.Uses(matchExceptionTrackerSoftwareSystem, "Pushes Data To", "TBD");
             ssisContainer.Uses(peoplesoftSoftwareSystem, "Pulls Data From", "TBD");
 
+            var platformServicesGatewayContainer = platformSoftwareSystem.AddContainer("Services Gateway", "Automation Platform Services Gateway", "TBD");
+            matchExceptionTrackerSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses", "REST API");
+            otherBackOfficeSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses", "REST API");
+            platformUserDesktopSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses", "REST API");
+
+            var vendorSelfServiceApplicationContainer = platformSoftwareSystem.AddPlatformApplicationContainer("Vendor Self Service Application", technology:"TBD - Angular?");
             var platformAnalyticsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Platform Analytics Service");
             var platformManagementServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Platform Management Service");
             var vendorServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Vendor Service");
@@ -117,15 +123,19 @@ namespace Ascension.Structurizr.App
             var omniChannelCommunicationsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Omni Channel Communications Service");
 
             var dataIntegrationContainer = platformSoftwareSystem.AddContainer("Data Integration Service", "Data Integration Service", "TBD");
-            var platformServicesGatewayContainer = platformSoftwareSystem.AddContainer("Services Gateway", "Automation Platform Services Gateway", "TBD");
+
             var apiServiceContainers = platformSoftwareSystem.Containers.Where(container => container.Tags.Contains(AdditionalTags.ApiService));
-            foreach(var apiServiceContainer in apiServiceContainers)
+            foreach (var apiServiceContainer in apiServiceContainers)
             {
-                platformServicesGatewayContainer.Uses(apiServiceContainer, "Exposes");
-                apiServiceContainer.Uses(dataIntegrationContainer, "Uses");
+                platformServicesGatewayContainer.Uses(apiServiceContainer, "Exposes", "TBD");
+                apiServiceContainer.Uses(dataIntegrationContainer, "Uses", "TBD");
             }
 
-
+            var platformApplicationContainers = platformSoftwareSystem.Containers.Where(container => container.Tags.Contains(AdditionalTags.PlatformApplication));
+            foreach (var platformApplicationContainer in platformApplicationContainers)
+            {
+                platformApplicationContainer.Uses(platformServicesGatewayContainer, "Uses", "REST API");
+            }
 
             // Views 
 
