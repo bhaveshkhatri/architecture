@@ -81,40 +81,40 @@ namespace Ascension.Structurizr.App
 
             // Containers
 
-            var matchExceptionTrackerFrontEndContainer = backOfficeApplicationsFrontEndsSoftwareSystem.AddContainer("Match Exception Tracker Web", "The Match Exception Tracker Web Application.", "TBD - Angular?");
-            matchExceptionTrackerFrontEndContainer.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Uses Application Specific Service", "TBD");
-            matchExceptionProcessorPerson.Uses(matchExceptionTrackerFrontEndContainer, "Uses", "TBD");
+            var matchExceptionTrackerFrontEndContainer = backOfficeApplicationsFrontEndsSoftwareSystem.AddContainer("Match Exception Tracker Web", "The Match Exception Tracker Web Application.", "Angular");
+            matchExceptionTrackerFrontEndContainer.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Uses Application Specific Service", "REST API");
+            matchExceptionProcessorPerson.Uses(matchExceptionTrackerFrontEndContainer, "Uses", "Web Browser");
             matchExceptionTrackerFrontEndContainer.Uses(platformSoftwareSystem, "Initiate Automation", "OpenSpan");
             platformSoftwareSystem.Uses(matchExceptionTrackerFrontEndContainer, "Execute Automation", "OpenSpan");
 
-            var matchExceptionTrackerServiceContainer = backOfficeApplicationsBackEndsSoftwareSystem.AddContainer("Match Exception Tracker App Service", "The Match Exception Tracker Application Specific Service.", "TBD - .NET Core Web API?");
-            backOfficeApplicationsFrontEndsSoftwareSystem.Uses(matchExceptionTrackerServiceContainer, "Uses", "TBD");
+            var matchExceptionTrackerServiceContainer = backOfficeApplicationsBackEndsSoftwareSystem.AddContainer("Match Exception Tracker App Service", "The Match Exception Tracker Application Specific Service.", "ASP.NET Core Web API");
+            backOfficeApplicationsFrontEndsSoftwareSystem.Uses(matchExceptionTrackerServiceContainer, "Uses", "REST API");
 
             var matchExceptionTrackerDatabaseContainer = backOfficeApplicationsBackEndsSoftwareSystem.AddContainer("Match Exception Tracker Database", "The Match Exception Tracker Application Specific Database.", "SQL Server");
             matchExceptionTrackerDatabaseContainer.AddTags(AdditionalTags.Database);
-            matchExceptionTrackerServiceContainer.Uses(matchExceptionTrackerDatabaseContainer, "Uses", "TBD");
-            platformSoftwareSystem.Uses(matchExceptionTrackerDatabaseContainer, "Uses", "TBD");
-            ssisSoftwareSystem.Uses(matchExceptionTrackerDatabaseContainer, "Pushes Data To", "TBD");
+            matchExceptionTrackerServiceContainer.Uses(matchExceptionTrackerDatabaseContainer, "Uses", "SQL");
+            platformSoftwareSystem.Uses(matchExceptionTrackerDatabaseContainer, "Uses", "SQL");
+            ssisSoftwareSystem.Uses(matchExceptionTrackerDatabaseContainer, "Pushes Data To", "SQL");
             
-            var otherBackOfficeApplicationFrontEndContainer = backOfficeApplicationsFrontEndsSoftwareSystem.AddContainer("Other Back Office Application", "Other Back Office Application.", "TBD - Angular?");
-            otherBackOfficeApplicationFrontEndContainer.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Uses Application Specific Service", "TBD");
-            backOfficeUserPerson.Uses(otherBackOfficeApplicationFrontEndContainer, "Uses", "TBD");
+            var otherBackOfficeApplicationFrontEndContainer = backOfficeApplicationsFrontEndsSoftwareSystem.AddContainer("Other Back Office Application", "Other Back Office Application.", "Angular");
+            otherBackOfficeApplicationFrontEndContainer.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Uses Application Specific Service", "ASP.NET Core Web API");
+            backOfficeUserPerson.Uses(otherBackOfficeApplicationFrontEndContainer, "Uses", "Web Browser");
             otherBackOfficeApplicationFrontEndContainer.Uses(platformSoftwareSystem, "Initiate Automation", "OpenSpan");
             platformSoftwareSystem.Uses(otherBackOfficeApplicationFrontEndContainer, "Execute Automation", "OpenSpan");
 
-            var otherBackOfficeApplicationServiceContainer = backOfficeApplicationsBackEndsSoftwareSystem.AddContainer("Other Back Office Application App Service", "The Other Back Office Application Specific Service.", "TBD - .NET Core Web API?");
-            backOfficeApplicationsFrontEndsSoftwareSystem.Uses(otherBackOfficeApplicationServiceContainer, "Uses", "TBD");
+            var otherBackOfficeApplicationServiceContainer = backOfficeApplicationsBackEndsSoftwareSystem.AddContainer("Other Back Office Application App Service", "The Other Back Office Application Specific Service.", "ASP.NET Core Web API?");
+            backOfficeApplicationsFrontEndsSoftwareSystem.Uses(otherBackOfficeApplicationServiceContainer, "Uses", "REST API");
 
             var otherBackOfficeApplicationDatabaseContainer = backOfficeApplicationsBackEndsSoftwareSystem.AddContainer("Other Back Office Application Database", "The Other Back Office Application Specific Database.", "SQL Server");
             otherBackOfficeApplicationDatabaseContainer.AddTags(AdditionalTags.Database);
-            otherBackOfficeApplicationServiceContainer.Uses(otherBackOfficeApplicationDatabaseContainer, "Uses", "TBD");
-            platformSoftwareSystem.Uses(otherBackOfficeApplicationDatabaseContainer, "Uses", "TBD");
-            ssisSoftwareSystem.Uses(otherBackOfficeApplicationDatabaseContainer, "Pushes Data To", "TBD");
+            otherBackOfficeApplicationServiceContainer.Uses(otherBackOfficeApplicationDatabaseContainer, "Uses", "SQL");
+            platformSoftwareSystem.Uses(otherBackOfficeApplicationDatabaseContainer, "Uses", "SQL");
+            ssisSoftwareSystem.Uses(otherBackOfficeApplicationDatabaseContainer, "Pushes Data To", "SQL");
 
             var peopleSoftDatabaseContainer = peoplesoftSoftwareSystem.AddContainer("Peoplesoft Database", "Peoplesoft Database", "Peoplesoft");
             peopleSoftDatabaseContainer.AddTags(AdditionalTags.Database);
-            platformSoftwareSystem.Uses(peopleSoftDatabaseContainer, "Potentially Uses", "TBD").AddTags(AdditionalTags.PotentiallyUsedRelation);
-            ssisSoftwareSystem.Uses(peopleSoftDatabaseContainer, "Pulls Data From", "TBD");
+            platformSoftwareSystem.Uses(peopleSoftDatabaseContainer, "Potentially Uses").AddTags(AdditionalTags.PotentiallyUsedRelation);
+            ssisSoftwareSystem.Uses(peopleSoftDatabaseContainer, "Pulls Data From");
 
             var ssisContainer = ssisSoftwareSystem.AddContainer("SSIS", "SQL Server Integration Services", "SSIS");
             ssisContainer.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Push Data To Application Specific DBs");
@@ -151,8 +151,8 @@ namespace Ascension.Structurizr.App
             var apiServiceContainers = platformSoftwareSystem.Containers.Where(container => container.Tags.Contains(AdditionalTags.ApiService));
             foreach (var apiServiceContainer in apiServiceContainers)
             {
-                platformServicesGatewayContainer.Uses(apiServiceContainer, "Exposes", "TBD");
-                apiServiceContainer.Uses(dataIntegrationContainer, "Uses", "TBD");
+                platformServicesGatewayContainer.Uses(apiServiceContainer, "Exposes", "REST API");
+                apiServiceContainer.Uses(dataIntegrationContainer, "Uses", "REST API");
             }
 
             var platformApplicationContainers = platformSoftwareSystem.Containers.Where(container => container.Tags.Contains(AdditionalTags.PlatformApplication));
