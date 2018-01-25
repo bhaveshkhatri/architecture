@@ -117,7 +117,8 @@ namespace Ascension.Structurizr.App
             ssisContainer.Uses(peoplesoftSoftwareSystem, "Pulls Data From", "TBD");
 
             var platformClientDesktopContainer = platformSoftwareSystem.AddContainer("Platform Client Desktop", "Automation Platform Client Desktop", "TBD");
-            platformClientDesktopContainer.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Uses", "OS");
+            platformClientDesktopContainer.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Execute Automation", "OpenSpan");
+            backOfficeApplicationsFrontEndsSoftwareSystem.Uses(platformClientDesktopContainer, "Initiates Automation", "OpenSpan");
 
             var platformServicesGatewayContainer = platformSoftwareSystem.AddContainer("Services Gateway", "Automation Platform Services Gateway", "TBD");
             backOfficeApplicationsBackEndsSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses", "REST API");
