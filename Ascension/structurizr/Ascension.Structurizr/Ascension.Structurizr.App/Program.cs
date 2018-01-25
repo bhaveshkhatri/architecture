@@ -44,6 +44,9 @@ namespace Ascension.Structurizr.App
             var platformSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Automation Platform", "Ascension Automation Platform.");
             platformSoftwareSystem.AddTags(AdditionalTags.ViewSubject);
 
+            var tableauSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Tableau", "Tableau");
+            platformSoftwareSystem.Uses(tableauSoftwareSystem, "Data Visualization");
+
             matchExceptionProcessorPerson.Uses(platformSoftwareSystem, "Uses Platform Client Desktop");
             backOfficeUserPerson.Uses(platformSoftwareSystem, "Uses Platform Client Desktop");
             vendorPerson.Uses(platformSoftwareSystem, "Uses Vendor Self Service Application");
@@ -127,10 +130,16 @@ namespace Ascension.Structurizr.App
             platformClientDesktopContainer.Uses(platformServicesGatewayContainer, "Uses", "REST API");
 
             var vendorSelfServiceApplicationContainer = platformSoftwareSystem.AddPlatformApplicationContainer("Vendor Self Service Application", technology:"Angular");
+
             var platformAnalyticsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Platform Analytics Service", technology: "ASP.NET Core Web API");
+            platformAnalyticsServiceContainer.Uses(tableauSoftwareSystem, "Data Visualization");
+
             var platformManagementServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Platform Management Service", technology: "ASP.NET Core Web API");
+
             var vendorServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Vendor Service", technology: "ASP.NET Core Web API");
+
             var machineLearningServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Machine Learning Service", technology: "ASP.NET Core Web API");
+
             var communicationsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Communications Service", "Omni Channel Vendor (Genesys)", technology: "ASP.NET Core Web API");
 
             var dataIntegrationContainer = platformSoftwareSystem.AddContainer("Data Integration Service", "Data Integration Service", "ASP.NET Core Web API");
