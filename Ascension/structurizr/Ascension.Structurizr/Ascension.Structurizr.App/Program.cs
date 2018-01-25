@@ -44,36 +44,37 @@ namespace Ascension.Structurizr.App
             var platformSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Automation Platform", "Ascension Automation Platform.");
             platformSoftwareSystem.AddTags(AdditionalTags.ViewSubject);
 
-            matchExceptionProcessorPerson.Uses(platformSoftwareSystem, "Uses Client Desktop");
-            backOfficeUserPerson.Uses(platformSoftwareSystem, "Uses Client Desktop");
-            vendorPerson.Uses(platformSoftwareSystem, "Uses", "Vendor Self Service Application");
-            automationAnalyst.Uses(platformSoftwareSystem, "Uses", "Analytics Web Application");
+            matchExceptionProcessorPerson.Uses(platformSoftwareSystem, "Uses Platform Client Desktop");
+            backOfficeUserPerson.Uses(platformSoftwareSystem, "Uses Platform Client Desktop");
+            vendorPerson.Uses(platformSoftwareSystem, "Uses Vendor Self Service Application");
+            automationAnalyst.Uses(platformSoftwareSystem, "Uses Automation Analytics Application");
             
             var pegaWorkforceIntelligenceSoftwareSystem = model.AddSoftwareSystem(Location.External, "Pega Workforce Intelligence", "The cloud hosted desktop activity analytics software.");
-            platformSoftwareSystem.Uses(pegaWorkforceIntelligenceSoftwareSystem, "Uses", "Embeds Application");
+            platformSoftwareSystem.Uses(pegaWorkforceIntelligenceSoftwareSystem, "Sends Actions and Embed Analytics Application");
 
             var backOfficeApplicationsFrontEndsSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Back Office Applications (Front Ends)", "Front ends of all back office applications that use the platform.");
-            matchExceptionProcessorPerson.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Uses");
-            backOfficeUserPerson.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Uses");
+            matchExceptionProcessorPerson.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Uses Match Exception Tracker");
+            backOfficeUserPerson.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Uses Other Applications");
             backOfficeApplicationsFrontEndsSoftwareSystem.Uses(platformSoftwareSystem, "Initiate Automation", "OpenSpan");
             platformSoftwareSystem.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Execute Automation", "OpenSpan");
 
             var backOfficeApplicationsBackEndsSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Back Office Applications (Back Ends)", "Back ends of all back office applications that use the platform.");
-            backOfficeApplicationsFrontEndsSoftwareSystem.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Uses", "REST API");
+            backOfficeApplicationsFrontEndsSoftwareSystem.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Application Specific Logic", "REST API");
             backOfficeApplicationsBackEndsSoftwareSystem.Uses(platformSoftwareSystem, "Decision Support", "REST API");
 
             var enterpriseDataLakeSystem = model.AddSoftwareSystem(Location.Internal, "Enterprise Data Lake", "Enterprise Data Lake.");
             platformSoftwareSystem.Uses(enterpriseDataLakeSystem, "Uses");
 
             var cortexPlatformSystem = model.AddSoftwareSystem(Location.External, "Cortex V5", "Cognitive Scale Cortex Platform.");
-            platformSoftwareSystem.Uses(cortexPlatformSystem, "Uses", "API Calls");
+            platformSoftwareSystem.Uses(cortexPlatformSystem, "Send Data And Get Insights", "REST API");
 
             var peoplesoftSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Peoplesoft", "Peoplesoft");
-            platformSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Potentially Uses", "TBD").AddTags(AdditionalTags.PotentiallyUsedRelation);
+            platformSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Potential Data Source").AddTags(AdditionalTags.PotentiallyUsedRelation);
 
             var ssisSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SSIS", "SQL Server Integration Services");
-            ssisSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Pulls Data From", "Nightly Job");
-            ssisSoftwareSystem.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Pushes Data To Application DB", "Nightly Job");
+            ssisSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Pulls Application Specific Data", "SSIS Job");
+            ssisSoftwareSystem.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Pushes Data To Application DB", "SSIS Job");
+            ssisSoftwareSystem.Uses(cortexPlatformSystem, "Push Data For Learning And Processing", "REST API");
 
             // Containers
 
@@ -113,29 +114,30 @@ namespace Ascension.Structurizr.App
             ssisSoftwareSystem.Uses(peopleSoftDatabaseContainer, "Pulls Data From", "TBD");
 
             var ssisContainer = ssisSoftwareSystem.AddContainer("SSIS", "SQL Server Integration Services", "SSIS");
-            ssisContainer.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Pushes Data To Application DB of", "TBD");
-            ssisContainer.Uses(peoplesoftSoftwareSystem, "Pulls Data From", "TBD");
+            ssisContainer.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Push Data To Application Specific DBs");
+            ssisContainer.Uses(peoplesoftSoftwareSystem, "Pull Data");
+            ssisContainer.Uses(cortexPlatformSystem, "Push Data For Learning And Processing", "REST API");
 
-            var platformClientDesktopContainer = platformSoftwareSystem.AddContainer("Platform Client Desktop", "Automation Platform Client Desktop", "TBD");
+            var platformClientDesktopContainer = platformSoftwareSystem.AddContainer("Platform Client Desktop", "Automation Platform Client Desktop", "Windows with Pega");
             platformClientDesktopContainer.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Execute Automation", "OpenSpan");
             backOfficeApplicationsFrontEndsSoftwareSystem.Uses(platformClientDesktopContainer, "Initiates Automation", "OpenSpan");
 
-            var platformServicesGatewayContainer = platformSoftwareSystem.AddContainer("Services Gateway", "Automation Platform Services Gateway", "TBD");
-            backOfficeApplicationsBackEndsSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses", "REST API");
+            var platformServicesGatewayContainer = platformSoftwareSystem.AddContainer("Services Gateway", "Automation Platform Services Gateway", "ASP.NET Core Web API");
+            backOfficeApplicationsBackEndsSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses Platform Functionality", "REST API");
             platformClientDesktopContainer.Uses(platformServicesGatewayContainer, "Uses", "REST API");
 
-            var vendorSelfServiceApplicationContainer = platformSoftwareSystem.AddPlatformApplicationContainer("Vendor Self Service Application", technology:"TBD - Angular?");
-            var platformAnalyticsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Platform Analytics Service");
-            var platformManagementServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Platform Management Service");
-            var vendorServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Vendor Service");
-            var machineLearningServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Machine Learning Service");
-            var omniChannelCommunicationsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Omni Channel Communications Service");
+            var vendorSelfServiceApplicationContainer = platformSoftwareSystem.AddPlatformApplicationContainer("Vendor Self Service Application", technology:"Angular");
+            var platformAnalyticsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Platform Analytics Service", technology: "ASP.NET Core Web API");
+            var platformManagementServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Platform Management Service", technology: "ASP.NET Core Web API");
+            var vendorServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Vendor Service", technology: "ASP.NET Core Web API");
+            var machineLearningServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Machine Learning Service", technology: "ASP.NET Core Web API");
+            var communicationsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Communications Service", "Omni Channel Vendor (Genesys)", technology: "ASP.NET Core Web API");
 
-            var dataIntegrationContainer = platformSoftwareSystem.AddContainer("Data Integration Service", "Data Integration Service", "TBD");
-            dataIntegrationContainer.Uses(enterpriseDataLakeSystem, "Various Data Sources", "TBD");
-            dataIntegrationContainer.Uses(matchExceptionTrackerDatabaseContainer, "Application specific data", "TBD");
-            dataIntegrationContainer.Uses(otherBackOfficeApplicationDatabaseContainer, "Application specific data", "TBD");
-            dataIntegrationContainer.Uses(peoplesoftSoftwareSystem, "Peoplesoft data", "TBD").AddTags(AdditionalTags.PotentiallyUsedRelation);
+            var dataIntegrationContainer = platformSoftwareSystem.AddContainer("Data Integration Service", "Data Integration Service", "ASP.NET Core Web API");
+            dataIntegrationContainer.Uses(enterpriseDataLakeSystem, "Various Data Sources", "Data Connector");
+            dataIntegrationContainer.Uses(matchExceptionTrackerDatabaseContainer, "Application specific data", "SQL Data Connector");
+            dataIntegrationContainer.Uses(otherBackOfficeApplicationDatabaseContainer, "Application specific data", "SQL Data Connector");
+            dataIntegrationContainer.Uses(peoplesoftSoftwareSystem, "Peoplesoft Data").AddTags(AdditionalTags.PotentiallyUsedRelation);
 
             var apiServiceContainers = platformSoftwareSystem.Containers.Where(container => container.Tags.Contains(AdditionalTags.ApiService));
             foreach (var apiServiceContainer in apiServiceContainers)
@@ -157,7 +159,7 @@ namespace Ascension.Structurizr.App
 
             var pegaWorkforceIntelligenceAnalyticsDatabaseContainer = pegaWorkforceIntelligenceSoftwareSystem.AddContainer("WFI Analytics Database", "WFI Analytics Database", "DB");
             pegaWorkforceIntelligenceAnalyticsDatabaseContainer.AddTags(AdditionalTags.Database);
-            pegaWorkforceIntelligenceAnalyticsApplicationContainer.Uses(pegaWorkforceIntelligenceAnalyticsDatabaseContainer, "Process Improvement/Automation Analytics");
+            pegaWorkforceIntelligenceAnalyticsApplicationContainer.Uses(pegaWorkforceIntelligenceAnalyticsDatabaseContainer, "Process Improvement and Automation Analytics");
             pegaWorkforceIntelligenceActionLoggerServiceContainer.Uses(pegaWorkforceIntelligenceAnalyticsDatabaseContainer, "Client Desktop Actions");
 
             var embeddedPegaWorkforceIntelligenceAnalyticsApplicationContainer = platformSoftwareSystem.AddContainer("Embedded WFI Analytics Application", "Embedded WFI Analytics Application", "Embedded Web Application");
@@ -166,16 +168,16 @@ namespace Ascension.Structurizr.App
 
             // Components
 
-            var webBrowserComponent = platformClientDesktopContainer.AddComponent("Web Browser", "Web Browser (e.g. Chrome, IE, Firefox).", "TBD");
-            webBrowserComponent.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Uses", "TBD");
+            var webBrowserComponent = platformClientDesktopContainer.AddComponent("Web Browser", "Web Browser", "Chrome, IE, Firefox");
+            webBrowserComponent.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Run Client Web Applications");
 
-            var openSpanComponent = platformClientDesktopContainer.AddComponent("OpenSpan Runtime", "Runtime environment for Pega OpenSpan.", "TBD");
-            webBrowserComponent.Uses(openSpanComponent, "Triggers RDA and provides data", "TBD");
-            openSpanComponent.Uses(webBrowserComponent, "Automates");
+            var openSpanComponent = platformClientDesktopContainer.AddComponent("OpenSpan Runtime", "Runtime environment for Pega OpenSpan.", "Pega Platform");
+            webBrowserComponent.Uses(openSpanComponent, "Triggers RDA and provides data", "Pega OpenSpan");
+            openSpanComponent.Uses(webBrowserComponent, "Automates", "Pega OpenSpan");
 
-            var radiloComponent = platformClientDesktopContainer.AddComponent("RADILO", "Unified Desktop.", "TBD");
-            openSpanComponent.Uses(radiloComponent, "Automates");
-            radiloComponent.Uses(openSpanComponent, "Collects data, triggers RDA and provides data", "TBD");
+            var radiloComponent = platformClientDesktopContainer.AddComponent("RADILO", "Unified Desktop.", ".NET Desktop Application");
+            openSpanComponent.Uses(radiloComponent, "Automates", "Pega OpenSpan");
+            radiloComponent.Uses(openSpanComponent, "Collects data, triggers RDA and provides data", "Pega OpenSpan");
 
             // Views 
 
@@ -185,7 +187,7 @@ namespace Ascension.Structurizr.App
 
             views.CreateEnterpriseContextLandscapeViewFor(enterprise);
 
-            views.CreateSystemContextViewFor(platformSoftwareSystem);
+            //views.CreateSystemContextViewFor(platformSoftwareSystem);
 
             views.CreateSystemContextViewFor(backOfficeApplicationsFrontEndsSoftwareSystem);
 
@@ -197,7 +199,7 @@ namespace Ascension.Structurizr.App
 
             views.CreateContainerViewFor(backOfficeApplicationsFrontEndsSoftwareSystem);
 
-            views.CreateContainerViewFor(backOfficeApplicationsBackEndsSoftwareSystem, PaperSize.A4_Landscape);
+            views.CreateContainerViewFor(backOfficeApplicationsBackEndsSoftwareSystem, PaperSize.A4_Landscape, dataIntegrationContainer);
 
             views.CreateContainerViewFor(pegaWorkforceIntelligenceSoftwareSystem);
 

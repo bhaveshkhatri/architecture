@@ -14,10 +14,11 @@ namespace Ascension.Structurizr.App
             return container;
         }
 
-        public static Container AddApiServiceContainer(this SoftwareSystem softwareSystem, string name, string description = "")
+        public static Container AddApiServiceContainer(this SoftwareSystem softwareSystem, string name, string description = "", string technology = "")
         {
             var descriptionToUse = string.IsNullOrWhiteSpace(description) ? string.Format("{0}.", name) : description;
-            var container = softwareSystem.AddContainer(name, descriptionToUse, "TBD");
+            var technologyToUse = string.IsNullOrWhiteSpace(technology) ? "TBD" : technology;
+            var container = softwareSystem.AddContainer(name, descriptionToUse, technologyToUse);
             container.AddTags(AdditionalTags.ApiService);
 
             return container;
@@ -39,7 +40,7 @@ namespace Ascension.Structurizr.App
             softwareSystemContextView.PaperSize = PaperSize.A4_Landscape;
         }
 
-        public static void CreateContainerViewFor(this ViewSet views, SoftwareSystem softwareSystem, PaperSize paperSize)
+        public static void CreateContainerViewFor(this ViewSet views, SoftwareSystem softwareSystem, PaperSize paperSize, params Container[] containersToExclude)
         {
             var softwareSystemName = softwareSystem.Name;
             var containerView = views.CreateContainerView(softwareSystem, string.Format("{0} Containers", softwareSystemName), string.Format("The container diagram for {0}.", softwareSystemName));
@@ -48,12 +49,16 @@ namespace Ascension.Structurizr.App
                 containerView.Add(container);
                 containerView.AddNearestNeighbours(container);
             }
+            foreach (var containerToExclude in containersToExclude)
+            {
+                containerView.Remove(containerToExclude);
+            }
             containerView.PaperSize = paperSize;
         }
 
-        public static void CreateContainerViewFor(this ViewSet views, SoftwareSystem softwareSystem)
+        public static void CreateContainerViewFor(this ViewSet views, SoftwareSystem softwareSystem, params Container[] containersToExclude)
         {
-            views.CreateContainerViewFor(softwareSystem, PaperSize.A5_Landscape);
+            views.CreateContainerViewFor(softwareSystem, PaperSize.A5_Landscape, containersToExclude);
         }
 
         public static void CreateComponentViewFor(this ViewSet views, Container container, PaperSize paperSize)
