@@ -42,6 +42,7 @@ namespace Ascension.Structurizr.App
             // Software Systems
 
             var platformSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Automation Platform", "Ascension Automation Platform.");
+            platformSoftwareSystem.AddTags(AdditionalTags.ViewSubject);
 
             matchExceptionProcessorPerson.Uses(platformSoftwareSystem, "Uses Client Desktop");
             backOfficeUserPerson.Uses(platformSoftwareSystem, "Uses Client Desktop");
@@ -51,13 +52,15 @@ namespace Ascension.Structurizr.App
             var pegaWorkforceIntelligenceSoftwareSystem = model.AddSoftwareSystem(Location.External, "Pega Workforce Intelligence", "The cloud hosted desktop activity analytics software.");
             platformSoftwareSystem.Uses(pegaWorkforceIntelligenceSoftwareSystem, "Uses", "Embeds Application");
 
-            var matchExceptionTrackerSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Match Exception Tracker", "Tracks and manages match exceptions and related work.");
-            matchExceptionProcessorPerson.Uses(matchExceptionTrackerSoftwareSystem, "Uses");
-            matchExceptionTrackerSoftwareSystem.Uses(platformSoftwareSystem, "Uses", "REST API");
+            var backOfficeApplicationsFrontEndsSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Back Office Applications (Front Ends)", "Front ends of all back office applications that use the platform.");
+            matchExceptionProcessorPerson.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Uses");
+            backOfficeUserPerson.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Uses");
+            backOfficeApplicationsFrontEndsSoftwareSystem.Uses(platformSoftwareSystem, "Initiate Automation", "OpenSpan");
+            platformSoftwareSystem.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Execute Automation", "OpenSpan");
 
-            var otherBackOfficeSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Other Back Office Application", "Tracks and manages match other back office related work.");
-            backOfficeUserPerson.Uses(otherBackOfficeSoftwareSystem, "Uses");
-            otherBackOfficeSoftwareSystem.Uses(platformSoftwareSystem, "Uses", "REST API");
+            var backOfficeApplicationsBackEndsSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Back Office Applications (Back Ends)", "Back ends of all back office applications that use the platform.");
+            backOfficeApplicationsFrontEndsSoftwareSystem.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Uses", "REST API");
+            backOfficeApplicationsBackEndsSoftwareSystem.Uses(platformSoftwareSystem, "Decision Support", "REST API");
 
             var enterpriseDataLakeSystem = model.AddSoftwareSystem(Location.Internal, "Enterprise Data Lake", "Enterprise Data Lake.");
             platformSoftwareSystem.Uses(enterpriseDataLakeSystem, "Uses");
@@ -66,24 +69,43 @@ namespace Ascension.Structurizr.App
             platformSoftwareSystem.Uses(cortexPlatformSystem, "Uses", "API Calls");
 
             var peoplesoftSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Peoplesoft", "Peoplesoft");
-            platformSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Potentially Uses", "TBD");
+            platformSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Potentially Uses", "TBD").AddTags(AdditionalTags.PotentiallyUsedRelation);
 
             var ssisSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SSIS", "SQL Server Integration Services");
             ssisSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Pulls Data From", "Nightly Job");
-            ssisSoftwareSystem.Uses(matchExceptionTrackerSoftwareSystem, "Pushes Data To", "Nightly Job");
+            ssisSoftwareSystem.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Pushes Data To Application DB", "Nightly Job");
 
             // Containers
 
-            var matchExceptionTrackerWebApplicationContainer = matchExceptionTrackerSoftwareSystem.AddContainer("Match Exception Tracker Web", "The Match Exception Tracker Web Application.", "TBD - Angular?");
-            matchExceptionProcessorPerson.Uses(matchExceptionTrackerWebApplicationContainer, "Uses", "TBD");
-            var matchExceptionTrackerServiceContainer = matchExceptionTrackerSoftwareSystem.AddContainer("Match Exception Tracker App Service", "The Match Exception Tracker Application Specific Service.", "TBD - .NET Core Web API?");
-            matchExceptionTrackerWebApplicationContainer.Uses(matchExceptionTrackerServiceContainer, "Uses", "TBD");
-            matchExceptionTrackerWebApplicationContainer.Uses(platformSoftwareSystem, "Uses", "TBD");
-            var matchExceptionTrackerDatabaseContainer = matchExceptionTrackerSoftwareSystem.AddContainer("Match Exception Tracker Database", "The Match Exception Tracker Application Specific Database.", "SQL Server");
+            var matchExceptionTrackerFrontEndContainer = backOfficeApplicationsFrontEndsSoftwareSystem.AddContainer("Match Exception Tracker Web", "The Match Exception Tracker Web Application.", "TBD - Angular?");
+            matchExceptionTrackerFrontEndContainer.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Uses Application Specific Service", "TBD");
+            matchExceptionProcessorPerson.Uses(matchExceptionTrackerFrontEndContainer, "Uses", "TBD");
+            matchExceptionTrackerFrontEndContainer.Uses(platformSoftwareSystem, "Initiate Automation", "OpenSpan");
+            platformSoftwareSystem.Uses(matchExceptionTrackerFrontEndContainer, "Execute Automation", "OpenSpan");
+
+            var matchExceptionTrackerServiceContainer = backOfficeApplicationsBackEndsSoftwareSystem.AddContainer("Match Exception Tracker App Service", "The Match Exception Tracker Application Specific Service.", "TBD - .NET Core Web API?");
+            backOfficeApplicationsFrontEndsSoftwareSystem.Uses(matchExceptionTrackerServiceContainer, "Uses", "TBD");
+
+            var matchExceptionTrackerDatabaseContainer = backOfficeApplicationsBackEndsSoftwareSystem.AddContainer("Match Exception Tracker Database", "The Match Exception Tracker Application Specific Database.", "SQL Server");
             matchExceptionTrackerDatabaseContainer.AddTags(AdditionalTags.Database);
             matchExceptionTrackerServiceContainer.Uses(matchExceptionTrackerDatabaseContainer, "Uses", "TBD");
             platformSoftwareSystem.Uses(matchExceptionTrackerDatabaseContainer, "Uses", "TBD");
             ssisSoftwareSystem.Uses(matchExceptionTrackerDatabaseContainer, "Pushes Data To", "TBD");
+            
+            var otherBackOfficeApplicationFrontEndContainer = backOfficeApplicationsFrontEndsSoftwareSystem.AddContainer("Other Back Office Application", "Other Back Office Application.", "TBD - Angular?");
+            otherBackOfficeApplicationFrontEndContainer.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Uses Application Specific Service", "TBD");
+            backOfficeUserPerson.Uses(otherBackOfficeApplicationFrontEndContainer, "Uses", "TBD");
+            otherBackOfficeApplicationFrontEndContainer.Uses(platformSoftwareSystem, "Initiate Automation", "OpenSpan");
+            platformSoftwareSystem.Uses(otherBackOfficeApplicationFrontEndContainer, "Execute Automation", "OpenSpan");
+
+            var otherBackOfficeApplicationServiceContainer = backOfficeApplicationsBackEndsSoftwareSystem.AddContainer("Other Back Office Application App Service", "The Other Back Office Application Specific Service.", "TBD - .NET Core Web API?");
+            backOfficeApplicationsFrontEndsSoftwareSystem.Uses(otherBackOfficeApplicationServiceContainer, "Uses", "TBD");
+
+            var otherBackOfficeApplicationDatabaseContainer = backOfficeApplicationsBackEndsSoftwareSystem.AddContainer("Other Back Office Application Database", "The Other Back Office Application Specific Database.", "SQL Server");
+            otherBackOfficeApplicationDatabaseContainer.AddTags(AdditionalTags.Database);
+            otherBackOfficeApplicationServiceContainer.Uses(otherBackOfficeApplicationDatabaseContainer, "Uses", "TBD");
+            platformSoftwareSystem.Uses(otherBackOfficeApplicationDatabaseContainer, "Uses", "TBD");
+            ssisSoftwareSystem.Uses(otherBackOfficeApplicationDatabaseContainer, "Pushes Data To", "TBD");
 
             var peopleSoftDatabaseContainer = peoplesoftSoftwareSystem.AddContainer("Peoplesoft Database", "Peoplesoft Database", "Peoplesoft");
             peopleSoftDatabaseContainer.AddTags(AdditionalTags.Database);
@@ -91,16 +113,14 @@ namespace Ascension.Structurizr.App
             ssisSoftwareSystem.Uses(peopleSoftDatabaseContainer, "Pulls Data From", "TBD");
 
             var ssisContainer = ssisSoftwareSystem.AddContainer("SSIS", "SQL Server Integration Services", "SSIS");
-            ssisContainer.Uses(matchExceptionTrackerSoftwareSystem, "Pushes Data To", "TBD");
+            ssisContainer.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Pushes Data To Application DB of", "TBD");
             ssisContainer.Uses(peoplesoftSoftwareSystem, "Pulls Data From", "TBD");
 
             var platformClientDesktopContainer = platformSoftwareSystem.AddContainer("Platform Client Desktop", "Automation Platform Client Desktop", "TBD");
-            platformClientDesktopContainer.Uses(matchExceptionTrackerSoftwareSystem, "Uses", "OS");
-            platformClientDesktopContainer.Uses(otherBackOfficeSoftwareSystem, "Uses", "OS");
+            platformClientDesktopContainer.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Uses", "OS");
 
             var platformServicesGatewayContainer = platformSoftwareSystem.AddContainer("Services Gateway", "Automation Platform Services Gateway", "TBD");
-            matchExceptionTrackerSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses", "REST API");
-            otherBackOfficeSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses", "REST API");
+            backOfficeApplicationsBackEndsSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses", "REST API");
             platformClientDesktopContainer.Uses(platformServicesGatewayContainer, "Uses", "REST API");
 
             var vendorSelfServiceApplicationContainer = platformSoftwareSystem.AddPlatformApplicationContainer("Vendor Self Service Application", technology:"TBD - Angular?");
@@ -128,15 +148,14 @@ namespace Ascension.Structurizr.App
             // Components
             
             var webBrowserComponent = platformClientDesktopContainer.AddComponent("Web Browser", "Web Browser (e.g. Chrome, IE, Firefox).", "TBD");
-            webBrowserComponent.Uses(matchExceptionTrackerSoftwareSystem, "Uses", "TBD");
-            webBrowserComponent.Uses(otherBackOfficeSoftwareSystem, "Uses", "TBD");
+            webBrowserComponent.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Uses", "TBD");
 
             var openSpanComponent = platformClientDesktopContainer.AddComponent("OpenSpan Runtime", "Runtime environment for Pega OpenSpan.", "TBD");
             webBrowserComponent.Uses(openSpanComponent, "Triggers RDA and provides data", "TBD");
-            openSpanComponent.Uses(webBrowserComponent, "Automates", "TBD");
+            openSpanComponent.Uses(webBrowserComponent, "Automates");
 
             var radiloComponent = platformClientDesktopContainer.AddComponent("RADILO", "Unified Desktop.", "TBD");
-            openSpanComponent.Uses(radiloComponent, "Automates", "TBD");
+            openSpanComponent.Uses(radiloComponent, "Automates");
             radiloComponent.Uses(openSpanComponent, "Collects data, triggers RDA and provides data", "TBD");
 
             // Views 
@@ -149,7 +168,7 @@ namespace Ascension.Structurizr.App
 
             CreateSystemContextViewFor(platformSoftwareSystem, views);
 
-            CreateSystemContextViewFor(matchExceptionTrackerSoftwareSystem, views);
+            CreateSystemContextViewFor(backOfficeApplicationsFrontEndsSoftwareSystem, views);
 
             CreateSystemContextViewFor(peoplesoftSoftwareSystem, views);
 
@@ -157,7 +176,9 @@ namespace Ascension.Structurizr.App
 
             CreateContainerViewFor(platformSoftwareSystem, views, PaperSize.A4_Landscape);
 
-            CreateContainerViewFor(matchExceptionTrackerSoftwareSystem, views);
+            CreateContainerViewFor(backOfficeApplicationsFrontEndsSoftwareSystem, views);
+
+            CreateContainerViewFor(backOfficeApplicationsBackEndsSoftwareSystem, views, PaperSize.A4_Landscape);
 
             CreateContainerViewFor(peoplesoftSoftwareSystem, views);
 
@@ -229,6 +250,10 @@ namespace Ascension.Structurizr.App
             styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });
             styles.Add(new ElementStyle(AdditionalTags.Database) { Shape = Shape.Cylinder });
             styles.Add(new ElementStyle(AdditionalTags.Queue) { Shape = Shape.Pipe });
+            styles.Add(new RelationshipStyle(AdditionalTags.PotentiallyUsedRelation) { Color = "#ffa500" });
+
+            //TODO
+            //styles.Add(new ElementStyle(AdditionalTags.ViewSubject) { Background = "#ffa500", Color = "#ffffff", Shape = Shape.RoundedBox });
         }
 
         private static void Upload(Workspace workspace)
