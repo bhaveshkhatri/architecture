@@ -131,6 +131,7 @@ namespace Ascension.Structurizr.App
             var omniChannelCommunicationsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Omni Channel Communications Service");
 
             var dataIntegrationContainer = platformSoftwareSystem.AddContainer("Data Integration Service", "Data Integration Service", "TBD");
+            dataIntegrationContainer.Uses(enterpriseDataLakeSystem, "Various Data Sources", "TBD");
             dataIntegrationContainer.Uses(matchExceptionTrackerDatabaseContainer, "Application specific data", "TBD");
             dataIntegrationContainer.Uses(otherBackOfficeApplicationDatabaseContainer, "Application specific data", "TBD");
             dataIntegrationContainer.Uses(peoplesoftSoftwareSystem, "Peoplesoft data", "TBD").AddTags(AdditionalTags.PotentiallyUsedRelation);
@@ -148,8 +149,22 @@ namespace Ascension.Structurizr.App
                 platformApplicationContainer.Uses(platformServicesGatewayContainer, "Uses", "REST API");
             }
 
+            var pegaWorkforceIntelligenceAnalyticsApplicationContainer = pegaWorkforceIntelligenceSoftwareSystem.AddContainer("WFI Analytics Application", "WFI Analytics Application", "Web Application");
+            platformSoftwareSystem.Uses(pegaWorkforceIntelligenceAnalyticsApplicationContainer, "Embeds");
+
+            var pegaWorkforceIntelligenceActionLoggerServiceContainer = pegaWorkforceIntelligenceSoftwareSystem.AddContainer("WFI Action Logging Service", "WFI Action Logging Service", "REST API");
+
+            var pegaWorkforceIntelligenceAnalyticsDatabaseContainer = pegaWorkforceIntelligenceSoftwareSystem.AddContainer("WFI Analytics Database", "WFI Analytics Database", "DB");
+            pegaWorkforceIntelligenceAnalyticsDatabaseContainer.AddTags(AdditionalTags.Database);
+            pegaWorkforceIntelligenceAnalyticsApplicationContainer.Uses(pegaWorkforceIntelligenceAnalyticsDatabaseContainer, "Process Improvement/Automation Analytics");
+            pegaWorkforceIntelligenceActionLoggerServiceContainer.Uses(pegaWorkforceIntelligenceAnalyticsDatabaseContainer, "Client Desktop Actions");
+
+            var embeddedPegaWorkforceIntelligenceAnalyticsApplicationContainer = platformSoftwareSystem.AddContainer("Embedded WFI Analytics Application", "Embedded WFI Analytics Application", "Embedded Web Application");
+            embeddedPegaWorkforceIntelligenceAnalyticsApplicationContainer.Uses(pegaWorkforceIntelligenceSoftwareSystem, "Embeds");
+            automationAnalyst.Uses(embeddedPegaWorkforceIntelligenceAnalyticsApplicationContainer, "Uses");
+
             // Components
-            
+
             var webBrowserComponent = platformClientDesktopContainer.AddComponent("Web Browser", "Web Browser (e.g. Chrome, IE, Firefox).", "TBD");
             webBrowserComponent.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Uses", "TBD");
 
@@ -182,6 +197,8 @@ namespace Ascension.Structurizr.App
             views.CreateContainerViewFor(backOfficeApplicationsFrontEndsSoftwareSystem);
 
             views.CreateContainerViewFor(backOfficeApplicationsBackEndsSoftwareSystem, PaperSize.A4_Landscape);
+
+            views.CreateContainerViewFor(pegaWorkforceIntelligenceSoftwareSystem);
 
             views.CreateContainerViewFor(peoplesoftSoftwareSystem);
 
