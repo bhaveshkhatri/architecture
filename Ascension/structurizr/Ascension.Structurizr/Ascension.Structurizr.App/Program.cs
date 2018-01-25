@@ -131,6 +131,9 @@ namespace Ascension.Structurizr.App
             var omniChannelCommunicationsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Omni Channel Communications Service");
 
             var dataIntegrationContainer = platformSoftwareSystem.AddContainer("Data Integration Service", "Data Integration Service", "TBD");
+            dataIntegrationContainer.Uses(matchExceptionTrackerDatabaseContainer, "Application specific data", "TBD");
+            dataIntegrationContainer.Uses(otherBackOfficeApplicationDatabaseContainer, "Application specific data", "TBD");
+            dataIntegrationContainer.Uses(peoplesoftSoftwareSystem, "Peoplesoft data", "TBD").AddTags(AdditionalTags.PotentiallyUsedRelation);
 
             var apiServiceContainers = platformSoftwareSystem.Containers.Where(container => container.Tags.Contains(AdditionalTags.ApiService));
             foreach (var apiServiceContainer in apiServiceContainers)
@@ -174,7 +177,7 @@ namespace Ascension.Structurizr.App
 
             // Container Views
 
-            views.CreateContainerViewFor(platformSoftwareSystem, PaperSize.A4_Landscape);
+            views.CreateContainerViewFor(platformSoftwareSystem, PaperSize.A3_Landscape);
 
             views.CreateContainerViewFor(backOfficeApplicationsFrontEndsSoftwareSystem);
 
