@@ -184,12 +184,12 @@ namespace Ascension.Structurizr.App
             webBrowserComponent.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Run Client Web Applications");
 
             var openSpanComponent = platformClientDesktopContainer.AddComponent("OpenSpan Runtime", "Runtime environment for Pega OpenSpan.", "Pega Platform");
-            webBrowserComponent.Uses(openSpanComponent, "Triggers RDA and provides data", "Pega OpenSpan");
-            openSpanComponent.Uses(webBrowserComponent, "Automates", "Pega OpenSpan");
+            webBrowserComponent.Uses(openSpanComponent, "Causes RDA to start and provides data", "Pega OpenSpan");
+            openSpanComponent.Uses(webBrowserComponent, "Automates and sends data", "Pega OpenSpan");
 
             var radiloComponent = platformClientDesktopContainer.AddComponent("RADILO", "Unified Desktop.", ".NET Desktop Application");
-            openSpanComponent.Uses(radiloComponent, "Automates", "Pega OpenSpan");
-            radiloComponent.Uses(openSpanComponent, "Collects data, triggers RDA and provides data", "Pega OpenSpan");
+            openSpanComponent.Uses(radiloComponent, "Automates and sends data", "Pega OpenSpan");
+            radiloComponent.Uses(openSpanComponent, "Collects data, causes RDA to start and provides data", "Pega OpenSpan");
             
             var matchExceptionTrackerAdminControllerComponent = matchExceptionTrackerFrontEndContainer.AddComponent("Admin Controller", "Used by administrators of the Match Exception Tracker.", "Angular Controller");
             matchExceptionProcessorPerson.Uses(matchExceptionTrackerAdminControllerComponent, "Uses");
