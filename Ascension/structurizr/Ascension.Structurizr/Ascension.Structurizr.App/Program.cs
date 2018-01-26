@@ -188,6 +188,33 @@ namespace Ascension.Structurizr.App
             openSpanComponent.Uses(radiloComponent, "Automates", "Pega OpenSpan");
             radiloComponent.Uses(openSpanComponent, "Collects data, triggers RDA and provides data", "Pega OpenSpan");
 
+
+            var matchExceptionTrackerAdminControllerComponent = matchExceptionTrackerFrontEndContainer.AddComponent("Admin Controller", "Used by administrators of the Match Exception Tracker.", "Angular Controller");
+            matchExceptionProcessorPerson.Uses(matchExceptionTrackerAdminControllerComponent, "Uses");
+            platformSoftwareSystem.Uses(matchExceptionTrackerAdminControllerComponent, "Executes Automation", "Pega OpenSpan");
+
+            var matchExceptionTrackerAnalyticsControllerComponent = matchExceptionTrackerFrontEndContainer.AddComponent("Analytics Controller", "Used to view analytics for the Match Exception Tracker.", "Angular Controller");
+            matchExceptionProcessorPerson.Uses(matchExceptionTrackerAnalyticsControllerComponent, "Uses");
+            platformSoftwareSystem.Uses(matchExceptionTrackerAnalyticsControllerComponent, "Executes Automation", "Pega OpenSpan");
+
+            var httpComponent = matchExceptionTrackerFrontEndContainer.AddComponent("HTTP Component", "Used to communicate over HTTP.", "Angular Component");
+            matchExceptionTrackerAdminControllerComponent.Uses(httpComponent, "Uses");
+            matchExceptionTrackerAnalyticsControllerComponent.Uses(httpComponent, "Uses");
+            httpComponent.Uses(matchExceptionTrackerServiceContainer, "Send and Receive Data", "HTTPS");
+
+            var matchExceptionTrackerServiceWorkManagementControllerComponent = matchExceptionTrackerServiceContainer.AddComponent("Work Management Controller", "Manage the work assigned to match exception processors.", "Web API Controller");
+            matchExceptionTrackerServiceWorkManagementControllerComponent.Uses(matchExceptionTrackerDatabaseContainer, "Work management related data and operations.", "SQL (e.g. Entity Framework)");
+            matchExceptionTrackerFrontEndContainer.Uses(matchExceptionTrackerServiceWorkManagementControllerComponent, "Work Managment", "HTTPS");
+
+            var matchExceptionTrackerServiceExceptionsControllerComponent = matchExceptionTrackerServiceContainer.AddComponent("Exceptions Controller", "CRUD operations on match exceptions.", "Web API Controller");
+            matchExceptionTrackerServiceExceptionsControllerComponent.Uses(matchExceptionTrackerDatabaseContainer, "Match exceptions related data and operations.", "SQL (e.g. Entity Framework)");
+            matchExceptionTrackerServiceExceptionsControllerComponent.Uses(platformSoftwareSystem, "Decision Support", "HTTPS");
+            matchExceptionTrackerFrontEndContainer.Uses(matchExceptionTrackerServiceExceptionsControllerComponent, "Match Exceptions", "HTTPS");
+
+            var matchExceptionTrackerServiceEmailControllerComponent = matchExceptionTrackerServiceContainer.AddComponent("Email Data Controller", "Retrieve data, analytics, and visualization components for emails.", "Web API Controller");
+            matchExceptionTrackerFrontEndContainer.Uses(matchExceptionTrackerServiceEmailControllerComponent, "Email", "HTTPS");
+            matchExceptionTrackerServiceEmailControllerComponent.Uses(matchExceptionTrackerDatabaseContainer, "Email related data and operations.", "SQL (e.g. Entity Framework)");
+
             // Views 
 
             var views = workspace.Views;
@@ -219,6 +246,10 @@ namespace Ascension.Structurizr.App
             // Component Views
 
             views.CreateComponentViewFor(platformClientDesktopContainer);
+
+            views.CreateComponentViewFor(matchExceptionTrackerFrontEndContainer, PaperSize.A4_Landscape);
+
+            views.CreateComponentViewFor(matchExceptionTrackerServiceContainer);
 
             // Styles
 
