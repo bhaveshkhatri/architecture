@@ -58,7 +58,7 @@ namespace Ascension.Structurizr.App
             matchExceptionProcessorPerson.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Uses Match Exception Tracker");
             backOfficeUserPerson.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Uses Other Applications");
             backOfficeApplicationsFrontEndsSoftwareSystem.Uses(platformSoftwareSystem, "Initiate Automation", "OpenSpan");
-            platformSoftwareSystem.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Execute Automation", "OpenSpan");
+            platformSoftwareSystem.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Perform Automation", "OpenSpan");
 
             var backOfficeApplicationsBackEndsSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Back Office Applications (Back Ends)", "Back ends of all back office applications that use the platform.");
             backOfficeApplicationsFrontEndsSoftwareSystem.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Application Specific Logic", "REST API");
@@ -84,7 +84,7 @@ namespace Ascension.Structurizr.App
             matchExceptionTrackerFrontEndContainer.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Uses Application Specific Service", "REST API");
             matchExceptionProcessorPerson.Uses(matchExceptionTrackerFrontEndContainer, "Uses", "Web Browser");
             matchExceptionTrackerFrontEndContainer.Uses(platformSoftwareSystem, "Initiate Automation", "OpenSpan");
-            platformSoftwareSystem.Uses(matchExceptionTrackerFrontEndContainer, "Execute Automation", "OpenSpan");
+            platformSoftwareSystem.Uses(matchExceptionTrackerFrontEndContainer, "Perform Automation", "OpenSpan");
 
             var matchExceptionTrackerServiceContainer = backOfficeApplicationsBackEndsSoftwareSystem.AddContainer("Match Exception Tracker App Service", "The Match Exception Tracker Application Specific Service.", "ASP.NET Core Web API");
             backOfficeApplicationsFrontEndsSoftwareSystem.Uses(matchExceptionTrackerServiceContainer, "Uses", "REST API");
@@ -100,7 +100,7 @@ namespace Ascension.Structurizr.App
             otherBackOfficeApplicationFrontEndContainer.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Uses Application Specific Service", "ASP.NET Core Web API");
             backOfficeUserPerson.Uses(otherBackOfficeApplicationFrontEndContainer, "Uses", "Web Browser");
             otherBackOfficeApplicationFrontEndContainer.Uses(platformSoftwareSystem, "Initiate Automation", "OpenSpan");
-            platformSoftwareSystem.Uses(otherBackOfficeApplicationFrontEndContainer, "Execute Automation", "OpenSpan");
+            platformSoftwareSystem.Uses(otherBackOfficeApplicationFrontEndContainer, "Perform Automation", "OpenSpan");
 
             var otherBackOfficeApplicationServiceContainer = backOfficeApplicationsBackEndsSoftwareSystem.AddContainer("Other Back Office Application App Service", "The Other Back Office Application Specific Service.", "ASP.NET Core Web API?");
             backOfficeApplicationsFrontEndsSoftwareSystem.Uses(otherBackOfficeApplicationServiceContainer, "Uses", "REST API");
@@ -122,7 +122,7 @@ namespace Ascension.Structurizr.App
             ssisContainer.Uses(cortexPlatformSystem, "Push Data For Learning And Processing", "REST API");
 
             var platformClientDesktopContainer = platformSoftwareSystem.AddContainer("Platform Client Desktop", "Automation Platform Client Desktop", "Windows with Pega");
-            platformClientDesktopContainer.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Execute Automation", "OpenSpan");
+            platformClientDesktopContainer.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Perform Automation", "OpenSpan");
             backOfficeApplicationsFrontEndsSoftwareSystem.Uses(platformClientDesktopContainer, "Initiates Automation", "OpenSpan");
             matchExceptionProcessorPerson.Uses(platformClientDesktopContainer, "Uses");
             backOfficeUserPerson.Uses(platformClientDesktopContainer, "Uses");
@@ -193,11 +193,11 @@ namespace Ascension.Structurizr.App
             
             var matchExceptionTrackerAdminControllerComponent = matchExceptionTrackerFrontEndContainer.AddComponent("Admin Controller", "Used by administrators of the Match Exception Tracker.", "Angular Controller");
             matchExceptionProcessorPerson.Uses(matchExceptionTrackerAdminControllerComponent, "Uses");
-            platformSoftwareSystem.Uses(matchExceptionTrackerAdminControllerComponent, "Executes Automation", "Pega OpenSpan");
+            platformSoftwareSystem.Uses(matchExceptionTrackerAdminControllerComponent, "Performs Automation", "Pega OpenSpan");
 
             var matchExceptionTrackerAnalyticsControllerComponent = matchExceptionTrackerFrontEndContainer.AddComponent("Analytics Controller", "Used to view analytics for the Match Exception Tracker.", "Angular Controller");
             matchExceptionProcessorPerson.Uses(matchExceptionTrackerAnalyticsControllerComponent, "Uses");
-            platformSoftwareSystem.Uses(matchExceptionTrackerAnalyticsControllerComponent, "Executes Automation", "Pega OpenSpan");
+            platformSoftwareSystem.Uses(matchExceptionTrackerAnalyticsControllerComponent, "Performs Automation", "Pega OpenSpan");
 
             var httpComponent = matchExceptionTrackerFrontEndContainer.AddComponent("HTTP Component", "Used to communicate over HTTP.", "Angular Component");
             matchExceptionTrackerAdminControllerComponent.Uses(httpComponent, "Uses");
