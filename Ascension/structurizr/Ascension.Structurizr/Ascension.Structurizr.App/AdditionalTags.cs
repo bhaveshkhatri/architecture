@@ -49,5 +49,13 @@
                 return "Potentially Used Relation";
             }
         }
+
+        public static string CurrentButNotRecommendedRelation
+        {
+            get
+            {
+                return "Current But Not Recommended Relation";
+            }
+        }
     }
 }

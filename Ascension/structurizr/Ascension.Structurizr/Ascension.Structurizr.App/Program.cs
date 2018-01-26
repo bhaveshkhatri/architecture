@@ -2,7 +2,6 @@
 using Structurizr.Api;
 using System.Configuration;
 using System.Linq;
-using System;
 
 namespace Ascension.Structurizr.App
 {
@@ -95,6 +94,7 @@ namespace Ascension.Structurizr.App
             matchExceptionTrackerServiceContainer.Uses(matchExceptionTrackerDatabaseContainer, "Uses", "SQL");
             platformSoftwareSystem.Uses(matchExceptionTrackerDatabaseContainer, "Uses", "SQL");
             ssisSoftwareSystem.Uses(matchExceptionTrackerDatabaseContainer, "Pushes Data To", "SQL");
+            backOfficeApplicationsFrontEndsSoftwareSystem.Uses(matchExceptionTrackerDatabaseContainer, "Query SQL Server Directly (current but not recommended)", "Datagrid SQL Connector").AddTags(AdditionalTags.CurrentButNotRecommendedRelation);
             
             var otherBackOfficeApplicationFrontEndContainer = backOfficeApplicationsFrontEndsSoftwareSystem.AddContainer("Other Back Office Application", "Other Back Office Application.", "Angular");
             otherBackOfficeApplicationFrontEndContainer.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Uses Application Specific Service", "ASP.NET Core Web API");
@@ -129,8 +129,7 @@ namespace Ascension.Structurizr.App
             backOfficeApplicationsBackEndsSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses Platform Functionality", "REST API");
             backOfficeApplicationsFrontEndsSoftwareSystem.Uses(platformServicesGatewayContainer, "Could Use Platform Directly From Front End", "REST API").AddTags(AdditionalTags.PotentiallyUsedRelation);
             platformClientDesktopContainer.Uses(platformServicesGatewayContainer, "Uses", "REST API");
-
-
+            
             var vendorSelfServiceApplicationContainer = platformSoftwareSystem.AddPlatformApplicationContainer("Vendor Self Service Application", technology:"Angular");
 
             var platformAnalyticsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Platform Analytics Service", technology: "ASP.NET Core Web API");
@@ -189,8 +188,7 @@ namespace Ascension.Structurizr.App
             var radiloComponent = platformClientDesktopContainer.AddComponent("RADILO", "Unified Desktop.", ".NET Desktop Application");
             openSpanComponent.Uses(radiloComponent, "Automates", "Pega OpenSpan");
             radiloComponent.Uses(openSpanComponent, "Collects data, triggers RDA and provides data", "Pega OpenSpan");
-
-
+            
             var matchExceptionTrackerAdminControllerComponent = matchExceptionTrackerFrontEndContainer.AddComponent("Admin Controller", "Used by administrators of the Match Exception Tracker.", "Angular Controller");
             matchExceptionProcessorPerson.Uses(matchExceptionTrackerAdminControllerComponent, "Uses");
             platformSoftwareSystem.Uses(matchExceptionTrackerAdminControllerComponent, "Executes Automation", "Pega OpenSpan");
