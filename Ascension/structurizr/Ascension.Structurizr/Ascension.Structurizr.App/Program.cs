@@ -124,6 +124,8 @@ namespace Ascension.Structurizr.App
             var platformClientDesktopContainer = platformSoftwareSystem.AddContainer("Platform Client Desktop", "Automation Platform Client Desktop", "Windows with Pega");
             platformClientDesktopContainer.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Execute Automation", "OpenSpan");
             backOfficeApplicationsFrontEndsSoftwareSystem.Uses(platformClientDesktopContainer, "Initiates Automation", "OpenSpan");
+            matchExceptionProcessorPerson.Uses(platformClientDesktopContainer, "Uses");
+            backOfficeUserPerson.Uses(platformClientDesktopContainer, "Uses");
 
             var platformServicesGatewayContainer = platformSoftwareSystem.AddContainer("Services Gateway", "Automation Platform Services Gateway", "ASP.NET Core Web API");
             backOfficeApplicationsBackEndsSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses Platform Functionality", "REST API");
