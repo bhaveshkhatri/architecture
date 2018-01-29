@@ -150,7 +150,7 @@ namespace Ascension.Structurizr.App
             var machineLearningServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Machine Learning Service", technology: "ASP.NET Core Web API");
             machineLearningServiceContainer.Uses(cortexPlatformSystem, "Send Data And Get Insights", "REST API");
 
-            var communicationsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Communications Service", "Omni Channel Vendor (Genesys)", technology: "ASP.NET Core Web API");
+            var communicationsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Communications Service", "Omni/Multi Channel Communication Aggregation And Transformation", technology: "ASP.NET Core Web API");
 
             var dataIntegrationContainer = platformSoftwareSystem.AddContainer("Data Integration Service", "Data Integration Service", "ASP.NET Core Web API");
             dataIntegrationContainer.Uses(enterpriseDataLakeSystem, "Various Data Sources", "Data Connector");
