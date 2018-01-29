@@ -119,7 +119,7 @@ namespace Ascension.Structurizr.App
             var ssisContainer = ssisSoftwareSystem.AddContainer("SSIS", "SQL Server Integration Services", "SSIS");
             ssisContainer.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Push Data To Application Specific DBs");
             ssisContainer.Uses(peoplesoftSoftwareSystem, "Pull Data");
-            ssisContainer.Uses(cortexPlatformSystem, "Push Data For Learning And Processing", "REST API");
+            ssisContainer.Uses(cortexPlatformSystem, "Push Data For Learning And Processing (Temporarily)", "REST API").AddTags(AdditionalTags.CurrentButNotRecommendedRelation);
 
             var platformClientDesktopContainer = platformSoftwareSystem.AddContainer("Platform Client Desktop", "Automation Platform Client Desktop", "Windows with Pega");
             platformClientDesktopContainer.Uses(backOfficeApplicationsFrontEndsSoftwareSystem, "Perform Automation", "OpenSpan");
@@ -190,14 +190,20 @@ namespace Ascension.Structurizr.App
             var radiloComponent = platformClientDesktopContainer.AddComponent("RADILO", "Unified Desktop.", ".NET Desktop Application");
             openSpanComponent.Uses(radiloComponent, "Automates and sends data", "Pega OpenSpan");
             radiloComponent.Uses(openSpanComponent, "Collects data, causes RDA to start and provides data", "Pega OpenSpan");
-            
+
+            var matchExceptionTrackerAdminViewComponent = matchExceptionTrackerFrontEndContainer.AddComponent("Admin View", "Used by administrators of the Match Exception Tracker.", "Angular View Template");
+            matchExceptionProcessorPerson.Uses(matchExceptionTrackerAdminViewComponent, "Uses");
+            platformSoftwareSystem.Uses(matchExceptionTrackerAdminViewComponent, "Performs Automation", "Pega OpenSpan");
+
             var matchExceptionTrackerAdminControllerComponent = matchExceptionTrackerFrontEndContainer.AddComponent("Admin Controller", "Used by administrators of the Match Exception Tracker.", "Angular Controller");
-            matchExceptionProcessorPerson.Uses(matchExceptionTrackerAdminControllerComponent, "Uses");
-            platformSoftwareSystem.Uses(matchExceptionTrackerAdminControllerComponent, "Performs Automation", "Pega OpenSpan");
+            matchExceptionTrackerAdminViewComponent.Uses(matchExceptionTrackerAdminControllerComponent, "Respond to actions and manage state");
+
+            var matchExceptionTrackerAnalyticsViewComponent = matchExceptionTrackerFrontEndContainer.AddComponent("Analytics View", "Used to view analytics for the Match Exception Tracker.", "Angular View Template");
+            matchExceptionProcessorPerson.Uses(matchExceptionTrackerAnalyticsViewComponent, "Uses");
+            platformSoftwareSystem.Uses(matchExceptionTrackerAnalyticsViewComponent, "Performs Automation", "Pega OpenSpan");
 
             var matchExceptionTrackerAnalyticsControllerComponent = matchExceptionTrackerFrontEndContainer.AddComponent("Analytics Controller", "Used to view analytics for the Match Exception Tracker.", "Angular Controller");
-            matchExceptionProcessorPerson.Uses(matchExceptionTrackerAnalyticsControllerComponent, "Uses");
-            platformSoftwareSystem.Uses(matchExceptionTrackerAnalyticsControllerComponent, "Performs Automation", "Pega OpenSpan");
+            matchExceptionTrackerAnalyticsViewComponent.Uses(matchExceptionTrackerAnalyticsControllerComponent, "Respond to actions and manage state");
 
             var httpComponent = matchExceptionTrackerFrontEndContainer.AddComponent("HTTP Component", "Used to communicate over HTTP.", "Angular Component");
             matchExceptionTrackerAdminControllerComponent.Uses(httpComponent, "Uses");
@@ -249,7 +255,7 @@ namespace Ascension.Structurizr.App
 
             views.CreateComponentViewFor(platformClientDesktopContainer);
 
-            views.CreateComponentViewFor(matchExceptionTrackerFrontEndContainer, PaperSize.A4_Landscape);
+            views.CreateComponentViewFor(matchExceptionTrackerFrontEndContainer, PaperSize.A3_Landscape);
 
             views.CreateComponentViewFor(matchExceptionTrackerServiceContainer);
 
