@@ -78,6 +78,10 @@ namespace Ascension.Structurizr.App
             ssisSoftwareSystem.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Pushes Data To Application DB", "SSIS Job");
             ssisSoftwareSystem.Uses(cortexPlatformSystem, "Push Data For Learning And Processing (Temporarily)", "REST API").AddTags(AdditionalTags.CurrentButNotRecommendedRelation);
 
+            var caApiManagementSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "CA API Management", "CA API Management Suite");
+            platformSoftwareSystem.Uses(caApiManagementSoftwareSystem, "Gateway");
+            caApiManagementSoftwareSystem.Uses(platformSoftwareSystem, "API Management");
+
             // Containers
 
             var matchExceptionTrackerFrontEndContainer = backOfficeApplicationsFrontEndsSoftwareSystem.AddContainer("Match Exception Tracker Web", "The Match Exception Tracker Web Application.", "Angular");
@@ -128,6 +132,8 @@ namespace Ascension.Structurizr.App
             backOfficeUserPerson.Uses(platformClientDesktopContainer, "Uses");
 
             var platformServicesGatewayContainer = platformSoftwareSystem.AddContainer("Services Gateway", "Client-Specific Automation Platform Services Gateway", "CA API Gateway");
+            platformServicesGatewayContainer.Uses(caApiManagementSoftwareSystem, "Gateway Features");
+            caApiManagementSoftwareSystem.Uses(platformServicesGatewayContainer, "API Management");
             backOfficeApplicationsBackEndsSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses Platform Functionality", "REST API");
             backOfficeApplicationsFrontEndsSoftwareSystem.Uses(platformServicesGatewayContainer, "Could Use Platform Directly From Front End", "REST API").AddTags(AdditionalTags.PotentiallyUsedRelation);
             platformClientDesktopContainer.Uses(platformServicesGatewayContainer, "Uses", "REST API");
