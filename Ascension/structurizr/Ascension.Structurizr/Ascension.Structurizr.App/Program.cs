@@ -127,7 +127,7 @@ namespace Ascension.Structurizr.App
             matchExceptionProcessorPerson.Uses(platformClientDesktopContainer, "Uses");
             backOfficeUserPerson.Uses(platformClientDesktopContainer, "Uses");
 
-            var platformServicesGatewayContainer = platformSoftwareSystem.AddContainer("Services Gateway", "Automation Platform Services Gateway", "ASP.NET Core Web API");
+            var platformServicesGatewayContainer = platformSoftwareSystem.AddContainer("Services Gateway", "Client-Specific Automation Platform Services Gateway", "CA API Gateway");
             backOfficeApplicationsBackEndsSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses Platform Functionality", "REST API");
             backOfficeApplicationsFrontEndsSoftwareSystem.Uses(platformServicesGatewayContainer, "Could Use Platform Directly From Front End", "REST API").AddTags(AdditionalTags.PotentiallyUsedRelation);
             platformClientDesktopContainer.Uses(platformServicesGatewayContainer, "Uses", "REST API");
