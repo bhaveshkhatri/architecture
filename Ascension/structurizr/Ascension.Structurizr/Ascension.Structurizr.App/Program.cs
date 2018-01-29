@@ -142,6 +142,7 @@ namespace Ascension.Structurizr.App
             var vendorServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Vendor Service", technology: "ASP.NET Core Web API");
 
             var machineLearningServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Machine Learning Service", technology: "ASP.NET Core Web API");
+            machineLearningServiceContainer.Uses(cortexPlatformSystem, "Send Data And Get Insights", "REST API");
 
             var communicationsServiceContainer = platformSoftwareSystem.AddApiServiceContainer("Communications Service", "Omni Channel Vendor (Genesys)", technology: "ASP.NET Core Web API");
 
@@ -192,14 +193,14 @@ namespace Ascension.Structurizr.App
             radiloComponent.Uses(openSpanComponent, "Collects data, causes RDA to start and provides data", "Pega OpenSpan");
 
             var matchExceptionTrackerAdminViewComponent = matchExceptionTrackerFrontEndContainer.AddComponent("Admin View", "Used by administrators of the Match Exception Tracker.", "Angular View Template");
-            matchExceptionProcessorPerson.Uses(matchExceptionTrackerAdminViewComponent, "Uses");
+            matchExceptionProcessorPerson.Uses(matchExceptionTrackerAdminViewComponent, "Uses", "Based On URL Path And Parameters");
             platformSoftwareSystem.Uses(matchExceptionTrackerAdminViewComponent, "Performs Automation", "Pega OpenSpan");
 
             var matchExceptionTrackerAdminControllerComponent = matchExceptionTrackerFrontEndContainer.AddComponent("Admin Controller", "Used by administrators of the Match Exception Tracker.", "Angular Controller");
             matchExceptionTrackerAdminViewComponent.Uses(matchExceptionTrackerAdminControllerComponent, "Respond to actions and manage state");
 
             var matchExceptionTrackerAnalyticsViewComponent = matchExceptionTrackerFrontEndContainer.AddComponent("Analytics View", "Used to view analytics for the Match Exception Tracker.", "Angular View Template");
-            matchExceptionProcessorPerson.Uses(matchExceptionTrackerAnalyticsViewComponent, "Uses");
+            matchExceptionProcessorPerson.Uses(matchExceptionTrackerAnalyticsViewComponent, "Uses", "Based On URL Path And Parameters");
             platformSoftwareSystem.Uses(matchExceptionTrackerAnalyticsViewComponent, "Performs Automation", "Pega OpenSpan");
 
             var matchExceptionTrackerAnalyticsControllerComponent = matchExceptionTrackerFrontEndContainer.AddComponent("Analytics Controller", "Used to view analytics for the Match Exception Tracker.", "Angular Controller");
