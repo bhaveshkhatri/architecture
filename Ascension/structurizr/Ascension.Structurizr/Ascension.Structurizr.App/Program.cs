@@ -65,7 +65,7 @@ namespace Ascension.Structurizr.App
             backOfficeApplicationsBackEndsSoftwareSystem.Uses(platformSoftwareSystem, "Decision Support", "REST API");
 
             var enterpriseDataLakeSystem = model.AddSoftwareSystem(Location.Internal, "Enterprise Data Lake", "Enterprise Data Lake.");
-            platformSoftwareSystem.Uses(enterpriseDataLakeSystem, "Uses");
+            platformSoftwareSystem.Uses(enterpriseDataLakeSystem, "Primary Data Source");
 
             var cortexPlatformSystem = model.AddSoftwareSystem(Location.External, "Cortex V5", "Cognitive Scale Cortex Platform.");
             platformSoftwareSystem.Uses(cortexPlatformSystem, "Send Data And Get Insights", "REST API");
@@ -76,7 +76,7 @@ namespace Ascension.Structurizr.App
             var ssisSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SSIS", "SQL Server Integration Services");
             ssisSoftwareSystem.Uses(peoplesoftSoftwareSystem, "Pulls Application Specific Data", "SSIS Job");
             ssisSoftwareSystem.Uses(backOfficeApplicationsBackEndsSoftwareSystem, "Pushes Data To Application DB", "SSIS Job");
-            ssisSoftwareSystem.Uses(cortexPlatformSystem, "Push Data For Learning And Processing", "REST API");
+            ssisSoftwareSystem.Uses(cortexPlatformSystem, "Push Data For Learning And Processing (Temporarily)", "REST API").AddTags(AdditionalTags.CurrentButNotRecommendedRelation);
 
             // Containers
 
