@@ -46,7 +46,7 @@
         {
             get
             {
-                return "Potentially Usage";
+                return "Potential Usage";
             }
         }
 
