@@ -121,7 +121,7 @@ namespace Ascension.Structurizr.App
             ssisSoftwareSystem.Uses(peopleSoftDatabaseContainer, "Pulls Data From");
 
             var ssisContainer = ssisSoftwareSystem.AddContainer("SSIS", "SQL Server Integration Services", "SSIS");
-            ssisContainer.Uses(clientApplicationsFrontendsSoftwareSystem, "Push Data To Application Specific DBs");
+            ssisContainer.Uses(clientApplicationsBackendsSoftwareSystem, "Push Data To Application Specific DBs");
             ssisContainer.Uses(peoplesoftSoftwareSystem, "Pull Data");
             ssisContainer.Uses(cortexPlatformSystem, "Push Data For Learning And Processing (Temporarily)", "REST API").AddTags(AdditionalTags.CurrentButNotRecommendedRelation);
 
@@ -240,9 +240,9 @@ namespace Ascension.Structurizr.App
 
             //views.CreateSystemContextViewFor(platformSoftwareSystem);
 
-            views.CreateSystemContextViewFor(clientApplicationsFrontendsSoftwareSystem);
+            views.CreateSystemContextViewFor(clientApplicationsFrontendsSoftwareSystem, PaperSize.A5_Portrait);
 
-            views.CreateSystemContextViewFor(peoplesoftSoftwareSystem);
+            views.CreateSystemContextViewFor(peoplesoftSoftwareSystem, PaperSize.A6_Landscape);
 
             // Container Views
 
@@ -262,7 +262,7 @@ namespace Ascension.Structurizr.App
 
             views.CreateComponentViewFor(platformClientDesktopContainer);
 
-            views.CreateComponentViewFor(matchExceptionTrackerFrontendContainer, PaperSize.A3_Landscape);
+            views.CreateComponentViewFor(matchExceptionTrackerFrontendContainer, PaperSize.A4_Portrait);
 
             views.CreateComponentViewFor(matchExceptionTrackerServiceContainer);
 

@@ -32,12 +32,17 @@ namespace Ascension.Structurizr.App
             systemLandscapeEnterpriseContextView.PaperSize = PaperSize.A4_Landscape;
         }
 
-        public static void CreateSystemContextViewFor(this ViewSet views, SoftwareSystem softwareSystem)
+        public static void CreateSystemContextViewFor(this ViewSet views, SoftwareSystem softwareSystem, PaperSize paperSize)
         {
             var softwareSystemName = softwareSystem.Name;
             var softwareSystemContextView = views.CreateSystemContextView(softwareSystem, string.Format("{0} System Context", softwareSystemName), string.Format("The system context for {0}.", softwareSystemName));
             softwareSystemContextView.AddNearestNeighbours(softwareSystem);
-            softwareSystemContextView.PaperSize = PaperSize.A4_Landscape;
+            softwareSystemContextView.PaperSize = paperSize;
+        }
+
+        public static void CreateSystemContextViewFor(this ViewSet views, SoftwareSystem softwareSystem)
+        {
+            views.CreateSystemContextViewFor(softwareSystem, PaperSize.A4_Landscape);
         }
 
         public static void CreateContainerViewFor(this ViewSet views, SoftwareSystem softwareSystem, PaperSize paperSize, params Container[] containersToExclude)
