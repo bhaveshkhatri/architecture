@@ -1,5 +1,6 @@
 # architecture
 ## Ascension.Structurizr
+### Getting Started
 1. Clone the repository.
 2. Open the Ascension.Structurizr.sln solution file in Visual Studio.
 3. Add a file called App.Keys.config to the Ascension.Structurizr.App project.
