@@ -93,7 +93,7 @@ namespace Ascension.Structurizr.App
             styles.Add(new ElementStyle(Tags.Component) { Background = "#85bbf0", Color = "#ffffff" });
             styles.Add(new ElementStyle(AdditionalTags.Database) { Shape = Shape.Cylinder });
             styles.Add(new ElementStyle(AdditionalTags.Queue) { Shape = Shape.Pipe });
-            styles.Add(new RelationshipStyle(AdditionalTags.PotentiallyUsedRelation) { Color = "#ffa500" });
+            styles.Add(new RelationshipStyle(AdditionalTags.PotentiallyUsedRelation) { Color = "#ee7600" });
             styles.Add(new RelationshipStyle(AdditionalTags.CurrentButNotRecommendedRelation) { Color = "#ff0000" });
 
             //TODO

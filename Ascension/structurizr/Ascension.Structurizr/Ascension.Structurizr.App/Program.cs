@@ -175,6 +175,7 @@ namespace Ascension.Structurizr.App
             platformSoftwareSystem.Uses(pegaWorkforceIntelligenceAnalyticsApplicationContainer, "Embeds");
 
             var pegaWorkforceIntelligenceActionLoggerServiceContainer = pegaWorkforceIntelligenceSoftwareSystem.AddContainer("WFI Action Logging Service", "WFI Action Logging Service", "REST API");
+            platformSoftwareSystem.Uses(pegaWorkforceIntelligenceActionLoggerServiceContainer, "Client Desktop Action Recording");
 
             var pegaWorkforceIntelligenceAnalyticsDatabaseContainer = pegaWorkforceIntelligenceSoftwareSystem.AddContainer("WFI Analytics Database", "WFI Analytics Database", "DB");
             pegaWorkforceIntelligenceAnalyticsDatabaseContainer.AddTags(AdditionalTags.Database);
@@ -216,6 +217,7 @@ namespace Ascension.Structurizr.App
             matchExceptionTrackerAdminControllerComponent.Uses(httpComponent, "Uses");
             matchExceptionTrackerAnalyticsControllerComponent.Uses(httpComponent, "Uses");
             httpComponent.Uses(matchExceptionTrackerServiceContainer, "Send and Receive Data", "HTTPS");
+            httpComponent.Uses(platformSoftwareSystem, "Use Platform Services Directly (not recommended)", "HTTPS").AddTags(AdditionalTags.PotentiallyUsedRelation);
 
             var matchExceptionTrackerServiceWorkManagementControllerComponent = matchExceptionTrackerServiceContainer.AddComponent("Work Management Controller", "Manage the work assigned to match exception processors.", "Web API Controller");
             matchExceptionTrackerServiceWorkManagementControllerComponent.Uses(matchExceptionTrackerDatabaseContainer, "Work management related data and operations.", "SQL (e.g. Entity Framework)");
