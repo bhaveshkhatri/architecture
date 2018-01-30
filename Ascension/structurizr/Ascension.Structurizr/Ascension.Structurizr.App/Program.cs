@@ -131,7 +131,7 @@ namespace Ascension.Structurizr.App
             matchExceptionProcessorPerson.Uses(platformClientDesktopContainer, "Uses");
             clientApplicationUserPerson.Uses(platformClientDesktopContainer, "Uses");
 
-            var platformServicesGatewayContainer = platformSoftwareSystem.AddContainer("Services Gateway", "Client-Specific Automation Platform Services Gateway", "CA API Gateway");
+            var platformServicesGatewayContainer = platformSoftwareSystem.AddContainer("Platform Services Gateway", "Automation Platform Services Gateway", "CA API Gateway");
             platformServicesGatewayContainer.Uses(caApiManagementSoftwareSystem, "Gateway Features");
             caApiManagementSoftwareSystem.Uses(platformServicesGatewayContainer, "API Management");
             clientApplicationsBackendsSoftwareSystem.Uses(platformServicesGatewayContainer, "Uses Platform Functionality", "REST API");
@@ -225,12 +225,17 @@ namespace Ascension.Structurizr.App
 
             var matchExceptionTrackerServiceExceptionsControllerComponent = matchExceptionTrackerServiceContainer.AddComponent("Exceptions Controller", "CRUD operations on match exceptions.", "Web API Controller");
             matchExceptionTrackerServiceExceptionsControllerComponent.Uses(matchExceptionTrackerDatabaseContainer, "Match exceptions related data and operations.", "SQL (e.g. Entity Framework)");
-            matchExceptionTrackerServiceExceptionsControllerComponent.Uses(platformSoftwareSystem, "Decision Support", "HTTPS");
             matchExceptionTrackerFrontendContainer.Uses(matchExceptionTrackerServiceExceptionsControllerComponent, "Match Exceptions", "HTTPS");
 
             var matchExceptionTrackerServiceEmailControllerComponent = matchExceptionTrackerServiceContainer.AddComponent("Email Data Controller", "Retrieve data, analytics, and visualization components for emails.", "Web API Controller");
             matchExceptionTrackerFrontendContainer.Uses(matchExceptionTrackerServiceEmailControllerComponent, "Email", "HTTPS");
             matchExceptionTrackerServiceEmailControllerComponent.Uses(matchExceptionTrackerDatabaseContainer, "Email related data and operations.", "SQL (e.g. Entity Framework)");
+
+            var platformClientInterface = matchExceptionTrackerServiceContainer.AddComponent("Platform Client Interface", "Used to interact with the Platform Services Gateway.", ".NET Class");
+            matchExceptionTrackerServiceWorkManagementControllerComponent.Uses(platformClientInterface, "Interact With Platform");
+            matchExceptionTrackerServiceExceptionsControllerComponent.Uses(platformClientInterface, "Interact With Platform");
+            matchExceptionTrackerServiceEmailControllerComponent.Uses(platformClientInterface, "Interact With Platform");
+            platformClientInterface.Uses(platformSoftwareSystem, "Decision Support And Other Platform Features", "HTTPS");
 
             // Views 
 
@@ -266,7 +271,7 @@ namespace Ascension.Structurizr.App
 
             views.CreateComponentViewFor(matchExceptionTrackerFrontendContainer, PaperSize.A4_Portrait);
 
-            views.CreateComponentViewFor(matchExceptionTrackerServiceContainer);
+            views.CreateComponentViewFor(matchExceptionTrackerServiceContainer, PaperSize.A4_Landscape);
 
             // Styles
 
