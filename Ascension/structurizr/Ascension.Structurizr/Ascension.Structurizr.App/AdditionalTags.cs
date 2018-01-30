@@ -46,7 +46,7 @@
         {
             get
             {
-                return "Potentially Used Relation";
+                return "Potentially Usage";
             }
         }
 
@@ -54,7 +54,7 @@
         {
             get
             {
-                return "Current But Not Recommended Relation";
+                return "Current But Not Recommended";
             }
         }
     }
