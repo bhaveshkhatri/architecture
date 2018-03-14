@@ -107,7 +107,7 @@ namespace PrattAndWhitney.Structurizr.App
 
             views.CreateEnterpriseContextLandscapeViewFor(enterprise, PaperSize.A3_Landscape);
 
-            views.CreateSystemContextViewFor(invoiceTransactionSoftwareSystem);
+            views.CreateSystemContextViewFor(invoiceTransactionSoftwareSystem, PaperSize.A3_Landscape);
 
             // Container Views
 
