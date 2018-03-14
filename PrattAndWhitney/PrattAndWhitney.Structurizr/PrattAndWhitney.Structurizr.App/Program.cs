@@ -67,7 +67,8 @@ namespace PrattAndWhitney.Structurizr.App
             var costManagementMetricsSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Cost Management Metrics", "TBD (Dafina Georgievska/Matt Wentworth).");
             costManagementMetricsSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
-            var spidrsSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SPIDRS", "Financial Accounting – (Mike Faulk – Tsunami Tsolutions).");
+            var spidrsSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SPIDRS", "TBD - Financial Accounting.");
+            spidrsSoftwareSystem.AddProperty(Properties.KeyContact, "Mike Faulk – Tsunami Tsolutions");
             spidrsSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
             var quoteErrorToolSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Quote Tool / Error Tool", "This is temporary as these");
@@ -92,8 +93,13 @@ namespace PrattAndWhitney.Structurizr.App
             
             // Containers
 
-            var invoiceTransactionSystemFrontendContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System Web", "The Invoice Transactions System Web Application.", "Angular");
+            var invoiceTransactionSystemFrontendContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System Web", "The Invoice Transactions System Web Application.", "TBD");
             prattAnalyst.Uses(invoiceTransactionSystemFrontendContainer, "Uses", "Web Browser");
+
+
+            var invoiceTransactionSystemOperationalDatabaseContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System Operational DB", "The Invoice Transactions System Operational Database.", "TBD");
+            invoiceTransactionSystemOperationalDatabaseContainer.AddTags(AdditionalTags.Database);
+            invoiceTransactionSystemFrontendContainer.Uses(invoiceTransactionSystemOperationalDatabaseContainer, "TBD");
 
             // Components
 

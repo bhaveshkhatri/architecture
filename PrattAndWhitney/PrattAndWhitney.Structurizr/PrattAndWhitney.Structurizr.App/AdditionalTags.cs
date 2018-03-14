@@ -1,5 +1,6 @@
 ﻿namespace PrattAndWhitney.Structurizr.App
 {
+
     public static class AdditionalTags
     {
         public static string ViewSubject
