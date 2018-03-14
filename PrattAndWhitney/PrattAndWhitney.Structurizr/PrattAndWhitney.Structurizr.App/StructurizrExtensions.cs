@@ -96,10 +96,12 @@ namespace PrattAndWhitney.Structurizr.App
             styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });
             styles.Add(new ElementStyle(Tags.Container) { Background = "#438dd5", Color = "#ffffff" });
             styles.Add(new ElementStyle(Tags.Component) { Background = "#85bbf0", Color = "#ffffff" });
+
             styles.Add(new ElementStyle(AdditionalTags.FutureState) { Border = Border.Dashed, Background = "#3cb371" });
             styles.Add(new ElementStyle(AdditionalTags.SunsetPhaseOut) { Border = Border.Dashed, Background = "#ff8c00" });
             styles.Add(new ElementStyle(AdditionalTags.Database) { Shape = Shape.Cylinder });
             styles.Add(new ElementStyle(AdditionalTags.Queue) { Shape = Shape.Pipe });
+
             styles.Add(new RelationshipStyle(AdditionalTags.PotentiallyUsedRelation) { Color = "#ee7600" });
             styles.Add(new RelationshipStyle(AdditionalTags.CurrentButNotRecommendedRelation) { Color = "#ff0000" });
 
