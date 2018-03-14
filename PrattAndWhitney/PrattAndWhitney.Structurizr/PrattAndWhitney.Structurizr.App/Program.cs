@@ -73,8 +73,9 @@ namespace PrattAndWhitney.Structurizr.App
             var quoteErrorToolSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Quote Tool / Error Tool", "This is temporary as these");
             quoteErrorToolSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
-            var teraDataSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Teradata", "TBD.");
-            teraDataSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
+            var teradataSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Teradata", "TBD.");
+            teradataSoftwareSystem.AddTags(AdditionalTags.SunsetPhaseOut);
+            teradataSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
             var w2CDownstreamSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "W2C", "TBD (Chandra Kankanala) – future state.");
             w2CDownstreamSoftwareSystem.AddTags(AdditionalTags.FutureState);
@@ -86,6 +87,9 @@ namespace PrattAndWhitney.Structurizr.App
             var fleetManagementDashboardSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Fleet Management Dashboard", "TBD.");
             fleetManagementDashboardSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
+
+            var asoSoftwareSystem = model.AddSoftwareSystem(Location.Unspecified, "ASO", "TBD - Davinia says it's sort of a replacement for AIM.");
+            
             // Containers
 
             var invoiceTransactionSystemFrontendContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System Web", "The Invoice Transactions System Web Application.", "Angular");

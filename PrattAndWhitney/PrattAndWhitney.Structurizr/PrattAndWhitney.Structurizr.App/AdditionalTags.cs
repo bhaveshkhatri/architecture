@@ -18,6 +18,14 @@
             }
         }
 
+        public static string SunsetPhaseOut
+        {
+            get
+            {
+                return "Sunset - Phase Out";
+            }
+        }
+
         public static string Database
         {
             get
