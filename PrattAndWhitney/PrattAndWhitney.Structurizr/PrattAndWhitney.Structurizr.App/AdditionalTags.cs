@@ -10,6 +10,14 @@
             }
         }
 
+        public static string FutureState
+        {
+            get
+            {
+                return "Future State";
+            }
+        }
+
         public static string Database
         {
             get

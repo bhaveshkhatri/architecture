@@ -77,6 +77,7 @@ namespace PrattAndWhitney.Structurizr.App
             teraDataSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
             var w2CDownstreamSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "W2C", "TBD (Chandra Kankanala) – future state.");
+            w2CDownstreamSoftwareSystem.AddTags(AdditionalTags.FutureState);
             w2CDownstreamSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
             var allocationReportSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Allocation Report ($)", "TBD.");

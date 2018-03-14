@@ -96,6 +96,7 @@ namespace PrattAndWhitney.Structurizr.App
             styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });
             styles.Add(new ElementStyle(Tags.Container) { Background = "#438dd5", Color = "#ffffff" });
             styles.Add(new ElementStyle(Tags.Component) { Background = "#85bbf0", Color = "#ffffff" });
+            styles.Add(new ElementStyle(AdditionalTags.FutureState) { Border = Border.Dashed, Background = "#006800" });
             styles.Add(new ElementStyle(AdditionalTags.Database) { Shape = Shape.Cylinder });
             styles.Add(new ElementStyle(AdditionalTags.Queue) { Shape = Shape.Pipe });
             styles.Add(new RelationshipStyle(AdditionalTags.PotentiallyUsedRelation) { Color = "#ee7600" });
