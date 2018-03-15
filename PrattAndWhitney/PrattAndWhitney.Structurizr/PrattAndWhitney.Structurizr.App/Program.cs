@@ -49,7 +49,7 @@ namespace PrattAndWhitney.Structurizr.App
             invoiceTransactionSoftwareSystem.Uses(workScopingSoftwareSystem, "TBD");
 
             var odinSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "ODIN", "Allocation tool. ");
-            invoiceTransactionSoftwareSystem.Uses(odinSoftwareSystem, "TBD");
+            invoiceTransactionSoftwareSystem.Uses(odinSoftwareSystem, "TBD - Uses Access DB");
 
             var sapSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SAP", "SAP implementation (master data).");
             invoiceTransactionSoftwareSystem.Uses(sapSoftwareSystem, "TBD");
@@ -57,8 +57,8 @@ namespace PrattAndWhitney.Structurizr.App
             var speidSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SPEID", "Contract information. ");
             invoiceTransactionSoftwareSystem.Uses(speidSoftwareSystem, "TBD");
 
-            var fleetCareSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Fleet Care", "Invoices");
-            invoiceTransactionSoftwareSystem.Uses(fleetCareSoftwareSystem, "TBD");
+            var fleetcareSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Fleetcare", "Customer Invoices");
+            invoiceTransactionSoftwareSystem.Uses(fleetcareSoftwareSystem, "TBD");
 
             var sharePointSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SharePoint", "TBD.");
             invoiceTransactionSoftwareSystem.Uses(sharePointSoftwareSystem, "TBD");
