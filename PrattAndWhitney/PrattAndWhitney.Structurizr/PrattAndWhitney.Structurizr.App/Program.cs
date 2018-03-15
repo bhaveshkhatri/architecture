@@ -44,7 +44,8 @@ namespace PrattAndWhitney.Structurizr.App
             var eagleDataSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Eagle Data", "TBD.");
             invoiceTransactionSoftwareSystem.Uses(eagleDataSoftwareSystem, "TBD");
 
-            var workScopingSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Workscoping Tool", "TBD.");
+            var workScopingSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "New Workscoping Tool", "TBD.");
+            workScopingSoftwareSystem.AddTags(AdditionalTags.FutureState);
             invoiceTransactionSoftwareSystem.Uses(workScopingSoftwareSystem, "TBD");
 
             var odinSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "ODIN", "Allocation tool. ");
