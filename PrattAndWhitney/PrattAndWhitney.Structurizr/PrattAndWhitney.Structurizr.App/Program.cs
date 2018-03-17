@@ -39,8 +39,11 @@ namespace PrattAndWhitney.Structurizr.App
             // Software Systems
 
             var invoiceTransactionSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Invoice Transaction System", "Invoice Transaction System.");
-            invoiceTransactionSoftwareSystem.AddTags(AdditionalTags.ViewSubject);
+            invoiceTransactionSoftwareSystem.AddTags(AdditionalTags.TargetSystem);
             prattInvoiceAnalyst.Uses(invoiceTransactionSoftwareSystem, "Uses");
+
+            var infrastructureServicesSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Infrastructure Services Software System", "Message Broker / Cache / Notification Hub.");
+            infrastructureServicesSoftwareSystem.AddTags(AdditionalTags.InfrastructureServices);
 
             var eagleDataSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Eagle Data", "TBD.");
             invoiceTransactionSoftwareSystem.Uses(eagleDataSoftwareSystem, "TBD");
@@ -92,27 +95,36 @@ namespace PrattAndWhitney.Structurizr.App
 
 
             var asoSoftwareSystem = model.AddSoftwareSystem(Location.Unspecified, "ASO", "TBD - Davinia says it's sort of a replacement for AIM.");
-            
+
             // Containers
 
-            var invoiceTransactionSystemWebClientContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System Web Client", "The Invoice Transactions System Web Client.", "TBD");
+
+            var infrastructureServicesMessageBrokerContainer = infrastructureServicesSoftwareSystem.AddContainer("Message Broker", "The Invoice Transactions System Message Broker.", "TBD");
+            infrastructureServicesMessageBrokerContainer.AddTags(AdditionalTags.MessageBroker);
+
+            var infrastructureServicesDataCacheContainer = infrastructureServicesSoftwareSystem.AddContainer("Data Cache", "The Invoice Transactions System  Data Cache.", "TBD");
+            infrastructureServicesDataCacheContainer.AddTags(AdditionalTags.Cache);
+
+
+            var invoiceTransactionSystemWebClientContainer = invoiceTransactionSoftwareSystem.AddContainer("Web Client", "The Invoice Transactions System Web Client.", "TBD");
             prattInvoiceAnalyst.Uses(invoiceTransactionSystemWebClientContainer, "Uses", "Web Browser");
 
-            var invoiceTransactionSystemWebBackendContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System Web Backend", "The Invoice Transactions System Web Backend.", "TBD");
+            var invoiceTransactionSystemWebBackendContainer = invoiceTransactionSoftwareSystem.AddContainer("Web Backend", "The Invoice Transactions System Web Backend.", "TBD");
+            invoiceTransactionSystemWebClientContainer.Uses(invoiceTransactionSystemWebBackendContainer, "Load", "HTTPS");
             prattInvoiceAnalyst.Uses(invoiceTransactionSystemWebBackendContainer, "Uses", "HTTPS");
 
-            var invoiceTransactionSystemAppServiceContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System App Service", "The Invoice Transactions System App Service.", "TBD");
-            invoiceTransactionSystemWebClientContainer.Uses(invoiceTransactionSystemAppServiceContainer, "Uses", "HTTPS");
-            invoiceTransactionSystemWebBackendContainer.Uses(invoiceTransactionSystemAppServiceContainer, "Uses", "HTTPS");
+            var invoiceTransactionSystemApiServiceContainer = invoiceTransactionSoftwareSystem.AddMicroserviceContainer("API Service", "The Invoice Transactions System API Service.", "TBD");
+            invoiceTransactionSystemWebClientContainer.Uses(invoiceTransactionSystemApiServiceContainer, "Uses", "HTTPS");
+            invoiceTransactionSystemWebBackendContainer.Uses(invoiceTransactionSystemApiServiceContainer, "Uses", "HTTPS");
             
-            var invoiceTransactionSystemMessageBrokerContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System Message Broker", "The Invoice Transactions System Message Broker.", "TBD");
-            invoiceTransactionSystemMessageBrokerContainer.AddTags(AdditionalTags.Queue);
-            invoiceTransactionSystemAppServiceContainer.Uses(invoiceTransactionSystemMessageBrokerContainer, "Uses", "TBD - HTTP/AMQP");
-            
-            var invoiceTransactionSystemDataServiceContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions Data Service", "The Invoice Transactions System Data Service.", "TBD");
-            invoiceTransactionSystemMessageBrokerContainer.Uses(invoiceTransactionSystemDataServiceContainer, "Uses", "TBD");
+            var invoiceTransactionSystemWorkflowServiceContainer = invoiceTransactionSoftwareSystem.AddMicroserviceContainer("Workflow Service", "The Invoice Transactions System Workflow Service.");
+            var invoiceTransactionSystemLoadInvoiceServiceContainer = invoiceTransactionSoftwareSystem.AddMicroserviceContainer("Load Invoice Service", "The Invoice Transactions System Load Invoice Service.");
+            var invoiceTransactionSystemExportServiceContainer = invoiceTransactionSoftwareSystem.AddMicroserviceContainer("Export Service", "The Invoice Transactions System Export Service.");
 
-            var invoiceTransactionSystemOperationalDatabaseContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System Operational DB", "The Invoice Transactions System Operational Database.", "TBD");
+            var invoiceTransactionSystemDataServiceContainer = invoiceTransactionSoftwareSystem.AddContainer("Data Service", "The Invoice Transactions System Data Service.", "TBD");
+            infrastructureServicesSoftwareSystem.Uses(invoiceTransactionSystemDataServiceContainer, "Uses", "TBD");
+
+            var invoiceTransactionSystemOperationalDatabaseContainer = invoiceTransactionSoftwareSystem.AddContainer("Operational DB", "The Invoice Transactions System Operational Database.", "TBD");
             invoiceTransactionSystemOperationalDatabaseContainer.AddTags(AdditionalTags.Database);
             invoiceTransactionSystemDataServiceContainer.Uses(invoiceTransactionSystemOperationalDatabaseContainer, "TBD");
 
@@ -137,6 +149,8 @@ namespace PrattAndWhitney.Structurizr.App
             // Container Views
 
             views.CreateContainerViewFor(invoiceTransactionSoftwareSystem, PaperSize.A3_Landscape);
+
+            views.CreateContainerViewFor(infrastructureServicesSoftwareSystem, PaperSize.A3_Landscape);
 
             // Component Views
 

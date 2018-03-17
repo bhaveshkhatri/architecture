@@ -3,11 +3,11 @@
 
     public static class AdditionalTags
     {
-        public static string ViewSubject
+        public static string TargetSystem
         {
             get
             {
-                return "View Subject";
+                return "Target System";
             }
         }
 
@@ -35,27 +35,27 @@
             }
         }
 
-        public static string Queue
+        public static string MessageBroker
         {
             get
             {
-                return "Queue";
+                return "Message Broker";
             }
         }
 
-        public static string ApiService
+        public static string Microservice
         {
             get
             {
-                return "API Service";
+                return "Microservice";
             }
         }
 
-        public static string PlatformApplication
+        public static string ClientApplication
         {
             get
             {
-                return "Platform Application";
+                return "Client Application";
             }
         }
 
@@ -72,6 +72,22 @@
             get
             {
                 return "Current But Not Recommended";
+            }
+        }
+
+        public static string Cache
+        {
+            get
+            {
+                return "Cache";
+            }
+        }
+
+        public static string InfrastructureServices
+        {
+            get
+            {
+                return "Infrastructure Services";
             }
         }
     }

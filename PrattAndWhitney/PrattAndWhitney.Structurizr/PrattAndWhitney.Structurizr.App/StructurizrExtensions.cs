@@ -1,4 +1,5 @@
 ﻿using Structurizr;
+using System.Linq;
 
 namespace PrattAndWhitney.Structurizr.App
 {
@@ -9,17 +10,20 @@ namespace PrattAndWhitney.Structurizr.App
             var descriptionToUse = string.IsNullOrWhiteSpace(description) ? string.Format("{0}.", name) : description;
             var technologyToUse = string.IsNullOrWhiteSpace(technology) ? "TBD" : technology;
             var container = softwareSystem.AddContainer(name, descriptionToUse, technologyToUse);
-            container.AddTags(AdditionalTags.PlatformApplication);
+            container.AddTags(AdditionalTags.ClientApplication);
 
             return container;
         }
 
-        public static Container AddApiServiceContainer(this SoftwareSystem softwareSystem, string name, string description = "", string technology = "")
+        public static Container AddMicroserviceContainer(this SoftwareSystem softwareSystem, string name, string description = "", string technology = "")
         {
             var descriptionToUse = string.IsNullOrWhiteSpace(description) ? string.Format("{0}.", name) : description;
             var technologyToUse = string.IsNullOrWhiteSpace(technology) ? "TBD" : technology;
             var container = softwareSystem.AddContainer(name, descriptionToUse, technologyToUse);
-            container.AddTags(AdditionalTags.ApiService);
+            container.AddTags(AdditionalTags.Microservice);
+
+            var infrastructureServices = softwareSystem.Model.SoftwareSystems.Single(x => x.Tags.Contains(AdditionalTags.InfrastructureServices));
+            container.Uses(infrastructureServices, "Uses");
 
             return container;
         }
@@ -100,7 +104,7 @@ namespace PrattAndWhitney.Structurizr.App
             styles.Add(new ElementStyle(AdditionalTags.FutureState) { Border = Border.Dashed, Background = "#3cb371" });
             styles.Add(new ElementStyle(AdditionalTags.SunsetPhaseOut) { Border = Border.Dashed, Background = "#ff8c00" });
             styles.Add(new ElementStyle(AdditionalTags.Database) { Shape = Shape.Cylinder });
-            styles.Add(new ElementStyle(AdditionalTags.Queue) { Shape = Shape.Pipe });
+            styles.Add(new ElementStyle(AdditionalTags.MessageBroker) { Shape = Shape.Pipe, Height = 300, Width = 750 });
 
             styles.Add(new RelationshipStyle(AdditionalTags.PotentiallyUsedRelation) { Color = "#ee7600" });
             styles.Add(new RelationshipStyle(AdditionalTags.CurrentButNotRecommendedRelation) { Color = "#ff0000" });
