@@ -1,7 +1,6 @@
 ﻿using Structurizr;
 using Structurizr.Api;
 using System.Configuration;
-using System.Linq;
 
 namespace PrattAndWhitney.Structurizr.App
 {
@@ -44,6 +43,7 @@ namespace PrattAndWhitney.Structurizr.App
 
             var infrastructureServicesSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Infrastructure Services", "Message Broker / Cache / Notification Hub.");
             infrastructureServicesSoftwareSystem.AddTags(AdditionalTags.InfrastructureServices);
+            infrastructureServicesSoftwareSystem.AddTags(AdditionalTags.Subsystem);
 
             // Consumers/Downstream Software Systems
 
@@ -137,10 +137,6 @@ namespace PrattAndWhitney.Structurizr.App
 
             var dataServiceContainer = invoiceTransactionsSoftwareSystem.AddContainer("Data Service", "The Invoice Transactions System Data Service.", "TBD");
             infrastructureServicesSoftwareSystem.Uses(dataServiceContainer, "Uses", "TBD");
-
-            var operationalDatabaseContainer = invoiceTransactionsSoftwareSystem.AddContainer("Operational Database", "The Invoice Transactions System Operational Database.", "TBD");
-            operationalDatabaseContainer.AddTags(AdditionalTags.Database);
-            dataServiceContainer.Uses(operationalDatabaseContainer, "TBD");
 
             // Microservice Containers
 

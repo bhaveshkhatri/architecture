@@ -5,16 +5,6 @@ namespace PrattAndWhitney.Structurizr.App
 {
     public static class StructurizrExtensions
     {
-        public static Container AddPlatformApplicationContainer(this SoftwareSystem softwareSystem, string name, string description = "", string technology = "")
-        {
-            var descriptionToUse = string.IsNullOrWhiteSpace(description) ? string.Format("{0}.", name) : description;
-            var technologyToUse = string.IsNullOrWhiteSpace(technology) ? "TBD" : technology;
-            var container = softwareSystem.AddContainer(name, descriptionToUse, technologyToUse);
-            container.AddTags(AdditionalTags.ClientApplication);
-
-            return container;
-        }
-
         public static Container AddMicroserviceContainer(this SoftwareSystem softwareSystem, string name, string description = "", string technology = "")
         {
             var descriptionToUse = string.IsNullOrWhiteSpace(description) ? string.Format("{0}.", name) : description;
@@ -32,7 +22,12 @@ namespace PrattAndWhitney.Structurizr.App
         {
             var enterpriseName = enterprise.Name;
             var systemLandscapeEnterpriseContextView = views.CreateEnterpriseContextView(string.Format("{0} Enterprise Context", enterpriseName), string.Format("The system landscape diagram for {0}.", enterpriseName));
-            systemLandscapeEnterpriseContextView.AddAllElements();
+            systemLandscapeEnterpriseContextView.AddAllSoftwareSystems();
+            var subsystems = views.Model.SoftwareSystems.Where(x => x.Tags.Contains(AdditionalTags.Subsystem));
+            foreach (var subsystem in subsystems)
+            {
+                systemLandscapeEnterpriseContextView.Remove(subsystem);
+            }
             systemLandscapeEnterpriseContextView.PaperSize = paperSize;
         }
 
@@ -46,6 +41,11 @@ namespace PrattAndWhitney.Structurizr.App
             var softwareSystemName = softwareSystem.Name;
             var softwareSystemContextView = views.CreateSystemContextView(softwareSystem, string.Format("{0} System Context", softwareSystemName), string.Format("The system context for {0}.", softwareSystemName));
             softwareSystemContextView.AddNearestNeighbours(softwareSystem);
+            var subsystems = views.Model.SoftwareSystems.Where(x => x.Tags.Contains(AdditionalTags.Subsystem));
+            foreach (var subsystem in subsystems)
+            {
+                softwareSystemContextView.Remove(subsystem);
+            }
             softwareSystemContextView.PaperSize = paperSize;
         }
 

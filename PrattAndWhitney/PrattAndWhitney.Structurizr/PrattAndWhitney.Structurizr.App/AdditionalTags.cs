@@ -10,6 +10,13 @@
                 return "Target System";
             }
         }
+        public static string Subsystem
+        {
+            get
+            {
+                return "Subsystem";
+            }
+        }
 
         public static string FutureState
         {
@@ -48,14 +55,6 @@
             get
             {
                 return "Microservice";
-            }
-        }
-
-        public static string ClientApplication
-        {
-            get
-            {
-                return "Client Application";
             }
         }
 
