@@ -131,9 +131,9 @@ namespace PrattAndWhitney.Structurizr.App
             webClientContainer.Uses(webBackendContainer, "Load", "HTTPS");
             invoiceAnalyst.Uses(webBackendContainer, "Uses", "HTTPS");
 
-            var apiServiceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("API Service", "The Invoice Transactions System API Service.", "TBD");
-            webClientContainer.Uses(apiServiceContainer, "Uses", "HTTPS");
-            webBackendContainer.Uses(apiServiceContainer, "Uses", "HTTPS");
+            var apiGatewayServiceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("API Gateway Service", "The Invoice Transactions System API Gateway Service.", "TBD");
+            webClientContainer.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
+            webBackendContainer.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
 
             var dataServiceContainer = invoiceTransactionsSoftwareSystem.AddContainer("Data Service", "The Invoice Transactions System Data Service.", "TBD");
             infrastructureServicesSoftwareSystem.Uses(dataServiceContainer, "Uses", "TBD");
