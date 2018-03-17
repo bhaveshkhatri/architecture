@@ -80,6 +80,9 @@ namespace PrattAndWhitney.Structurizr.App
 
             // Producers/Upstream Software Systems
 
+            var activeDirectory = model.AddSoftwareSystem(Location.Internal, "Active Directory", "Active Directory");
+            invoiceTransactionsSoftwareSystem.Uses(activeDirectory, "LDAP");
+
             var eagleDataSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Eagle Data", "TBD.");
             eagleDataSoftwareSystem.AddProperty(Properties.KeyContact, "TBD");
             invoiceTransactionsSoftwareSystem.Uses(eagleDataSoftwareSystem, "TBD");
@@ -136,6 +139,7 @@ namespace PrattAndWhitney.Structurizr.App
             webBackendContainer.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
 
             var dataServiceContainer = invoiceTransactionsSoftwareSystem.AddContainer("Data Service", "The Invoice Transactions System Data Service.", "TBD");
+            dataServiceContainer.Uses(sharePointSoftwareSystem, "Uses", "TBD");
             infrastructureServicesSoftwareSystem.Uses(dataServiceContainer, "Uses", "TBD");
 
             // Microservice Containers
@@ -145,6 +149,7 @@ namespace PrattAndWhitney.Structurizr.App
             var exportMicroserviceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("Export Microservice", "The Invoice Transactions System Export Service.");
             var emailMicroserviceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("Email Microservice", "The Invoice Transactions System Email Service.");
             var membershipMicroserviceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("Membership Microservice", "The Invoice Transactions System Membership Service.");
+            membershipMicroserviceContainer.Uses(activeDirectory, "Uses", "TBD");
             var translationMicroserviceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("Translation Microservice", "TBD.");
 
             // Components
