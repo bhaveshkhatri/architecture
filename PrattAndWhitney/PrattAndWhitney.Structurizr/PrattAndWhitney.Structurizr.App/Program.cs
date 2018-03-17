@@ -33,108 +33,123 @@ namespace PrattAndWhitney.Structurizr.App
             var enterprise = model.Enterprise = new Enterprise("Pratt & Whitney");
 
             // Users
-            var prattInvoiceAnalyst = model.AddPerson(Location.Internal, "Invoice Analyst", "TBD.");
+            var invoiceAnalyst = model.AddPerson(Location.Internal, "Invoice Analyst", "TBD.");
             var shopUser = model.AddPerson(Location.External, "Shop User", "TBD.");
 
             // Software Systems
 
-            var invoiceTransactionSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Invoice Transaction System", "Invoice Transaction System.");
+            var invoiceTransactionSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "ITS", "Invoice Transaction System.");
             invoiceTransactionSoftwareSystem.AddTags(AdditionalTags.TargetSystem);
-            prattInvoiceAnalyst.Uses(invoiceTransactionSoftwareSystem, "Uses");
+            invoiceAnalyst.Uses(invoiceTransactionSoftwareSystem, "Uses");
 
-            var infrastructureServicesSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Infrastructure Services Software System", "Message Broker / Cache / Notification Hub.");
+            var infrastructureServicesSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Infrastructure Services", "Message Broker / Cache / Notification Hub.");
             infrastructureServicesSoftwareSystem.AddTags(AdditionalTags.InfrastructureServices);
 
             var eagleDataSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Eagle Data", "TBD.");
+            eagleDataSoftwareSystem.AddProperty(Properties.KeyContact, "TBD");
             invoiceTransactionSoftwareSystem.Uses(eagleDataSoftwareSystem, "TBD");
 
             var workScopingSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "New Workscoping Tool", "TBD.");
+            workScopingSoftwareSystem.AddProperty(Properties.KeyContact, "TBD");
             workScopingSoftwareSystem.AddTags(AdditionalTags.FutureState);
             invoiceTransactionSoftwareSystem.Uses(workScopingSoftwareSystem, "TBD");
 
             var odinSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "ODIN", "Allocation tool. ");
+            odinSoftwareSystem.AddProperty(Properties.KeyContact, "TBD");
             invoiceTransactionSoftwareSystem.Uses(odinSoftwareSystem, "TBD - Uses Access DB");
 
             var sapSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SAP", "SAP implementation (master data).");
+            sapSoftwareSystem.AddProperty(Properties.KeyContact, "TBD");
             invoiceTransactionSoftwareSystem.Uses(sapSoftwareSystem, "TBD");
 
             var speidSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SPEID", "Contract information. ");
+            speidSoftwareSystem.AddProperty(Properties.KeyContact, "TBD");
             invoiceTransactionSoftwareSystem.Uses(speidSoftwareSystem, "TBD");
 
             var fleetcareSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Fleetcare", "Customer Invoices");
+            fleetcareSoftwareSystem.AddProperty(Properties.KeyContact, "TBD");
             invoiceTransactionSoftwareSystem.Uses(fleetcareSoftwareSystem, "TBD");
 
             var sharePointSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SharePoint", "TBD.");
+            sharePointSoftwareSystem.AddProperty(Properties.KeyContact, "TBD");
             invoiceTransactionSoftwareSystem.Uses(sharePointSoftwareSystem, "TBD");
 
 
 
-            var costManagementMetricsSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Cost Management Metrics", "TBD (Dafina Georgievska/Matt Wentworth).");
+            var costManagementMetricsSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Cost Management Metrics", "TBD.");
+            costManagementMetricsSoftwareSystem.AddProperty(Properties.KeyContact, "Dafina Georgievska/Matt Wentworth");
             costManagementMetricsSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
             var spidrsSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "SPIDRS", "TBD - Financial Accounting.");
             spidrsSoftwareSystem.AddProperty(Properties.KeyContact, "Mike Faulk – Tsunami Tsolutions");
             spidrsSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
-            var quoteErrorToolSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Quote Tool / Error Tool", "This is temporary as these");
-            quoteErrorToolSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD - Kim's tool?");
+            var quoteErrorToolSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Quote Tool / Error Tool", "This is temporary");
+            quoteErrorToolSoftwareSystem.AddProperty(Properties.KeyContact, "Kim Rose");
+            quoteErrorToolSoftwareSystem.AddTags(AdditionalTags.SunsetPhaseOut);
+            quoteErrorToolSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
             var teradataSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Teradata", "TBD.");
+            teradataSoftwareSystem.AddProperty(Properties.KeyContact, "TBD");
             teradataSoftwareSystem.AddTags(AdditionalTags.SunsetPhaseOut);
             teradataSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
-            var w2CDownstreamSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "W2C", "TBD (Chandra Kankanala) – future state.");
+            var w2CDownstreamSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "W2C", "TBD");
+            w2CDownstreamSoftwareSystem.AddProperty(Properties.KeyContact, "Chandra Kankanala");
             w2CDownstreamSoftwareSystem.AddTags(AdditionalTags.FutureState);
             w2CDownstreamSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
             var allocationReportSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Allocation Report ($)", "TBD.");
+            allocationReportSoftwareSystem.AddProperty(Properties.KeyContact, "TBD");
             allocationReportSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
             var fleetManagementDashboardSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Fleet Management Dashboard", "TBD.");
+            fleetManagementDashboardSoftwareSystem.AddProperty(Properties.KeyContact, "TBD");
             fleetManagementDashboardSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
 
             var asoSoftwareSystem = model.AddSoftwareSystem(Location.Unspecified, "ASO", "TBD - Davinia says it's sort of a replacement for AIM.");
+            fleetManagementDashboardSoftwareSystem.AddProperty(Properties.KeyContact, "TBD");
 
             // Containers
 
 
-            var infrastructureServicesMessageBrokerContainer = infrastructureServicesSoftwareSystem.AddContainer("Message Broker", "The Invoice Transactions System Message Broker.", "TBD");
-            infrastructureServicesMessageBrokerContainer.AddTags(AdditionalTags.MessageBroker);
+            var messageBrokerContainer = infrastructureServicesSoftwareSystem.AddContainer("Message Broker", "The Invoice Transactions System Message Broker.", "TBD");
+            messageBrokerContainer.AddTags(AdditionalTags.MessageBroker);
 
-            var infrastructureServicesDataCacheContainer = infrastructureServicesSoftwareSystem.AddContainer("Data Cache", "The Invoice Transactions System  Data Cache.", "TBD");
-            infrastructureServicesDataCacheContainer.AddTags(AdditionalTags.Cache);
+            var dataCacheContainer = infrastructureServicesSoftwareSystem.AddContainer("Data Cache", "The Invoice Transactions System  Data Cache.", "TBD");
+            dataCacheContainer.AddTags(AdditionalTags.Cache);
 
 
-            var invoiceTransactionSystemWebClientContainer = invoiceTransactionSoftwareSystem.AddContainer("Web Client", "The Invoice Transactions System Web Client.", "TBD");
-            prattInvoiceAnalyst.Uses(invoiceTransactionSystemWebClientContainer, "Uses", "Web Browser");
+            var webClientContainer = invoiceTransactionSoftwareSystem.AddContainer("Web Client", "The Invoice Transactions System Web Client.", "TBD");
+            invoiceAnalyst.Uses(webClientContainer, "Uses", "Web Browser");
 
-            var invoiceTransactionSystemWebBackendContainer = invoiceTransactionSoftwareSystem.AddContainer("Web Backend", "The Invoice Transactions System Web Backend.", "TBD");
-            invoiceTransactionSystemWebClientContainer.Uses(invoiceTransactionSystemWebBackendContainer, "Load", "HTTPS");
-            prattInvoiceAnalyst.Uses(invoiceTransactionSystemWebBackendContainer, "Uses", "HTTPS");
+            var webBackendContainer = invoiceTransactionSoftwareSystem.AddContainer("Web Backend", "The Invoice Transactions System Web Backend.", "TBD");
+            webClientContainer.Uses(webBackendContainer, "Load", "HTTPS");
+            invoiceAnalyst.Uses(webBackendContainer, "Uses", "HTTPS");
 
-            var invoiceTransactionSystemApiServiceContainer = invoiceTransactionSoftwareSystem.AddMicroserviceContainer("API Service", "The Invoice Transactions System API Service.", "TBD");
-            invoiceTransactionSystemWebClientContainer.Uses(invoiceTransactionSystemApiServiceContainer, "Uses", "HTTPS");
-            invoiceTransactionSystemWebBackendContainer.Uses(invoiceTransactionSystemApiServiceContainer, "Uses", "HTTPS");
+            var apiServiceContainer = invoiceTransactionSoftwareSystem.AddMicroserviceContainer("API Service", "The Invoice Transactions System API Service.", "TBD");
+            webClientContainer.Uses(apiServiceContainer, "Uses", "HTTPS");
+            webBackendContainer.Uses(apiServiceContainer, "Uses", "HTTPS");
             
-            var invoiceTransactionSystemWorkflowServiceContainer = invoiceTransactionSoftwareSystem.AddMicroserviceContainer("Workflow Service", "The Invoice Transactions System Workflow Service.");
-            var invoiceTransactionSystemLoadInvoiceServiceContainer = invoiceTransactionSoftwareSystem.AddMicroserviceContainer("Load Invoice Service", "The Invoice Transactions System Load Invoice Service.");
-            var invoiceTransactionSystemExportServiceContainer = invoiceTransactionSoftwareSystem.AddMicroserviceContainer("Export Service", "The Invoice Transactions System Export Service.");
+            var workflowMicroserviceContainer = invoiceTransactionSoftwareSystem.AddMicroserviceContainer("Workflow Microservice", "The Invoice Transactions System Workflow Service.");
+            var loadInvoiceMicroserviceContainer = invoiceTransactionSoftwareSystem.AddMicroserviceContainer("Load Invoice Microservice", "The Invoice Transactions System Load Invoice Service.");
+            var exportMicroserviceContainer = invoiceTransactionSoftwareSystem.AddMicroserviceContainer("Export Microservice", "The Invoice Transactions System Export Service.");
 
-            var invoiceTransactionSystemDataServiceContainer = invoiceTransactionSoftwareSystem.AddContainer("Data Service", "The Invoice Transactions System Data Service.", "TBD");
-            infrastructureServicesSoftwareSystem.Uses(invoiceTransactionSystemDataServiceContainer, "Uses", "TBD");
+            var dataServiceContainer = invoiceTransactionSoftwareSystem.AddContainer("Data Service", "The Invoice Transactions System Data Service.", "TBD");
+            infrastructureServicesSoftwareSystem.Uses(dataServiceContainer, "Uses", "TBD");
 
-            var invoiceTransactionSystemOperationalDatabaseContainer = invoiceTransactionSoftwareSystem.AddContainer("Operational DB", "The Invoice Transactions System Operational Database.", "TBD");
-            invoiceTransactionSystemOperationalDatabaseContainer.AddTags(AdditionalTags.Database);
-            invoiceTransactionSystemDataServiceContainer.Uses(invoiceTransactionSystemOperationalDatabaseContainer, "TBD");
+            var operationalDatabaseContainer = invoiceTransactionSoftwareSystem.AddContainer("Operational Database", "The Invoice Transactions System Operational Database.", "TBD");
+            operationalDatabaseContainer.AddTags(AdditionalTags.Database);
+            dataServiceContainer.Uses(operationalDatabaseContainer, "TBD");
 
             // Components
 
-            var invoiceTransactionSystemAdminViewComponent = invoiceTransactionSystemWebClientContainer.AddComponent("Admin View", "Used by administrators of the Invoice Transaction System.", "TBD");
-            prattInvoiceAnalyst.Uses(invoiceTransactionSystemAdminViewComponent, "Uses", "TBD.");
+            var webClientAdminViewComponent = webClientContainer.AddComponent("Admin View", "Used by administrators of the Invoice Transaction System.", "TBD");
+            invoiceAnalyst.Uses(webClientAdminViewComponent, "Uses", "TBD.");
 
-            var invoiceTransactionSystemAdminControllerComponent = invoiceTransactionSystemWebClientContainer.AddComponent("Admin Controller", "Used by administrators of the Invoice Transaction System.", "TBD");
-            invoiceTransactionSystemAdminViewComponent.Uses(invoiceTransactionSystemAdminControllerComponent, "Respond to actions and manage state");
+            var webClientAdminControllerComponent = webClientContainer.AddComponent("Admin Controller", "Used by administrators of the Invoice Transaction System.", "TBD");
+            webClientAdminViewComponent.Uses(webClientAdminControllerComponent, "Respond to actions and manage state");
 
             // Views 
 
@@ -154,7 +169,7 @@ namespace PrattAndWhitney.Structurizr.App
 
             // Component Views
 
-            views.CreateComponentViewFor(invoiceTransactionSystemWebClientContainer);
+            views.CreateComponentViewFor(webClientContainer);
 
             // Styles
 
