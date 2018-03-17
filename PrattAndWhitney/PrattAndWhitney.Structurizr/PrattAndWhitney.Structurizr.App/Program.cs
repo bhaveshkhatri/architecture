@@ -33,13 +33,14 @@ namespace PrattAndWhitney.Structurizr.App
             var enterprise = model.Enterprise = new Enterprise("Pratt & Whitney");
 
             // Users
-            var prattAnalyst = model.AddPerson(Location.Internal, "Analyst", "TBD.");
+            var prattInvoiceAnalyst = model.AddPerson(Location.Internal, "Invoice Analyst", "TBD.");
+            var shopUser = model.AddPerson(Location.External, "Shop User", "TBD.");
 
             // Software Systems
 
             var invoiceTransactionSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Invoice Transaction System", "Invoice Transaction System.");
             invoiceTransactionSoftwareSystem.AddTags(AdditionalTags.ViewSubject);
-            prattAnalyst.Uses(invoiceTransactionSoftwareSystem, "Uses");
+            prattInvoiceAnalyst.Uses(invoiceTransactionSoftwareSystem, "Uses");
 
             var eagleDataSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Eagle Data", "TBD.");
             invoiceTransactionSoftwareSystem.Uses(eagleDataSoftwareSystem, "TBD");
@@ -73,7 +74,7 @@ namespace PrattAndWhitney.Structurizr.App
             spidrsSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
 
             var quoteErrorToolSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Quote Tool / Error Tool", "This is temporary as these");
-            quoteErrorToolSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD");
+            quoteErrorToolSoftwareSystem.Uses(invoiceTransactionSoftwareSystem, "TBD - Kim's tool?");
 
             var teradataSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Teradata", "TBD.");
             teradataSoftwareSystem.AddTags(AdditionalTags.SunsetPhaseOut);
@@ -94,20 +95,33 @@ namespace PrattAndWhitney.Structurizr.App
             
             // Containers
 
-            var invoiceTransactionSystemFrontendContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System Web", "The Invoice Transactions System Web Application.", "TBD");
-            prattAnalyst.Uses(invoiceTransactionSystemFrontendContainer, "Uses", "Web Browser");
+            var invoiceTransactionSystemWebClientContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System Web Client", "The Invoice Transactions System Web Client.", "TBD");
+            prattInvoiceAnalyst.Uses(invoiceTransactionSystemWebClientContainer, "Uses", "Web Browser");
 
+            var invoiceTransactionSystemWebBackendContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System Web Backend", "The Invoice Transactions System Web Backend.", "TBD");
+            prattInvoiceAnalyst.Uses(invoiceTransactionSystemWebBackendContainer, "Uses", "HTTPS");
+
+            var invoiceTransactionSystemAppServiceContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System App Service", "The Invoice Transactions System App Service.", "TBD");
+            invoiceTransactionSystemWebClientContainer.Uses(invoiceTransactionSystemAppServiceContainer, "Uses", "HTTPS");
+            invoiceTransactionSystemWebBackendContainer.Uses(invoiceTransactionSystemAppServiceContainer, "Uses", "HTTPS");
+            
+            var invoiceTransactionSystemMessageBrokerContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System Message Broker", "The Invoice Transactions System Message Broker.", "TBD");
+            invoiceTransactionSystemMessageBrokerContainer.AddTags(AdditionalTags.Queue);
+            invoiceTransactionSystemAppServiceContainer.Uses(invoiceTransactionSystemMessageBrokerContainer, "Uses", "TBD - HTTP/AMQP");
+            
+            var invoiceTransactionSystemDataServiceContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions Data Service", "The Invoice Transactions System Data Service.", "TBD");
+            invoiceTransactionSystemMessageBrokerContainer.Uses(invoiceTransactionSystemDataServiceContainer, "Uses", "TBD");
 
             var invoiceTransactionSystemOperationalDatabaseContainer = invoiceTransactionSoftwareSystem.AddContainer("Invoice Transactions System Operational DB", "The Invoice Transactions System Operational Database.", "TBD");
             invoiceTransactionSystemOperationalDatabaseContainer.AddTags(AdditionalTags.Database);
-            invoiceTransactionSystemFrontendContainer.Uses(invoiceTransactionSystemOperationalDatabaseContainer, "TBD");
+            invoiceTransactionSystemDataServiceContainer.Uses(invoiceTransactionSystemOperationalDatabaseContainer, "TBD");
 
             // Components
 
-            var invoiceTransactionSystemAdminViewComponent = invoiceTransactionSystemFrontendContainer.AddComponent("Admin View", "Used by administrators of the Invoice Transaction System.", "TBD");
-            prattAnalyst.Uses(invoiceTransactionSystemAdminViewComponent, "Uses", "TBD.");
+            var invoiceTransactionSystemAdminViewComponent = invoiceTransactionSystemWebClientContainer.AddComponent("Admin View", "Used by administrators of the Invoice Transaction System.", "TBD");
+            prattInvoiceAnalyst.Uses(invoiceTransactionSystemAdminViewComponent, "Uses", "TBD.");
 
-            var invoiceTransactionSystemAdminControllerComponent = invoiceTransactionSystemFrontendContainer.AddComponent("Admin Controller", "Used by administrators of the Invoice Transaction System.", "TBD");
+            var invoiceTransactionSystemAdminControllerComponent = invoiceTransactionSystemWebClientContainer.AddComponent("Admin Controller", "Used by administrators of the Invoice Transaction System.", "TBD");
             invoiceTransactionSystemAdminViewComponent.Uses(invoiceTransactionSystemAdminControllerComponent, "Respond to actions and manage state");
 
             // Views 
@@ -122,11 +136,11 @@ namespace PrattAndWhitney.Structurizr.App
 
             // Container Views
 
-            views.CreateContainerViewFor(invoiceTransactionSoftwareSystem);
+            views.CreateContainerViewFor(invoiceTransactionSoftwareSystem, PaperSize.A3_Landscape);
 
             // Component Views
 
-            views.CreateComponentViewFor(invoiceTransactionSystemFrontendContainer);
+            views.CreateComponentViewFor(invoiceTransactionSystemWebClientContainer);
 
             // Styles
 
