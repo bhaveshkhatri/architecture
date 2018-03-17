@@ -33,6 +33,13 @@ namespace PrattAndWhitney.Structurizr.App
 
             // Users
             var invoiceAnalyst = model.AddPerson(Location.Internal, "Invoice Analyst", "TBD.");
+            var invoiceManager = model.AddPerson(Location.Internal, "Invoice Manager", "TBD.");
+            var fleetManager = model.AddPerson(Location.Internal, "Fleet Manager", "TBD.");
+            var financeUser= model.AddPerson(Location.Internal, "Finance User", "TBD.");
+            var costsUser = model.AddPerson(Location.Internal, "Costs User", "TBD.");
+            var toolSupport = model.AddPerson(Location.Internal, "Tool Support", "TBD.");
+            var powerPlantEngineer = model.AddPerson(Location.External, "Power Plant Engineer", "TBD.");
+            var onSiteManager = model.AddPerson(Location.External, "On-Site Manager", "TBD.");
             var shopUser = model.AddPerson(Location.External, "Shop User", "TBD.");
 
             // Target Software Systems
@@ -40,6 +47,9 @@ namespace PrattAndWhitney.Structurizr.App
             var invoiceTransactionsSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "ITS", "Invoice Transaction System.");
             invoiceTransactionsSoftwareSystem.AddTags(AdditionalTags.TargetSystem);
             invoiceAnalyst.Uses(invoiceTransactionsSoftwareSystem, "Uses");
+            invoiceManager.Uses(invoiceTransactionsSoftwareSystem, "Uses");
+            toolSupport.Uses(invoiceTransactionsSoftwareSystem, "Uses");
+            shopUser.Uses(invoiceTransactionsSoftwareSystem, "Uses");
 
             var infrastructureServicesSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Infrastructure Services", "Message Broker / Cache / Notification Hub.");
             infrastructureServicesSoftwareSystem.AddTags(AdditionalTags.InfrastructureServices);
@@ -129,12 +139,15 @@ namespace PrattAndWhitney.Structurizr.App
 
             var webClientContainer = invoiceTransactionsSoftwareSystem.AddContainer("Web Client", "The Invoice Transactions System Web Client.", "TBD");
             invoiceAnalyst.Uses(webClientContainer, "Uses", "Web Browser");
+            invoiceManager.Uses(webClientContainer, "Uses", "Web Browser");
+            toolSupport.Uses(webClientContainer, "Uses", "Web Browser");
+            shopUser.Uses(webClientContainer, "Uses", "Web Browser");
 
             var webBackendContainer = invoiceTransactionsSoftwareSystem.AddContainer("Web Backend", "The Invoice Transactions System Web Backend.", "TBD");
             webClientContainer.Uses(webBackendContainer, "Load", "HTTPS");
-            invoiceAnalyst.Uses(webBackendContainer, "Uses", "HTTPS");
-
+            
             var apiGatewayServiceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("API Gateway Service", "The Invoice Transactions System API Gateway Service.", "TBD");
+            costManagementMetricsSoftwareSystem.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
             webClientContainer.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
             webBackendContainer.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
 
