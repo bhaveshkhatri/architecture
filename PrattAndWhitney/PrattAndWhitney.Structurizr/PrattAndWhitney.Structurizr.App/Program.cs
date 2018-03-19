@@ -122,6 +122,12 @@ namespace PrattAndWhitney.Structurizr.App
             sharePointSoftwareSystem.AddProperty(Properties.KeyContact, "TBD");
             invoiceTransactionsSoftwareSystem.Uses(sharePointSoftwareSystem, "TBD");
 
+            var fileSystemSoftwareSystem = model.AddSoftwareSystem(Location.Internal, "Filesystem", "TBD.");
+            fileSystemSoftwareSystem.AddTags(AdditionalTags.Subsystem);
+            fileSystemSoftwareSystem.AddTags(AdditionalTags.Files);
+            fileSystemSoftwareSystem.AddProperty(Properties.KeyContact, "TBD");
+            invoiceTransactionsSoftwareSystem.Uses(fileSystemSoftwareSystem, "OS/NAS");
+
             // Other Software Systems
 
             var asoSoftwareSystem = model.AddSoftwareSystem(Location.Unspecified, "ASO", "TBD - Davinia says it's sort of a replacement for AIM.");
@@ -147,12 +153,16 @@ namespace PrattAndWhitney.Structurizr.App
             webClientContainer.Uses(webBackendContainer, "Load", "HTTPS");
             
             var apiGatewayServiceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("API Gateway Service", "The Invoice Transactions System API Gateway Service.", "TBD");
+            apiGatewayServiceContainer.AddTags(AdditionalTags.Gateway);
             costManagementMetricsSoftwareSystem.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
+            spidrsSoftwareSystem.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
+            fleetManagementDashboardSoftwareSystem.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
             webClientContainer.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
             webBackendContainer.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
 
             var dataServiceContainer = invoiceTransactionsSoftwareSystem.AddContainer("Data Service", "The Invoice Transactions System Data Service.", "TBD");
             dataServiceContainer.Uses(sharePointSoftwareSystem, "Uses", "TBD");
+            dataServiceContainer.Uses(fileSystemSoftwareSystem, "Uses", "OS/NAS");
             infrastructureServicesSoftwareSystem.Uses(dataServiceContainer, "Uses", "TBD");
 
             // Microservice Containers

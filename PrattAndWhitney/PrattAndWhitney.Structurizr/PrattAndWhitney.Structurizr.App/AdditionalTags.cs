@@ -89,5 +89,21 @@
                 return "Infrastructure Services";
             }
         }
+
+        public static string Gateway
+        {
+            get
+            {
+                return "Gateway";
+            }
+        }
+
+        public static string Files
+        {
+            get
+            {
+                return "Files";
+            }
+        }
     }
 }
