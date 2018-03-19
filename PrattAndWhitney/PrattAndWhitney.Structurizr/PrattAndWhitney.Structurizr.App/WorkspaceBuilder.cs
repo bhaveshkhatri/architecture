@@ -6,7 +6,7 @@ namespace PrattAndWhitney.Structurizr.App
     {
         public static Workspace Build()
         {
-            var workspace = new Workspace("Pratt & Whitney", "Model of the Wing To Cash System.");
+            var workspace = new Workspace("Pratt & Whitney", "Model of the Invoice Transaction System.");
 
             var model = workspace.Model;
 
