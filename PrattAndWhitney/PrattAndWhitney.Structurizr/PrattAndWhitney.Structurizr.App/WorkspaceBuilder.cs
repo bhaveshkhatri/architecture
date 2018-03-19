@@ -126,22 +126,25 @@ namespace PrattAndWhitney.Structurizr.App
 
             // Invoice Transactions System Containers
 
-            var webClientContainer = invoiceTransactionsSoftwareSystem.AddContainer("Web Client", "The Invoice Transactions System Web Client.", "TBD");
-            invoiceAnalyst.Uses(webClientContainer, "Uses", "Web Browser");
-            invoiceManager.Uses(webClientContainer, "Uses", "Web Browser");
-            toolSupport.Uses(webClientContainer, "Uses", "Web Browser");
-            shopUser.Uses(webClientContainer, "Uses", "Web Browser");
+            var webApplicationContainer = invoiceTransactionsSoftwareSystem.AddContainer("Web Applicatioin", "Delivers the Invoice Transactions System Web Client Single-Page Application.", "TBD");
+            invoiceAnalyst.Uses(webApplicationContainer, "Uses");
+            invoiceManager.Uses(webApplicationContainer, "Uses");
+            toolSupport.Uses(webApplicationContainer, "Uses");
+            shopUser.Uses(webApplicationContainer, "Uses");
 
-            var webBackendContainer = invoiceTransactionsSoftwareSystem.AddContainer("Web Backend", "The Invoice Transactions System Web Backend.", "TBD");
-            webClientContainer.Uses(webBackendContainer, "Load", "HTTPS");
+            var webClientSpaContainer = invoiceTransactionsSoftwareSystem.AddContainer("Web Client SPA", "The Invoice Transactions System Web Client Single-Page Application.", "TBD");
+            invoiceAnalyst.Uses(webClientSpaContainer, "Uses");
+            invoiceManager.Uses(webClientSpaContainer, "Uses");
+            toolSupport.Uses(webClientSpaContainer, "Uses");
+            shopUser.Uses(webClientSpaContainer, "Uses");
+            webApplicationContainer.Uses(webClientSpaContainer, "Delivers");
 
             var apiGatewayServiceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("API Gateway Service", "The Invoice Transactions System API Gateway Service.", "TBD");
             apiGatewayServiceContainer.AddTags(AdditionalTags.Gateway);
             costManagementMetricsSoftwareSystem.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
             spidrsSoftwareSystem.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
             fleetManagementDashboardSoftwareSystem.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
-            webClientContainer.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
-            webBackendContainer.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
+            webClientSpaContainer.Uses(apiGatewayServiceContainer, "Uses", "HTTPS");
 
             var dataServiceContainer = invoiceTransactionsSoftwareSystem.AddContainer("Data Service", "The Invoice Transactions System Data Service.", "TBD");
             dataServiceContainer.Uses(sharePointSoftwareSystem, "Uses", "TBD");
@@ -154,17 +157,32 @@ namespace PrattAndWhitney.Structurizr.App
             var loadInvoiceMicroserviceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("Load Invoice Microservice", "The Invoice Transactions System Load Invoice Service.");
             var exportMicroserviceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("Export Microservice", "The Invoice Transactions System Export Service.");
             var emailMicroserviceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("Email Microservice", "The Invoice Transactions System Email Service.");
-            var membershipMicroserviceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("Membership Microservice", "The Invoice Transactions System Membership Service.");
-            membershipMicroserviceContainer.Uses(activeDirectory, "Uses", "TBD");
+            var identityMicroserviceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("Identity Microservice", "The Invoice Transactions System Identity Service.");
+            identityMicroserviceContainer.Uses(activeDirectory, "Uses", "TBD");
             var translationMicroserviceContainer = invoiceTransactionsSoftwareSystem.AddMicroserviceContainer("Translation Microservice", "TBD.");
 
             // Components
 
-            var webClientAdminViewComponent = webClientContainer.AddComponent("Admin View", "Used by administrators of the Invoice Transaction System.", "TBD");
-            invoiceAnalyst.Uses(webClientAdminViewComponent, "Uses", "TBD.");
+            var webClientAdminComponent = webClientSpaContainer.AddComponent("Admin Component", "Used by administrators of the Invoice Transaction System.", "TBD");
+            webClientAdminComponent.Uses(apiGatewayServiceContainer, "Uses", "HTTPS + Token");
+            invoiceManager.Uses(webClientAdminComponent, "Uses", "TBD.");
+            toolSupport.Uses(webClientAdminComponent, "Uses", "TBD.");
+            
+            var webClientDashboardComponent = webClientSpaContainer.AddComponent("Dashboard Component", "Used by invoice team members.", "TBD");
+            webClientDashboardComponent.Uses(apiGatewayServiceContainer, "Uses", "HTTPS + Token");
+            invoiceAnalyst.Uses(webClientDashboardComponent, "Uses", "TBD.");
+            invoiceManager.Uses(webClientDashboardComponent, "Uses", "TBD.");
 
-            var webClientAdminControllerComponent = webClientContainer.AddComponent("Admin Controller", "Used by administrators of the Invoice Transaction System.", "TBD");
-            webClientAdminViewComponent.Uses(webClientAdminControllerComponent, "Respond to actions and manage state");
+            var webClientLoginComponent = webClientSpaContainer.AddComponent("Login Component", "Used by all users.", "TBD");
+            invoiceAnalyst.Uses(webClientLoginComponent, "Uses", "TBD.");
+            invoiceManager.Uses(webClientLoginComponent, "Uses", "TBD.");
+            toolSupport.Uses(webClientLoginComponent, "Uses", "TBD.");
+
+            var webClientSecurityComponent = webClientSpaContainer.AddComponent("Security Component", "Authentication token client.", "TBD");
+            webClientSecurityComponent.Uses(apiGatewayServiceContainer, "Authenticate", "HTTPS");
+            webClientAdminComponent.Uses(webClientSecurityComponent, "Uses");
+            webClientDashboardComponent.Uses(webClientSecurityComponent, "Uses");
+            webClientLoginComponent.Uses(webClientSecurityComponent, "Uses");
 
             // Views 
 
@@ -184,7 +202,7 @@ namespace PrattAndWhitney.Structurizr.App
 
             // Component Views
 
-            views.CreateComponentViewFor(webClientContainer);
+            views.CreateComponentViewFor(webClientSpaContainer, PaperSize.A4_Landscape);
 
             // Styles
 
