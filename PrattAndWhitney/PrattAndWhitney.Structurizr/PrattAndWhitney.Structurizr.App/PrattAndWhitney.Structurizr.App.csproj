@@ -63,17 +63,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ModelConfiguration\Components.cs" />
-    <Compile Include="ModelConfiguration\Containers.cs" />
-    <Compile Include="ModelConfiguration\Enterprises.cs" />
+    <Compile Include="WorkspaceConfiguration\Components.cs" />
+    <Compile Include="WorkspaceConfiguration\Containers.cs" />
+    <Compile Include="WorkspaceConfiguration\Enterprises.cs" />
     <Compile Include="Extensions\Properties.cs" />
     <Compile Include="Extensions\AdditionalTags.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\StructurizrExtensions.cs" />
-    <Compile Include="ModelConfiguration\SoftwareSystems.cs" />
-    <Compile Include="ModelConfiguration\Users.cs" />
-    <Compile Include="ModelConfiguration\Views.cs" />
+    <Compile Include="WorkspaceConfiguration\SoftwareSystems.cs" />
+    <Compile Include="WorkspaceConfiguration\Users.cs" />
+    <Compile Include="WorkspaceConfiguration\Views.cs" />
     <Compile Include="WorkspaceBuilder.cs" />
     <Compile Include="WorkspaceUploader.cs" />
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using PrattAndWhitney.Structurizr.App.Extensions;
 using Structurizr;
 
-namespace PrattAndWhitney.Structurizr.App.ModelConfiguration
+namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 {
     public static class Views
     {
@@ -10,6 +10,7 @@ namespace PrattAndWhitney.Structurizr.App.ModelConfiguration
             Context.Configure(workspace);
             Container.Configure(workspace);
             Component.Configure(workspace);
+            Deployments.Configure(workspace);
             Styles.Configure(workspace);
         }
 
@@ -38,6 +39,14 @@ namespace PrattAndWhitney.Structurizr.App.ModelConfiguration
             public static void Configure(Workspace workspace)
             {
                 workspace.Views.CreateComponentViewFor(Containers.TargetSystem.WebClient, PaperSize.A4_Landscape);
+            }
+        }
+
+        public static class Deployments
+        {
+            public static void Configure(Workspace workspace)
+            {
+                //TODO
             }
         }
 
