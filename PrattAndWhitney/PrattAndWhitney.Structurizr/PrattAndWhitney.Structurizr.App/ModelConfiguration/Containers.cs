@@ -33,8 +33,7 @@ namespace PrattAndWhitney.Structurizr.App.ModelConfiguration
 
             public static void Configure()
             {
-                //TODO: Fix naming
-                WebApplication = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Applicatioin", "Delivers the Invoice Transactions System Web Client Single-Page Application.", "TBD");
+                WebApplication = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Application", "Delivers the Invoice Transactions System Web Client Single-Page Application.", "TBD");
                 Users.InvoiceAnalyst.Uses(WebApplication, "Uses");
                 Users.InvoiceManager.Uses(WebApplication, "Uses");
                 Users.ToolSupport.Uses(WebApplication, "Uses");
