@@ -11,26 +11,26 @@
         {
             public static void Configure()
             {
-                var webClientAdminComponent = Containers.TargetSystem.WebClientSpaContainer.AddComponent("Admin Component", "Used by administrators of the Invoice Transaction System.", "TBD");
-                webClientAdminComponent.Uses(Containers.TargetSystem.ApiGatewayServiceContainer, "Uses", "HTTPS + Token");
-                Users.InvoiceManager.Uses(webClientAdminComponent, "Uses", "TBD.");
-                Users.ToolSupport.Uses(webClientAdminComponent, "Uses", "TBD.");
+                var admin = Containers.TargetSystem.WebClient.AddComponent("Admin Component", "Used by administrators of the Invoice Transaction System.", "TBD");
+                admin.Uses(Containers.TargetSystem.ApiGatewayService, "Uses", "HTTPS + Token");
+                Users.InvoiceManager.Uses(admin, "Uses", "TBD.");
+                Users.ToolSupport.Uses(admin, "Uses", "TBD.");
 
-                var webClientDashboardComponent = Containers.TargetSystem.WebClientSpaContainer.AddComponent("Dashboard Component", "Used by invoice team members.", "TBD");
-                webClientDashboardComponent.Uses(Containers.TargetSystem.ApiGatewayServiceContainer, "Uses", "HTTPS + Token");
-                Users.InvoiceAnalyst.Uses(webClientDashboardComponent, "Uses", "TBD.");
-                Users.InvoiceManager.Uses(webClientDashboardComponent, "Uses", "TBD.");
+                var dashboard = Containers.TargetSystem.WebClient.AddComponent("Dashboard Component", "Used by invoice team members.", "TBD");
+                dashboard.Uses(Containers.TargetSystem.ApiGatewayService, "Uses", "HTTPS + Token");
+                Users.InvoiceAnalyst.Uses(dashboard, "Uses", "TBD.");
+                Users.InvoiceManager.Uses(dashboard, "Uses", "TBD.");
 
-                var webClientLoginComponent = Containers.TargetSystem.WebClientSpaContainer.AddComponent("Login Component", "Used by all users.", "TBD");
-                Users.InvoiceAnalyst.Uses(webClientLoginComponent, "Uses", "TBD.");
-                Users.InvoiceManager.Uses(webClientLoginComponent, "Uses", "TBD.");
-                Users.ToolSupport.Uses(webClientLoginComponent, "Uses", "TBD.");
+                var login = Containers.TargetSystem.WebClient.AddComponent("Login Component", "Used by all users.", "TBD");
+                Users.InvoiceAnalyst.Uses(login, "Uses", "TBD.");
+                Users.InvoiceManager.Uses(login, "Uses", "TBD.");
+                Users.ToolSupport.Uses(login, "Uses", "TBD.");
 
-                var webClientSecurityComponent = Containers.TargetSystem.WebClientSpaContainer.AddComponent("Security Component", "Authentication token client.", "TBD");
-                webClientSecurityComponent.Uses(Containers.TargetSystem.ApiGatewayServiceContainer, "Authenticate", "HTTPS");
-                webClientAdminComponent.Uses(webClientSecurityComponent, "Uses");
-                webClientDashboardComponent.Uses(webClientSecurityComponent, "Uses");
-                webClientLoginComponent.Uses(webClientSecurityComponent, "Uses");
+                var securityComponent = Containers.TargetSystem.WebClient.AddComponent("Security Component", "Authentication token client.", "TBD");
+                securityComponent.Uses(Containers.TargetSystem.ApiGatewayService, "Authenticate", "HTTPS");
+                admin.Uses(securityComponent, "Uses");
+                dashboard.Uses(securityComponent, "Uses");
+                login.Uses(securityComponent, "Uses");
             }
         }
     }

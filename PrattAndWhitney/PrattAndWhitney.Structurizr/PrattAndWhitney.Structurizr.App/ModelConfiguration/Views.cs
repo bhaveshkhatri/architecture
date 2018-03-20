@@ -19,7 +19,7 @@ namespace PrattAndWhitney.Structurizr.App.ModelConfiguration
             {
                 workspace.Views.CreateEnterpriseContextLandscapeViewFor(Enterprises.Target, PaperSize.A3_Landscape);
 
-                workspace.Views.CreateSystemContextViewFor(SoftwareSystems.Target.InvoiceTransactionsSoftwareSystem, PaperSize.A3_Landscape);
+                workspace.Views.CreateSystemContextViewFor(SoftwareSystems.Target.InvoiceTransactionsSystem, PaperSize.A3_Landscape);
             }
         }
 
@@ -27,9 +27,9 @@ namespace PrattAndWhitney.Structurizr.App.ModelConfiguration
         {
             public static void Configure(Workspace workspace)
             {
-                workspace.Views.CreateContainerViewFor(SoftwareSystems.Target.InvoiceTransactionsSoftwareSystem, PaperSize.A3_Landscape);
+                workspace.Views.CreateContainerViewFor(SoftwareSystems.Target.InvoiceTransactionsSystem, PaperSize.A3_Landscape);
 
-                workspace.Views.CreateContainerViewFor(SoftwareSystems.Target.InfrastructureServicesSoftwareSystem, PaperSize.A3_Landscape);
+                workspace.Views.CreateContainerViewFor(SoftwareSystems.Target.InfrastructureServices, PaperSize.A3_Landscape);
             }
         }
 
@@ -37,7 +37,7 @@ namespace PrattAndWhitney.Structurizr.App.ModelConfiguration
         {
             public static void Configure(Workspace workspace)
             {
-                workspace.Views.CreateComponentViewFor(Containers.TargetSystem.WebClientSpaContainer, PaperSize.A4_Landscape);
+                workspace.Views.CreateComponentViewFor(Containers.TargetSystem.WebClient, PaperSize.A4_Landscape);
             }
         }
 
