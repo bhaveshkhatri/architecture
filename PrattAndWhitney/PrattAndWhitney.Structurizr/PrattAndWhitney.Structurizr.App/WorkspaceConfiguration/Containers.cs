@@ -19,8 +19,11 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 var messageBroker = SoftwareSystems.Target.InfrastructureServices.AddContainer("Message Broker", "The Invoice Transactions System Message Broker.", "TBD");
                 messageBroker.AddTags(AdditionalTags.MessageBroker);
 
-                var dataCache = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache", "The Invoice Transactions System  Data Cache.", "TBD");
+                var dataCache = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache", "The Invoice Transactions System  Data Cache.", "TBD-Redis");
                 dataCache.AddTags(AdditionalTags.Cache);
+
+                var notificationHub = SoftwareSystems.Target.InfrastructureServices.AddContainer("Notification Hub", "The Invoice Transactions System Notification Hub.", "TBD-SignalR");
+                notificationHub.AddTags(AdditionalTags.Hub);
             }
         }
 
@@ -29,7 +32,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
             public static Container WebApplication { get; private set; }
             public static Container WebClient { get; private set; }
             public static Container ApiGatewayService { get; private set; }
-            public static Container DataService { get; private set; }
+            public static Container FileManagementService { get; private set; }
 
             public static void Configure()
             {
@@ -53,10 +56,10 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 SoftwareSystems.Other.FleetManagementDashboard.Uses(ApiGatewayService, "Uses", "HTTPS");
                 WebClient.Uses(ApiGatewayService, "Uses", "HTTPS");
 
-                DataService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Data Service", "The Invoice Transactions System Data Service.", "TBD");
-                DataService.Uses(SoftwareSystems.Other.SharePoint, "Uses", "TBD");
-                DataService.Uses(SoftwareSystems.Other.FileSystem, "Uses", "OS/NAS");
-                SoftwareSystems.Target.InfrastructureServices.Uses(DataService, "Uses", "TBD");
+                FileManagementService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("File Management Service", "The Invoice Transactions File Management Service.", "TBD");
+                FileManagementService.Uses(SoftwareSystems.Other.SharePoint, "Uses", "TBD");
+                FileManagementService.Uses(SoftwareSystems.Other.FileSystem, "Uses", "OS/NAS");
+                SoftwareSystems.Target.InfrastructureServices.Uses(FileManagementService, "Uses", "TBD");
             }
         }
 

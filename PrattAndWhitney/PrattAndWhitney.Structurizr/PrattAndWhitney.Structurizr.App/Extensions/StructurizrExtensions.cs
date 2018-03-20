@@ -13,7 +13,7 @@ namespace PrattAndWhitney.Structurizr.App.Extensions
             container.AddTags(AdditionalTags.Microservice);
 
             var infrastructureServices = softwareSystem.Model.SoftwareSystems.Single(x => x.Tags.Contains(AdditionalTags.InfrastructureServices));
-            container.Uses(infrastructureServices, "Uses");
+            container.Uses(infrastructureServices, "Message Transfer, Notifications, Cache");
 
             return container;
         }
@@ -92,30 +92,21 @@ namespace PrattAndWhitney.Structurizr.App.Extensions
             views.CreateComponentViewFor(container, PaperSize.A5_Landscape);
         }
 
-        public static void ConfigureStyles(this ViewSet views)
+        public static void CreateDeploymentViewFor(this ViewSet views, SoftwareSystem softwareSystem, PaperSize paperSize)
         {
-            Styles styles = views.Configuration.Styles;
+            var softwareSystemName = softwareSystem.Name;
+            var softwareSystemContainers = softwareSystem.Containers.Select(x => x.Id);
+            var deploymentView = views.CreateDeploymentView(softwareSystem, string.Format("{0} Deployment", softwareSystemName), string.Format("The deployment for {0}.", softwareSystemName));
+            var firstLevel = softwareSystem.Model.DeploymentNodes.Where(x => softwareSystemContainers.Intersect(x.ContainerInstances.Select(y => y.ContainerId)).Any()).ToList();
+            var secondLevel = softwareSystem.Model.DeploymentNodes.SelectMany(x => x.Children).Where(x => softwareSystemContainers.Intersect(x.ContainerInstances.Select(y => y.ContainerId)).Any()).ToList();
+            var thirdLevel = softwareSystem.Model.DeploymentNodes.SelectMany(x => x.Children).SelectMany(x => x.Children).Where(x => softwareSystemContainers.Intersect(x.ContainerInstances.Select(y => y.ContainerId)).Any()).ToList();
+            var matchingDeployments = firstLevel.Union(secondLevel).Union(thirdLevel).ToList();
 
-            styles.Add(new ElementStyle(Tags.Element) { FontSize = 36 });
-
-            styles.Add(new ElementStyle(Tags.SoftwareSystem) { Background = "#1168bd", Color = "#ffffff", Shape = Shape.RoundedBox });
-            styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });
-            styles.Add(new ElementStyle(Tags.Container) { Background = "#438dd5", Color = "#ffffff" });
-            styles.Add(new ElementStyle(Tags.Component) { Background = "#85bbf0", Color = "#ffffff" });
-
-            styles.Add(new ElementStyle(AdditionalTags.FutureState) { Border = Border.Dashed, Background = "#3cb371" });
-            styles.Add(new ElementStyle(AdditionalTags.SunsetPhaseOut) { Border = Border.Dashed, Background = "#ff8c00" });
-            styles.Add(new ElementStyle(AdditionalTags.Database) { Shape = Shape.Cylinder });
-            styles.Add(new ElementStyle(AdditionalTags.MessageBroker) { Shape = Shape.Pipe, Height = 300, Width = 750 });
-            styles.Add(new ElementStyle(AdditionalTags.Gateway) { Shape = Shape.Hexagon });
-            styles.Add(new ElementStyle(AdditionalTags.Files) { Shape = Shape.Folder});
-            styles.Add(new ElementStyle(AdditionalTags.InfrastructureServices) { Shape = Shape.Circle });
-
-            styles.Add(new RelationshipStyle(AdditionalTags.PotentiallyUsedRelation) { Color = "#ee7600" });
-            styles.Add(new RelationshipStyle(AdditionalTags.CurrentButNotRecommendedRelation) { Color = "#ff0000" });
-
-            //TODO
-            //styles.Add(new ElementStyle(AdditionalTags.ViewSubject) { Background = "#ffa500", Color = "#ffffff", Shape = Shape.RoundedBox });
+            foreach (var x in matchingDeployments) 
+            {
+                deploymentView.Add(x);
+            }
+            deploymentView.PaperSize = paperSize;
         }
     }
 }

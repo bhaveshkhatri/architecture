@@ -105,5 +105,13 @@
                 return "Files";
             }
         }
+
+        public static string Hub
+        {
+            get
+            {
+                return "Hub";
+            }
+        }
     }
 }
