@@ -1,8 +1,4 @@
-﻿using Structurizr;
-using Structurizr.Api;
-using System.Configuration;
-
-namespace PrattAndWhitney.Structurizr.App
+﻿namespace PrattAndWhitney.Structurizr.App
 {
     public partial class Program
     {

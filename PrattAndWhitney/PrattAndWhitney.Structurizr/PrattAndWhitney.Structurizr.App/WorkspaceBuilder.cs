@@ -184,29 +184,25 @@ namespace PrattAndWhitney.Structurizr.App
             webClientDashboardComponent.Uses(webClientSecurityComponent, "Uses");
             webClientLoginComponent.Uses(webClientSecurityComponent, "Uses");
 
-            // Views 
-
-            var views = workspace.Views;
-
             // Context Views
 
-            views.CreateEnterpriseContextLandscapeViewFor(enterprise, PaperSize.A3_Landscape);
+            workspace.Views.CreateEnterpriseContextLandscapeViewFor(enterprise, PaperSize.A3_Landscape);
 
-            views.CreateSystemContextViewFor(invoiceTransactionsSoftwareSystem, PaperSize.A3_Landscape);
+            workspace.Views.CreateSystemContextViewFor(invoiceTransactionsSoftwareSystem, PaperSize.A3_Landscape);
 
             // Container Views
 
-            views.CreateContainerViewFor(invoiceTransactionsSoftwareSystem, PaperSize.A3_Landscape);
+            workspace.Views.CreateContainerViewFor(invoiceTransactionsSoftwareSystem, PaperSize.A3_Landscape);
 
-            views.CreateContainerViewFor(infrastructureServicesSoftwareSystem, PaperSize.A3_Landscape);
+            workspace.Views.CreateContainerViewFor(infrastructureServicesSoftwareSystem, PaperSize.A3_Landscape);
 
             // Component Views
 
-            views.CreateComponentViewFor(webClientSpaContainer, PaperSize.A4_Landscape);
+            workspace.Views.CreateComponentViewFor(webClientSpaContainer, PaperSize.A4_Landscape);
 
             // Styles
 
-            views.ConfigureStyles();
+            workspace.Views.ConfigureStyles();
 
             return workspace;
         }
