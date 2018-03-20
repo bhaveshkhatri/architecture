@@ -1,4 +1,5 @@
-﻿using Structurizr;
+﻿using PrattAndWhitney.Structurizr.App.ModelConfiguration;
+using Structurizr;
 
 namespace PrattAndWhitney.Structurizr.App
 {

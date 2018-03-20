@@ -1,4 +1,4 @@
-﻿namespace PrattAndWhitney.Structurizr.App
+﻿namespace PrattAndWhitney.Structurizr.App.ModelConfiguration
 {
     public static class Components
     {

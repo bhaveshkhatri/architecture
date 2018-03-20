@@ -1,6 +1,6 @@
 ﻿using Structurizr;
 
-namespace PrattAndWhitney.Structurizr.App
+namespace PrattAndWhitney.Structurizr.App.ModelConfiguration
 {
     public static class Users
     {

@@ -1,6 +1,7 @@
-﻿using Structurizr;
+﻿using PrattAndWhitney.Structurizr.App.Extensions;
+using Structurizr;
 
-namespace PrattAndWhitney.Structurizr.App
+namespace PrattAndWhitney.Structurizr.App.ModelConfiguration
 {
     public static class Views
     {
