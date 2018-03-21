@@ -8,7 +8,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
         public static void Configure(Model model)
         {
-            Target = model.Enterprise = new Enterprise("Pratt & Whitney v1");
+            Target = model.Enterprise = new Enterprise("Pratt & Whitney");
         }
     }
 }
