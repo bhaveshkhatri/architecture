@@ -14,16 +14,21 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
         public static class Infrastructure
         {
+            public static Container MessageBroker { get; private set; }
+            public static Container DataCache { get; private set; }
+            public static Container NotificationHub { get; private set; }
+
             public static void Configure()
             {
-                var messageBroker = SoftwareSystems.Target.InfrastructureServices.AddContainer("Message Broker", "The Invoice Transactions System Message Broker.", "TBD");
-                messageBroker.AddTags(AdditionalTags.MessageBroker);
+                MessageBroker = SoftwareSystems.Target.InfrastructureServices.AddContainer("Message Broker", "The Invoice Transactions System Message Broker.", "TBD");
+                MessageBroker.AddTags(AdditionalTags.MessageBroker);
 
-                var dataCache = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache", "The Invoice Transactions System  Data Cache.", "TBD-Redis");
-                dataCache.AddTags(AdditionalTags.Cache);
+                DataCache = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache", "The Invoice Transactions System  Data Cache.", "TBD-Redis");
+                DataCache.AddTags(AdditionalTags.Cache);
 
-                var notificationHub = SoftwareSystems.Target.InfrastructureServices.AddContainer("Notification Hub", "The Invoice Transactions System Notification Hub.", "TBD-SignalR");
-                notificationHub.AddTags(AdditionalTags.Hub);
+
+                NotificationHub = SoftwareSystems.Target.InfrastructureServices.AddContainer("Notification Hub", "The Invoice Transactions System Notification Hub.", "TBD-SignalR");
+                NotificationHub.AddTags(AdditionalTags.Hub);
             }
         }
 
