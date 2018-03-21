@@ -39,7 +39,7 @@
         {
             public static void Configure()
             {
-                var notificationHub = Containers.TargetSystem.ApiService.AddComponent("Notification Hub", "Notifications within the Invoice Transaction System.", "TBD-SignalR");
+                var notificationHub = Containers.TargetSystem.ApiService.AddComponent("Notification Hub", "Notifications within the Invoice Transaction System.", "TBD-SignalR"); 
 
                 var securityComponent = Containers.TargetSystem.ApiService.AddComponent("Security Component", "Authentication token client.", "TBD");
             }
