@@ -9,7 +9,7 @@ namespace PrattAndWhitney.Structurizr.App.Extensions
         public static Container AddMicroserviceContainer(this SoftwareSystem softwareSystem, string name, string description = "", string technology = "")
         {
             var descriptionToUse = string.IsNullOrWhiteSpace(description) ? string.Format("{0}.", name) : description;
-            var technologyToUse = string.IsNullOrWhiteSpace(technology) ? "TBD" : technology;
+            var technologyToUse = string.IsNullOrWhiteSpace(technology) ? "TBD-.NET Core" : technology;
             var container = softwareSystem.AddContainer(name, descriptionToUse, technologyToUse);
             container.AddTags(AdditionalTags.Microservice);
 
@@ -114,7 +114,8 @@ namespace PrattAndWhitney.Structurizr.App.Extensions
             var firstLevel = softwareSystem.Model.DeploymentNodes.Where(x => softwareSystemContainers.Intersect(x.ContainerInstances.Select(y => y.ContainerId)).Any()).ToList();
             var secondLevel = softwareSystem.Model.DeploymentNodes.SelectMany(x => x.Children).Where(x => softwareSystemContainers.Intersect(x.ContainerInstances.Select(y => y.ContainerId)).Any()).ToList();
             var thirdLevel = softwareSystem.Model.DeploymentNodes.SelectMany(x => x.Children).SelectMany(x => x.Children).Where(x => softwareSystemContainers.Intersect(x.ContainerInstances.Select(y => y.ContainerId)).Any()).ToList();
-            var matchingDeployments = firstLevel.Union(secondLevel).Union(thirdLevel).ToList();
+            var fourthLevel = softwareSystem.Model.DeploymentNodes.SelectMany(x => x.Children).SelectMany(x => x.Children).SelectMany(x => x.Children).Where(x => softwareSystemContainers.Intersect(x.ContainerInstances.Select(y => y.ContainerId)).Any()).ToList();
+            var matchingDeployments = firstLevel.Union(secondLevel).Union(thirdLevel).Union(fourthLevel).ToList();
 
             foreach (var deploymentNode in matchingDeployments)
             {

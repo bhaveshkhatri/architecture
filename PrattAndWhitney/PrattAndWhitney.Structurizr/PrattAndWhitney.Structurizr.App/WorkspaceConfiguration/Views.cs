@@ -39,6 +39,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
             public static void Configure(Workspace workspace)
             {
                 workspace.Views.CreateComponentViewFor(Containers.TargetSystem.WebClient, PaperSize.A4_Landscape);
+                workspace.Views.CreateComponentViewFor(Containers.TargetSystem.ApiService, PaperSize.A4_Landscape);
             }
         }
 
@@ -66,7 +67,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
                 styles.Add(new ElementStyle(AdditionalTags.FutureState) { Border = Border.Dashed, Background = "#3cb371" });
                 styles.Add(new ElementStyle(AdditionalTags.SunsetPhaseOut) { Border = Border.Dashed, Background = "#ff8c00" });
-                styles.Add(new ElementStyle(AdditionalTags.MessageBroker) { Shape = Shape.Pipe, Height = 300, Width = 750 });
+                styles.Add(new ElementStyle(AdditionalTags.EventBus) { Shape = Shape.Pipe, Height = 300, Width = 750 });
                 styles.Add(new ElementStyle(AdditionalTags.Database) { Shape = Shape.Cylinder });
                 styles.Add(new ElementStyle(AdditionalTags.Hub) { Shape = Shape.Hexagon });
                 styles.Add(new ElementStyle(AdditionalTags.Gateway) { Shape = Shape.Hexagon });

@@ -26,7 +26,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 Users.ToolSupport.Uses(InvoiceTransactionsSystem, "Uses");
                 Users.ShopUser.Uses(InvoiceTransactionsSystem, "Uses");
 
-                InfrastructureServices = model.AddSoftwareSystem(Location.Internal, "Infrastructure Services", "Message Broker / Cache / Notification Hub.");
+                InfrastructureServices = model.AddSoftwareSystem(Location.Internal, "Infrastructure Services", "Event Bus / Cache / Notification Hub.");
                 InfrastructureServices.AddTags(AdditionalTags.InfrastructureServices);
                 InfrastructureServices.AddTags(AdditionalTags.Subsystem);
             }
