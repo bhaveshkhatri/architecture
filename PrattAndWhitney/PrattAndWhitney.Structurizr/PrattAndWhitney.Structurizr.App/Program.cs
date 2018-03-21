@@ -7,7 +7,7 @@ namespace PrattAndWhitney.Structurizr.App
     {
         public static void Main(string[] args)
         {
-            var workspace = new Workspace("Pratt & Whitney", "Model of the Invoice Transaction System.");
+            var workspace = new Workspace("Pratt & Whitney v2", "Model of the Invoice Transaction System.");
 
             Enterprises.Configure(workspace.Model);
 
