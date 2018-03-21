@@ -1,4 +1,5 @@
 ﻿using Structurizr;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PrattAndWhitney.Structurizr.App.Extensions
@@ -92,21 +93,33 @@ namespace PrattAndWhitney.Structurizr.App.Extensions
             views.CreateComponentViewFor(container, PaperSize.A5_Landscape);
         }
 
-        public static void CreateDeploymentViewFor(this ViewSet views, SoftwareSystem softwareSystem, PaperSize paperSize)
+        public static void CreateDeploymentViewFor(this ViewSet views, SoftwareSystem primarySoftwareSystem, PaperSize paperSize, params SoftwareSystem[] subsystems)
         {
-            var softwareSystemName = softwareSystem.Name;
+            var deploymentView = views.CreateDeploymentView(primarySoftwareSystem, string.Format("{0} Deployment", primarySoftwareSystem.Name), string.Format("The deployment for {0}.", primarySoftwareSystem.Name));
+            deploymentView.PaperSize = paperSize;
+
+            var softwareSystems = new List<SoftwareSystem>();
+            softwareSystems.Add(primarySoftwareSystem);
+            softwareSystems.AddRange(subsystems);
+
+            foreach (var softwareSystem in softwareSystems)
+            {
+                AddToView(softwareSystem, deploymentView);
+            }
+        }
+
+        private static void AddToView(SoftwareSystem softwareSystem, DeploymentView deploymentView)
+        {
             var softwareSystemContainers = softwareSystem.Containers.Select(x => x.Id);
-            var deploymentView = views.CreateDeploymentView(softwareSystem, string.Format("{0} Deployment", softwareSystemName), string.Format("The deployment for {0}.", softwareSystemName));
             var firstLevel = softwareSystem.Model.DeploymentNodes.Where(x => softwareSystemContainers.Intersect(x.ContainerInstances.Select(y => y.ContainerId)).Any()).ToList();
             var secondLevel = softwareSystem.Model.DeploymentNodes.SelectMany(x => x.Children).Where(x => softwareSystemContainers.Intersect(x.ContainerInstances.Select(y => y.ContainerId)).Any()).ToList();
             var thirdLevel = softwareSystem.Model.DeploymentNodes.SelectMany(x => x.Children).SelectMany(x => x.Children).Where(x => softwareSystemContainers.Intersect(x.ContainerInstances.Select(y => y.ContainerId)).Any()).ToList();
             var matchingDeployments = firstLevel.Union(secondLevel).Union(thirdLevel).ToList();
 
-            foreach (var x in matchingDeployments) 
+            foreach (var deploymentNode in matchingDeployments)
             {
-                deploymentView.Add(x);
+                deploymentView.Add(deploymentNode);
             }
-            deploymentView.PaperSize = paperSize;
         }
     }
 }

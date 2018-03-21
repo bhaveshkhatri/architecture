@@ -25,6 +25,12 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
             datacenter.AddDeploymentNode("APIServer***", "An API server VM residing in Azure.", "Windows Server 2016", 2)
                 .AddDeploymentNode("IIS", "A web server from Microsoft.", "IIS 10.0", 1)
                 .Add(Containers.TargetSystem.ApiGatewayService);
+            
+            var dataCacheMaster = datacenter.AddDeploymentNode("DataCacheMaster", "A caching server VM residing in Azure.", "Windows Server 2016", 1)
+                .Add(Containers.Infrastructure.DataCacheMaster);
+
+            datacenter.AddDeploymentNode("DataCacheSlave", "A caching server VM residing in Azure.", "Windows Server 2016", 2)
+                .Add(Containers.Infrastructure.DataCacheSlave);
         }
     }
 }

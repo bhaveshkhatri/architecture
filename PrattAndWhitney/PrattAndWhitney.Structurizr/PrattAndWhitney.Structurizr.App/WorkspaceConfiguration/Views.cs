@@ -47,6 +47,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
             public static void Configure(Workspace workspace)
             {
                 workspace.Views.CreateDeploymentViewFor(SoftwareSystems.Target.InvoiceTransactionsSystem, PaperSize.A4_Landscape);
+                workspace.Views.CreateDeploymentViewFor(SoftwareSystems.Target.InfrastructureServices, PaperSize.A4_Landscape);
             }
         }
 

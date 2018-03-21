@@ -15,7 +15,8 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
         public static class Infrastructure
         {
             public static Container MessageBroker { get; private set; }
-            public static Container DataCache { get; private set; }
+            public static Container DataCacheMaster { get; private set; }
+            public static Container DataCacheSlave { get; private set; }
             public static Container NotificationHub { get; private set; }
 
             public static void Configure()
@@ -23,9 +24,12 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 MessageBroker = SoftwareSystems.Target.InfrastructureServices.AddContainer("Message Broker", "The Invoice Transactions System Message Broker.", "TBD");
                 MessageBroker.AddTags(AdditionalTags.MessageBroker);
 
-                DataCache = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache", "The Invoice Transactions System  Data Cache.", "TBD-Redis");
-                DataCache.AddTags(AdditionalTags.Cache);
+                DataCacheMaster = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Master", "The Invoice Transactions System Data Cache Master.", "TBD-Redis");
+                DataCacheMaster.AddTags(AdditionalTags.Cache);
 
+                DataCacheSlave = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Slave", "The Invoice Transactions System Data Cache Slave.", "TBD-Redis");
+                DataCacheSlave.AddTags(AdditionalTags.Cache);
+                DataCacheMaster.Uses(DataCacheSlave, "Replication");
 
                 NotificationHub = SoftwareSystems.Target.InfrastructureServices.AddContainer("Notification Hub", "The Invoice Transactions System Notification Hub.", "TBD-SignalR");
                 NotificationHub.AddTags(AdditionalTags.Hub);
