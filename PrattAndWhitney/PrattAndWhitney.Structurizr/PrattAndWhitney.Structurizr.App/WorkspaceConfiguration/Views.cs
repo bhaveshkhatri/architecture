@@ -73,6 +73,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 styles.Add(new ElementStyle(AdditionalTags.Gateway) { Shape = Shape.Hexagon });
                 styles.Add(new ElementStyle(AdditionalTags.Files) { Shape = Shape.Folder });
                 styles.Add(new ElementStyle(AdditionalTags.InfrastructureServices) { Shape = Shape.Circle });
+                styles.Add(new ElementStyle(AdditionalTags.Multiple) { Border = Border.Dashed });
 
                 styles.Add(new RelationshipStyle(AdditionalTags.PotentiallyUsedRelation) { Color = "#ee7600" });
                 styles.Add(new RelationshipStyle(AdditionalTags.CurrentButNotRecommendedRelation) { Color = "#ff0000" });

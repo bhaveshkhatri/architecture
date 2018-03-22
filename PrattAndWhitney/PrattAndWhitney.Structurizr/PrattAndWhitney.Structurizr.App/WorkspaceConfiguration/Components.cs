@@ -32,6 +32,9 @@
                 admin.Uses(securityComponent, "Uses");
                 dashboard.Uses(securityComponent, "Uses");
                 login.Uses(securityComponent, "Uses");
+
+                var notificationHubProxy = Containers.TargetSystem.WebClient.AddComponent("Notification Hub Proxy", "Receives and processes system notifications.", "TBD-SignalR Hub Proxy");
+                notificationHubProxy.Uses(Containers.TargetSystem.ApiService, "Connects to hub", "WebSockets");
             }
         }
 
@@ -39,9 +42,11 @@
         {
             public static void Configure()
             {
-                var notificationHub = Containers.TargetSystem.ApiService.AddComponent("Notification Hub", "Notifications within the Invoice Transaction System.", "TBD-SignalR");
-
-                var securityComponent = Containers.TargetSystem.ApiService.AddComponent("Security Component", "Authentication token client.", "TBD");
+                var notificationHub = Containers.TargetSystem.ApiService.AddComponent("Notification Hub", "Routes notifications to clients.", "TBD-SignalR Hub");
+                Containers.TargetSystem.ApiService.AddComponent("Security Component", "Authentication token client.", "TBD");
+                var communicationInterface = Containers.TargetSystem.ApiService.AddComponent("Infrastructure Communication", "Sends and receives messages from Infrastructure Services.", "TBD");
+                communicationInterface.Uses(notificationHub, "Notify of system response.");
+                communicationInterface.Uses(SoftwareSystems.Target.InfrastructureServices, "Send request messages and handle response messages.");
             }
         }
     }

@@ -17,7 +17,6 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
             public static Container EventBus { get; private set; }
             public static Container DataCacheMaster { get; private set; }
             public static Container DataCacheSlave { get; private set; }
-            public static Container NotificationHub { get; private set; }
 
             public static void Configure()
             {
@@ -30,9 +29,6 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 DataCacheSlave = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Slave", "The Invoice Transactions System Data Cache Slave.", "TBD-Redis");
                 DataCacheSlave.AddTags(AdditionalTags.Cache);
                 DataCacheMaster.Uses(DataCacheSlave, "Replication");
-
-                NotificationHub = SoftwareSystems.Target.InfrastructureServices.AddContainer("Notification Hub", "The ITS Notification Hub.", "TBD");
-                NotificationHub.AddTags(AdditionalTags.Hub);
             }
         }
 
@@ -41,7 +37,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
             public static Container WebApplication { get; private set; }
             public static Container WebClient { get; private set; }
             public static Container ApiService { get; private set; }
-            public static Container FileManagementService { get; private set; }
+            public static Container DataManagementService { get; private set; }
 
             public static void Configure()
             {
@@ -64,11 +60,14 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 SoftwareSystems.Other.Spidrs.Uses(ApiService, "Uses", "HTTPS");
                 SoftwareSystems.Other.FleetManagementDashboard.Uses(ApiService, "Uses", "HTTPS");
                 WebClient.Uses(ApiService, "Uses", "HTTPS");
+                
+                var sqlServer = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("SQL Server", "The Invoice Transactions SQL Server.", "TBD");
 
-                FileManagementService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("File Management Service", "The Invoice Transactions File Management Service.", "TBD");
-                FileManagementService.Uses(SoftwareSystems.Other.SharePoint, "Uses", "TBD");
-                FileManagementService.Uses(SoftwareSystems.Other.FileSystem, "Uses", "OS/NAS");
-                SoftwareSystems.Target.InfrastructureServices.Uses(FileManagementService, "Uses", "TBD");
+                DataManagementService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Data Management Service", "The Invoice Transactions Data Management Service.", "TBD");
+                DataManagementService.Uses(SoftwareSystems.Other.SharePoint, "Uses", "TBD");
+                DataManagementService.Uses(SoftwareSystems.Other.FileSystem, "Uses", "OS/NAS");
+                DataManagementService.Uses(sqlServer, "Uses", "TBD-OLAP/OLTP");
+                SoftwareSystems.Target.InfrastructureServices.Uses(DataManagementService, "Uses", "TBD");
             }
         }
 
@@ -84,6 +83,8 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Export Microservice", "The Invoice Transactions System Export Service.");
                 SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Email Microservice", "The Invoice Transactions System Email Service.");
                 SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Translation Microservice", "TBD.");
+                SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Central Logging Microservice", "TBD.");
+                SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("External Systems Microservices", "TBD.").AddTags(AdditionalTags.Multiple);
                 var identityMicroservice = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Identity Microservice", "The Invoice Transactions System Identity Service.");
                 identityMicroservice.Uses(SoftwareSystems.Other.ActiveDirectory, "Uses", "TBD");
             }

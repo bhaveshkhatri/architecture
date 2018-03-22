@@ -113,5 +113,13 @@
                 return "Hub";
             }
         }
+
+        public static string Multiple
+        {
+            get
+            {
+                return "Multiple";
+            }
+        }
     }
 }
