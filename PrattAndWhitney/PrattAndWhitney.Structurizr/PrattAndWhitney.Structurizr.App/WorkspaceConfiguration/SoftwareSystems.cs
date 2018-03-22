@@ -8,7 +8,8 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
         public static void Configure(Model model)
         {
             Target.Configure(model);
-
+            Upstream.Configure(model);
+            Downstream.Configure(model);
             Other.Configure(model);
         }
 
@@ -31,15 +32,9 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 InfrastructureServices.AddTags(AdditionalTags.Subsystem);
             }
         }
-        public static class Other
+
+        public static class Upstream
         {
-            public static SoftwareSystem CostManagementMetrics { get; private set; }
-            public static SoftwareSystem Spidrs { get; private set; }
-            public static SoftwareSystem QuoteErrorTool { get; private set; }
-            public static SoftwareSystem Teradata { get; private set; }
-            public static SoftwareSystem W2CDownstream { get; private set; }
-            public static SoftwareSystem AllocationReport { get; private set; }
-            public static SoftwareSystem FleetManagementDashboard { get; private set; }
             public static SoftwareSystem ActiveDirectory { get; private set; }
             public static SoftwareSystem EagleData { get; private set; }
             public static SoftwareSystem WorkScoping { get; private set; }
@@ -53,41 +48,6 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
             public static void Configure(Model model)
             {
-                // Consumers/Downstream Software Systems
-
-                CostManagementMetrics = model.AddSoftwareSystem(Location.Internal, "Cost Management Metrics", "TBD.");
-                CostManagementMetrics.AddProperty(Properties.KeyContact, "Dafina Georgievska/Matt Wentworth");
-                CostManagementMetrics.Uses(Target.InvoiceTransactionsSystem, "TBD");
-
-                Spidrs = model.AddSoftwareSystem(Location.Internal, "SPIDRS", "TBD - Financial Accounting.");
-                Spidrs.AddProperty(Properties.KeyContact, "Mike Faulk – Tsunami Tsolutions");
-                Spidrs.Uses(Target.InvoiceTransactionsSystem, "TBD");
-
-                QuoteErrorTool = model.AddSoftwareSystem(Location.Internal, "Quote Tool / Error Tool", "This is temporary");
-                QuoteErrorTool.AddProperty(Properties.KeyContact, "Kim Rose");
-                QuoteErrorTool.AddTags(AdditionalTags.SunsetPhaseOut);
-                QuoteErrorTool.Uses(Target.InvoiceTransactionsSystem, "TBD");
-
-                Teradata = model.AddSoftwareSystem(Location.Internal, "Teradata", "TBD.");
-                Teradata.AddProperty(Properties.KeyContact, "TBD");
-                Teradata.AddTags(AdditionalTags.SunsetPhaseOut);
-                Teradata.Uses(Target.InvoiceTransactionsSystem, "TBD");
-
-                W2CDownstream = model.AddSoftwareSystem(Location.Internal, "W2C", "TBD");
-                W2CDownstream.AddProperty(Properties.KeyContact, "Chandra Kankanala");
-                W2CDownstream.AddTags(AdditionalTags.FutureState);
-                W2CDownstream.Uses(Target.InvoiceTransactionsSystem, "TBD");
-
-                AllocationReport = model.AddSoftwareSystem(Location.Internal, "Allocation Report ($)", "TBD.");
-                AllocationReport.AddProperty(Properties.KeyContact, "TBD");
-                AllocationReport.Uses(Target.InvoiceTransactionsSystem, "TBD");
-
-                FleetManagementDashboard = model.AddSoftwareSystem(Location.Internal, "Fleet Management Dashboard", "TBD.");
-                FleetManagementDashboard.AddProperty(Properties.KeyContact, "TBD");
-                FleetManagementDashboard.Uses(Target.InvoiceTransactionsSystem, "TBD");
-
-                // Producers/Upstream Software Systems
-
                 ActiveDirectory = model.AddSoftwareSystem(Location.Internal, "Active Directory", "Active Directory");
                 Target.InvoiceTransactionsSystem.Uses(ActiveDirectory, "LDAP");
 
@@ -125,11 +85,62 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 FileSystem.AddTags(AdditionalTags.Files);
                 FileSystem.AddProperty(Properties.KeyContact, "TBD");
                 Target.InvoiceTransactionsSystem.Uses(FileSystem, "OS/NAS");
+            }
+        }
 
-                // Other Software Systems
+        public static class Downstream
+        {
+            public static SoftwareSystem CostManagementMetrics { get; private set; }
+            public static SoftwareSystem Spidrs { get; private set; }
+            public static SoftwareSystem QuoteErrorTool { get; private set; }
+            public static SoftwareSystem Teradata { get; private set; }
+            public static SoftwareSystem WingToCashDownstream { get; private set; }
+            public static SoftwareSystem AllocationReport { get; private set; }
+            public static SoftwareSystem FleetManagementDashboard { get; private set; }
 
-                Aso = model.AddSoftwareSystem(Location.Unspecified, "ASO", "TBD - Davinia says it's sort of a replacement for AIM.");
+            public static void Configure(Model model)
+            {
+                CostManagementMetrics = model.AddSoftwareSystem(Location.Internal, "Cost Management Metrics", "TBD.");
+                CostManagementMetrics.AddProperty(Properties.KeyContact, "Dafina Georgievska/Matt Wentworth");
+                CostManagementMetrics.Uses(Target.InvoiceTransactionsSystem, "TBD");
+
+                Spidrs = model.AddSoftwareSystem(Location.Internal, "SPIDRS", "TBD - Financial Accounting.");
+                Spidrs.AddProperty(Properties.KeyContact, "Mike Faulk – Tsunami Tsolutions");
+                Spidrs.Uses(Target.InvoiceTransactionsSystem, "TBD");
+
+                QuoteErrorTool = model.AddSoftwareSystem(Location.Internal, "Quote Tool / Error Tool", "This is temporary");
+                QuoteErrorTool.AddProperty(Properties.KeyContact, "Kim Rose");
+                QuoteErrorTool.AddTags(AdditionalTags.SunsetPhaseOut);
+                QuoteErrorTool.Uses(Target.InvoiceTransactionsSystem, "TBD");
+
+                Teradata = model.AddSoftwareSystem(Location.Internal, "Teradata", "TBD.");
+                Teradata.AddProperty(Properties.KeyContact, "TBD");
+                Teradata.AddTags(AdditionalTags.SunsetPhaseOut);
+                Teradata.Uses(Target.InvoiceTransactionsSystem, "TBD");
+
+                WingToCashDownstream = model.AddSoftwareSystem(Location.Internal, "W2C", "TBD");
+                WingToCashDownstream.AddProperty(Properties.KeyContact, "Chandra Kankanala");
+                WingToCashDownstream.AddTags(AdditionalTags.FutureState);
+                WingToCashDownstream.Uses(Target.InvoiceTransactionsSystem, "TBD");
+
+                AllocationReport = model.AddSoftwareSystem(Location.Internal, "Allocation Report ($)", "TBD.");
+                AllocationReport.AddProperty(Properties.KeyContact, "TBD");
+                AllocationReport.Uses(Target.InvoiceTransactionsSystem, "TBD");
+
+                FleetManagementDashboard = model.AddSoftwareSystem(Location.Internal, "Fleet Management Dashboard", "TBD.");
                 FleetManagementDashboard.AddProperty(Properties.KeyContact, "TBD");
+                FleetManagementDashboard.Uses(Target.InvoiceTransactionsSystem, "TBD");
+            }
+        }
+
+        public static class Other
+        {
+            public static SoftwareSystem Aso { get; private set; }
+
+            public static void Configure(Model model)
+            {
+                Aso = model.AddSoftwareSystem(Location.Unspecified, "ASO", "TBD - Davinia says it's sort of a replacement for AIM.");
+                Aso.AddProperty(Properties.KeyContact, "TBD");
             }
         }
     }

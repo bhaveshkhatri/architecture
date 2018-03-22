@@ -56,16 +56,18 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
                 ApiService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("API Service", "The Invoice Transactions System API Service.", "TBD");
                 ApiService.AddTags(AdditionalTags.Gateway);
-                SoftwareSystems.Other.CostManagementMetrics.Uses(ApiService, "Uses", "HTTPS");
-                SoftwareSystems.Other.Spidrs.Uses(ApiService, "Uses", "HTTPS");
-                SoftwareSystems.Other.FleetManagementDashboard.Uses(ApiService, "Uses", "HTTPS");
+                SoftwareSystems.Downstream.CostManagementMetrics.Uses(ApiService, "Uses", "HTTPS");
+                SoftwareSystems.Downstream.Spidrs.Uses(ApiService, "Uses", "HTTPS");
+                SoftwareSystems.Downstream.FleetManagementDashboard.Uses(ApiService, "Uses", "HTTPS");
+                SoftwareSystems.Downstream.WingToCashDownstream.Uses(ApiService, "Uses", "HTTPS");
+                SoftwareSystems.Downstream.AllocationReport.Uses(ApiService, "Uses", "HTTPS");
                 WebClient.Uses(ApiService, "Uses", "HTTPS");
                 
                 var sqlServer = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("SQL Server", "The Invoice Transactions SQL Server.", "TBD");
 
                 DataManagementService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Data Management Service", "The Invoice Transactions Data Management Service.", "TBD");
-                DataManagementService.Uses(SoftwareSystems.Other.SharePoint, "Uses", "TBD");
-                DataManagementService.Uses(SoftwareSystems.Other.FileSystem, "Uses", "OS/NAS");
+                DataManagementService.Uses(SoftwareSystems.Upstream.SharePoint, "Uses", "TBD");
+                DataManagementService.Uses(SoftwareSystems.Upstream.FileSystem, "Uses", "OS/NAS");
                 DataManagementService.Uses(sqlServer, "Uses", "TBD-OLAP/OLTP");
                 SoftwareSystems.Target.InfrastructureServices.Uses(DataManagementService, "Uses", "TBD");
             }
@@ -86,7 +88,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Central Logging Microservice", "TBD.");
                 SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("External Systems Microservices", "TBD.").AddTags(AdditionalTags.Multiple);
                 var identityMicroservice = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Identity Microservice", "The Invoice Transactions System Identity Service.");
-                identityMicroservice.Uses(SoftwareSystems.Other.ActiveDirectory, "Uses", "TBD");
+                identityMicroservice.Uses(SoftwareSystems.Upstream.ActiveDirectory, "Uses", "TBD");
             }
         }
     }
