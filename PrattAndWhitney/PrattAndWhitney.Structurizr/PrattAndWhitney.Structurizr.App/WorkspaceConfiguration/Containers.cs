@@ -54,7 +54,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 Users.ShopUser.Uses(WebClient, "Uses");
                 WebApplication.Uses(WebClient, "Delivers");
 
-                ApiService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("API Service", "The Invoice Transactions System API Service.", "TBD");
+                ApiService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("API Service", "The Invoice Transactions System API Service.", "TBD-ASP.NET Web API");
                 ApiService.AddTags(AdditionalTags.Gateway);
                 SoftwareSystems.Downstream.CostManagementMetrics.Uses(ApiService, "Uses", "HTTPS");
                 SoftwareSystems.Downstream.Spidrs.Uses(ApiService, "Uses", "HTTPS");
@@ -65,11 +65,10 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 
                 var sqlServer = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("SQL Server", "The Invoice Transactions SQL Server.", "TBD");
 
-                DataManagementService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Data Management Service", "The Invoice Transactions Data Management Service.", "TBD");
+                DataManagementService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Data Management Service", "The Invoice Transactions Data Management Service.");
                 DataManagementService.Uses(SoftwareSystems.Upstream.SharePoint, "Uses", "TBD");
                 DataManagementService.Uses(SoftwareSystems.Upstream.FileSystem, "Uses", "OS/NAS");
                 DataManagementService.Uses(sqlServer, "Uses", "TBD-OLAP/OLTP");
-                SoftwareSystems.Target.InfrastructureServices.Uses(DataManagementService, "Uses", "TBD");
             }
         }
 
