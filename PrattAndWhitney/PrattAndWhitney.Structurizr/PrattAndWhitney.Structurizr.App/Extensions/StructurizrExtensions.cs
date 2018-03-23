@@ -6,6 +6,15 @@ namespace PrattAndWhitney.Structurizr.App.Extensions
 {
     public static class StructurizrExtensions
     {
+        public static bool IsBetween(this RelationshipView relationshipView, string firstTag, string secondTag)
+        {
+            var source = relationshipView.Relationship.Source.Tags;
+            var destination = relationshipView.Relationship.Destination.Tags;
+            var forward = source.Contains(firstTag) && destination.Contains(secondTag);
+            var reverse = source.Contains(secondTag) && destination.Contains(firstTag);
+            return forward || reverse;
+        }
+
         public static Container AddMicroserviceContainer(this SoftwareSystem softwareSystem, string name, string description = "", string technology = "")
         {
             var descriptionToUse = string.IsNullOrWhiteSpace(description) ? string.Format("{0}.", name) : description;
@@ -79,13 +88,15 @@ namespace PrattAndWhitney.Structurizr.App.Extensions
         public static void CreateComponentViewFor(this ViewSet views, Container container, PaperSize paperSize)
         {
             var containerName = container.Name;
-            var containerView = views.CreateComponentView(container, string.Format("{0} Components", containerName), string.Format("The component diagram for {0}.", containerName));
+            var componentView = views.CreateComponentView(container, string.Format("{0} Components", containerName), string.Format("The component diagram for {0}.", containerName));
             foreach (var component in container.Components)
             {
-                containerView.Add(component);
-                containerView.AddNearestNeighbours(component);
+                componentView.Add(component);
+                componentView.AddNearestNeighbours(component);
             }
-            containerView.PaperSize = paperSize;
+            //TODO
+            //componentView.Relationships.RemoveWhere(x => x.IsBetween(Tags.SoftwareSystem, Tags.Person));
+            componentView.PaperSize = paperSize;
         }
 
         public static void CreateComponentViewFor(this ViewSet views, Container container)

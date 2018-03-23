@@ -4,8 +4,16 @@
     {
         public static void Configure()
         {
+            WebApplication.Configure();
             WebClient.Configure();
             ApiService.Configure();
+        }
+
+        public static class WebApplication
+        {
+            public static void Configure()
+            {
+            }
         }
 
         public static class WebClient
@@ -35,6 +43,10 @@
 
                 var notificationHubProxy = Containers.TargetSystem.WebClient.AddComponent("Notification Hub Proxy", "Receives and processes system notifications.", "TBD-SignalR Hub Proxy");
                 notificationHubProxy.Uses(Containers.TargetSystem.ApiService, "Connects to hub", "WebSockets");
+
+                //TODO
+                //var moduleLoader = Containers.TargetSystem.WebClient.AddComponent("Module Loader", "Loads the modules available to the user.", "TBD");
+                //moduleLoader.Uses(Containers.TargetSystem.WebApplication, "Load available modules.");
             }
         }
 
@@ -42,11 +54,17 @@
         {
             public static void Configure()
             {
+                var invoiceApi = Containers.TargetSystem.ApiService.AddComponent("Invoice API", "Invoice related API.", "TBD");
+                var securityApi = Containers.TargetSystem.ApiService.AddComponent("Security API", "Authentication and authorization related API.", "TBD");
                 var notificationHub = Containers.TargetSystem.ApiService.AddComponent("Notification Hub", "Routes notifications to clients.", "TBD-SignalR Hub");
-                Containers.TargetSystem.ApiService.AddComponent("Security Component", "Authentication token client.", "TBD");
+                var securityComponent = Containers.TargetSystem.ApiService.AddComponent("Security Component", "Security component.", "TBD");
+                invoiceApi.Uses(securityComponent, "Check user acccess and permissions.");
+                securityApi.Uses(securityComponent, "Check user acccess and permissions.");
                 var communicationInterface = Containers.TargetSystem.ApiService.AddComponent("Infrastructure Communication", "Sends and receives messages from Infrastructure Services.", "TBD");
                 communicationInterface.Uses(notificationHub, "Notify of system response.");
                 communicationInterface.Uses(SoftwareSystems.Target.InfrastructureServices, "Send request messages and handle response messages.");
+                invoiceApi.Uses(communicationInterface, "Send commands.");
+                securityComponent.Uses(communicationInterface, "Authentication and authorization");
             }
         }
     }
