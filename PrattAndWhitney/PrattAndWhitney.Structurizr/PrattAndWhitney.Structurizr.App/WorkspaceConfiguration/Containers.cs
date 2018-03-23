@@ -41,13 +41,13 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
             public static void Configure()
             {
-                WebApplication = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Application", "Delivers the Invoice Transactions System Web Client Single-Page Application.", "TBD");
+                WebApplication = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Application", "Delivers the Invoice Transactions System Web Client Single-Page Application.", "TBD-ASP.NET");
                 Users.InvoiceAnalyst.Uses(WebApplication, "Uses");
                 Users.InvoiceManager.Uses(WebApplication, "Uses");
                 Users.ToolSupport.Uses(WebApplication, "Uses");
                 Users.ShopUser.Uses(WebApplication, "Uses");
 
-                WebClient = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Client SPA", "The Invoice Transactions System Web Client Single-Page Application.", "TBD-Angular");
+                WebClient = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Client SPA", "The Invoice Transactions System Web Client Single-Page Application.", "Angular 5");
                 Users.InvoiceAnalyst.Uses(WebClient, "Uses");
                 Users.InvoiceManager.Uses(WebClient, "Uses");
                 Users.ToolSupport.Uses(WebClient, "Uses");
