@@ -1,4 +1,6 @@
-﻿namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
+﻿using PrattAndWhitney.Structurizr.App.Extensions;
+
+namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 {
     public static class Components
     {
@@ -54,8 +56,8 @@
         {
             public static void Configure()
             {
-                var invoiceApi = Containers.TargetSystem.ApiService.AddComponent("Invoice API", "Invoice related API.", "TBD");
-                var securityApi = Containers.TargetSystem.ApiService.AddComponent("Security API", "Authentication and authorization related API.", "TBD");
+                var invoiceApi = Containers.TargetSystem.ApiService.AddApiComponent("Invoice API", "Invoice related API.");
+                var securityApi = Containers.TargetSystem.ApiService.AddApiComponent("Security API", "Authentication and authorization related API.");
                 var notificationHub = Containers.TargetSystem.ApiService.AddComponent("Notification Hub", "Routes notifications to clients.", "TBD-SignalR Hub");
                 var securityComponent = Containers.TargetSystem.ApiService.AddComponent("Security Component", "Security component.", "TBD");
                 invoiceApi.Uses(securityComponent, "Check user acccess and permissions.");
