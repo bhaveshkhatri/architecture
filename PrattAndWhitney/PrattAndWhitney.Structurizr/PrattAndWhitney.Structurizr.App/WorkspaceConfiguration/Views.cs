@@ -38,8 +38,6 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
         {
             public static void Configure(Workspace workspace)
             {
-                //TODO?
-                //workspace.Views.CreateComponentViewFor(Containers.TargetSystem.WebApplication, PaperSize.A4_Landscape);
                 workspace.Views.CreateComponentViewFor(Containers.TargetSystem.WebClient, PaperSize.A4_Landscape);
                 workspace.Views.CreateComponentViewFor(Containers.TargetSystem.ApiService, PaperSize.A4_Landscape);
             }
@@ -79,9 +77,6 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
                 styles.Add(new RelationshipStyle(AdditionalTags.PotentiallyUsedRelation) { Color = "#ee7600" });
                 styles.Add(new RelationshipStyle(AdditionalTags.CurrentButNotRecommendedRelation) { Color = "#ff0000" });
-
-                //TODO
-                //styles.Add(new ElementStyle(AdditionalTags.ViewSubject) { Background = "#ffa500", Color = "#ffffff", Shape = Shape.RoundedBox });
             }
         }
     }

@@ -103,8 +103,7 @@ namespace PrattAndWhitney.Structurizr.App.Extensions
                 componentView.Add(component);
                 componentView.AddNearestNeighbours(component);
             }
-            //TODO
-            //componentView.Relationships.RemoveWhere(x => x.IsBetween(Tags.SoftwareSystem, Tags.Person));
+
             componentView.PaperSize = paperSize;
         }
 

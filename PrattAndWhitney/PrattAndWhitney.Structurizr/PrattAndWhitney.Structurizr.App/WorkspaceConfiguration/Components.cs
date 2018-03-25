@@ -51,10 +51,6 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
                 var notificationHubProxy = Containers.TargetSystem.WebClient.AddComponent("Notification Hub Proxy", "Receives and processes system notifications.", "TBD-SignalR Hub Proxy");
                 notificationHubProxy.Uses(Containers.TargetSystem.ApiService, "Connects to hub", "WebSockets");
-
-                //TODO
-                //var moduleLoader = Containers.TargetSystem.WebClient.AddComponent("Module Loader", "Loads the modules available to the user.", "TBD");
-                //moduleLoader.Uses(Containers.TargetSystem.WebApplication, "Load available modules.");
             }
         }
 
