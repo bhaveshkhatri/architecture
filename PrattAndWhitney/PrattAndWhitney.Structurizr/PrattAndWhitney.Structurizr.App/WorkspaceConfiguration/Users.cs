@@ -4,6 +4,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 {
     public static class Users
     {
+        public static Person InvoiceTeam { get; private set; }
         public static Person InvoiceAnalyst { get; private set; }
         public static Person InvoiceManager { get; private set; }
         public static Person FleetManager { get; private set; }
@@ -17,6 +18,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
         public static void Configure(Model model)
         {
             // Users
+            InvoiceTeam = model.AddPerson(Location.Internal, "Invoice Team", "TBD.");
             InvoiceAnalyst = model.AddPerson(Location.Internal, "Invoice Analyst", "TBD.");
             InvoiceManager = model.AddPerson(Location.Internal, "Invoice Manager", "TBD.");
             FleetManager = model.AddPerson(Location.Internal, "Fleet Manager", "TBD.");

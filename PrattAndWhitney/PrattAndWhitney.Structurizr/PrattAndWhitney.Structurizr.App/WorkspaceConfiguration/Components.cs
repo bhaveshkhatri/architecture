@@ -29,18 +29,21 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
                 var dashboard = Containers.TargetSystem.WebClient.AddComponent("Dashboard Component", "Used by invoice team members.", "TBD");
                 dashboard.Uses(Containers.TargetSystem.ApiService, "Uses", "HTTPS + Token");
-                Users.InvoiceAnalyst.Uses(dashboard, "Uses", "TBD.");
-                Users.InvoiceManager.Uses(dashboard, "Uses", "TBD.");
+                Users.InvoiceTeam.Uses(dashboard, "Uses", "TBD.");
+
+                var invoiceUpload = Containers.TargetSystem.WebClient.AddComponent("Invoice Upload Component", "Used to upload invoices to the system.", "TBD");
+                invoiceUpload.Uses(Containers.TargetSystem.ApiService, "Uses", "HTTPS + Token");
+                Users.ShopUser.Uses(invoiceUpload, "Uses", "TBD.");
 
                 var login = Containers.TargetSystem.WebClient.AddComponent("Login Component", "Used by all users.", "TBD");
-                Users.InvoiceAnalyst.Uses(login, "Uses", "TBD.");
-                Users.InvoiceManager.Uses(login, "Uses", "TBD.");
-                Users.ToolSupport.Uses(login, "Uses", "TBD.");
+                Users.InvoiceTeam.Uses(login, "Uses", "TBD.");
+                Users.ShopUser.Uses(login, "Uses", "TBD.");
 
                 var securityComponent = Containers.TargetSystem.WebClient.AddComponent("Security Component", "Authentication token client.", "TBD");
                 securityComponent.Uses(Containers.TargetSystem.ApiService, "Authenticate", "HTTPS");
                 admin.Uses(securityComponent, "Uses");
                 dashboard.Uses(securityComponent, "Uses");
+                invoiceUpload.Uses(securityComponent, "Uses");
                 login.Uses(securityComponent, "Uses");
 
                 var notificationHubProxy = Containers.TargetSystem.WebClient.AddComponent("Notification Hub Proxy", "Receives and processes system notifications.", "TBD-SignalR Hub Proxy");
