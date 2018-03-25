@@ -46,6 +46,9 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 invoiceUpload.Uses(securityComponent, "Uses");
                 login.Uses(securityComponent, "Uses");
 
+                var routeGuards = Containers.TargetSystem.WebClient.AddComponent("Route Guards", "Enable or disable access to modules/routes based on permissions.", "TBD");
+                routeGuards.Uses(securityComponent, "Uses");
+
                 var notificationHubProxy = Containers.TargetSystem.WebClient.AddComponent("Notification Hub Proxy", "Receives and processes system notifications.", "TBD-SignalR Hub Proxy");
                 notificationHubProxy.Uses(Containers.TargetSystem.ApiService, "Connects to hub", "WebSockets");
 
