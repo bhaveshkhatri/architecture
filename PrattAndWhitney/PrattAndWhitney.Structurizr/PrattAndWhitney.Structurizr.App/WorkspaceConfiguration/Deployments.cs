@@ -24,11 +24,10 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 .AddDeploymentNode("IIS", "A web server from Microsoft.", "IIS 10.0", 1)
                 .Add(Containers.TargetSystem.ApiService);
 
-            var dockerHost = datacenter.AddDeploymentNode("MicroserviceHost***", "A server VM residing in Azure.", "Windows Server 2016", 2)
-                .AddDeploymentNode("DockerHost", "Docker runtime.", "TBD-Docker", 1);
-            dockerHost.AddDeploymentNode("WorkflowContainer***", "Docker container.", "TBD-Docker", 2)
+            var serviceHost = datacenter.AddDeploymentNode("MicroserviceHost***", "A server VM residing in Azure.", "Windows Server 2016", 2);
+            serviceHost.AddDeploymentNode("WorkflowContainer***", "Service instance container.", "TBD-Docker", 2)
                 .Add(Containers.Microservices.Workflow);
-            dockerHost.AddDeploymentNode("LoadInvoiceContainer***", "Docker container.", "TBD-Docker", 2)
+            serviceHost.AddDeploymentNode("LoadInvoiceContainer***", "Service instance container.", "TBD-Docker", 2)
                 .Add(Containers.Microservices.LoadInvoice);
 
             var dataCacheMaster = datacenter.AddDeploymentNode("DataCacheMaster", "A caching server VM residing in Azure.", "Windows Server 2016", 1)
