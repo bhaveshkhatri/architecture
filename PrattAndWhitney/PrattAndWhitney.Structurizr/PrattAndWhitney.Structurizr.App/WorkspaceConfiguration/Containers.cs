@@ -44,10 +44,12 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 WebApplication = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Application", "Delivers the Invoice Transactions System Web Client Single-Page Application.", "TBD-ASP.NET");
                 Users.InvoiceTeam.Uses(WebApplication, "Uses");
                 Users.ShopUser.Uses(WebApplication, "Uses");
+                Users.FleetManager.Uses(WebApplication, "Uses");
 
                 WebClient = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Client SPA", "The Invoice Transactions System Web Client Single-Page Application.", "Angular 5");
                 Users.InvoiceTeam.Uses(WebClient, "Uses");
                 Users.ShopUser.Uses(WebClient, "Uses");
+                Users.FleetManager.Uses(WebClient, "Uses");
                 WebApplication.Uses(WebClient, "Delivers");
 
                 ApiService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("API Service", "The Invoice Transactions System API Service.", "TBD-ASP.NET Web API");
@@ -59,7 +61,8 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 SoftwareSystems.Downstream.AllocationReport.Uses(ApiService, "Uses", "HTTPS");
                 WebClient.Uses(ApiService, "Uses", "HTTPS");
                 
-                var sqlServer = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("SQL Server", "The Invoice Transactions SQL Server.", "TBD");
+                var sqlServer = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("SQL Server", "The Invoice Transactions SQL Server.", "Microsoft SQL Server");
+                sqlServer.AddTags(AdditionalTags.Database);
 
                 DataManagementService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Data Management Service", "The Invoice Transactions Data Management Service.");
                 DataManagementService.Uses(SoftwareSystems.Upstream.SharePoint, "Uses", "TBD");
