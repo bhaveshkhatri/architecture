@@ -44,8 +44,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
             public static SoftwareSystem Fleetcare { get; private set; }
             public static SoftwareSystem SharePoint { get; private set; }
             public static SoftwareSystem FileSystem { get; private set; }
-            //public static SoftwareSystem Aso { get; private set; }
-
+            
             public static void Configure(Model model)
             {
                 ActiveDirectory = model.AddSoftwareSystem(Location.Internal, "Active Directory", "Active Directory");
@@ -135,12 +134,8 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
         public static class Other
         {
-            public static SoftwareSystem Aso { get; private set; }
-
             public static void Configure(Model model)
             {
-                //Aso = model.AddSoftwareSystem(Location.Unspecified, "ASO", "TBD - Davinia says it's sort of a replacement for AIM.");
-                //Aso.AddProperty(Properties.KeyContact, "TBD");
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using Structurizr;
+﻿using PrattAndWhitney.Structurizr.App.Common;
+using Structurizr;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +19,7 @@ namespace PrattAndWhitney.Structurizr.App.Extensions
         public static Component AddApiComponent(this Container container, string name, string description = "", string technology = "")
         {
             var descriptionToUse = string.IsNullOrWhiteSpace(description) ? string.Format("{0}.", name) : description;
-            var technologyToUse = string.IsNullOrWhiteSpace(technology) ? "TBD-Web API Controller" : technology;
+            var technologyToUse = string.IsNullOrWhiteSpace(technology) ? Constants.TechnologyStack.ApiPlatformController : technology;
             var component = container.AddComponent(name, descriptionToUse, technologyToUse);
 
             return component;
@@ -27,7 +28,7 @@ namespace PrattAndWhitney.Structurizr.App.Extensions
         public static Container AddMicroserviceContainer(this SoftwareSystem softwareSystem, string name, string description = "", string technology = "")
         {
             var descriptionToUse = string.IsNullOrWhiteSpace(description) ? string.Format("{0}.", name) : description;
-            var technologyToUse = string.IsNullOrWhiteSpace(technology) ? ".NET Core 2.0" : technology;
+            var technologyToUse = string.IsNullOrWhiteSpace(technology) ? Constants.TechnologyStack.ApplicationPlatform : technology;
             var container = softwareSystem.AddContainer(name, descriptionToUse, technologyToUse);
             container.AddTags(AdditionalTags.Microservice);
 

@@ -21,13 +21,13 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
             public static void Configure()
             {
-                EventBus = SoftwareSystems.Target.InfrastructureServices.AddContainer("Event Bus", "The ITS Event Bus.", Constants.Technologies.RabbitMQ);
+                EventBus = SoftwareSystems.Target.InfrastructureServices.AddContainer("Event Bus", "The ITS Event Bus.", Constants.TechnologyStack.Transport);
                 EventBus.AddTags(AdditionalTags.EventBus);
 
-                DataCacheMaster = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Master", "The ITS Data Cache Master.", Constants.Technologies.RabbitMQ);
+                DataCacheMaster = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Master", "The ITS Data Cache Master.", Constants.TechnologyStack.Transport);
                 DataCacheMaster.AddTags(AdditionalTags.Cache);
 
-                DataCacheSlave = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Slave", "The ITS Data Cache Slave.", Constants.Technologies.RabbitMQ);
+                DataCacheSlave = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Slave", "The ITS Data Cache Slave.", Constants.TechnologyStack.Transport);
                 DataCacheSlave.AddTags(AdditionalTags.Cache);
                 DataCacheMaster.Uses(DataCacheSlave, "Replication");
             }
@@ -42,27 +42,24 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
             public static void Configure()
             {
-                WebApplication = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Application", "Delivers the ITS Web Client Single-Page Application.", "ASP.NET Core 2.0");
+                WebApplication = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Application", "Delivers the ITS Web Client Single-Page Application.", Constants.TechnologyStack.WebAppPlatform);
                 Users.InvoiceTeam.Uses(WebApplication, "Uses");
                 Users.ShopUser.Uses(WebApplication, "Uses");
                 Users.FleetManager.Uses(WebApplication, "Uses");
 
-                WebClient = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Client SPA", "The ITS Web Client Single-Page Application.", "Angular 5");
+                WebClient = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Client SPA", "The ITS Web Client Single-Page Application.", Constants.TechnologyStack.FrontendFramework);
                 Users.InvoiceTeam.Uses(WebClient, "Uses");
                 Users.ShopUser.Uses(WebClient, "Uses");
                 Users.FleetManager.Uses(WebClient, "Uses");
                 WebApplication.Uses(WebClient, "Delivers");
 
-                ApiService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("API Service", "The ITS API Service.", "ASP.NET Core 2.0 Web API");
+                ApiService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("API Service", "The ITS API Service.", Constants.TechnologyStack.ApiPlatform);
                 ApiService.AddTags(AdditionalTags.Gateway);
-                //SoftwareSystems.Downstream.CostManagementMetrics.Uses(ApiService, "Uses", "HTTPS");
-                //SoftwareSystems.Downstream.Spidrs.Uses(ApiService, "Uses", "HTTPS");
                 SoftwareSystems.Downstream.FleetManagementDashboard.Uses(ApiService, "Uses", "HTTPS");
                 SoftwareSystems.Downstream.WingToCashDownstream.Uses(ApiService, "Uses", "HTTPS");
-                //SoftwareSystems.Downstream.AllocationReport.Uses(ApiService, "Uses", "HTTPS");
                 WebClient.Uses(ApiService, "Uses", "HTTPS");
                 
-                var sqlServer = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("SQL Server", "The ITS database server.", "Microsoft SQL Server");
+                var sqlServer = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("SQL Server", "The ITS database server.", Constants.TechnologyStack.DatabaseServer);
                 sqlServer.AddTags(AdditionalTags.Database);
 
                 DataManagementService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Data Management Service", "The Invoice Transactions Data Management Service.");

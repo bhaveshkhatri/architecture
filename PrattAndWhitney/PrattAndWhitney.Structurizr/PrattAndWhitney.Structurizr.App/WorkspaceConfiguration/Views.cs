@@ -58,7 +58,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
             {
                 var styles = workspace.Views.Configuration.Styles;
 
-                styles.Add(new ElementStyle(Tags.Element) { FontSize = 34 });
+                styles.Add(new ElementStyle(Tags.Element) { FontSize = 32 });
 
                 styles.Add(new ElementStyle(Tags.SoftwareSystem) { Background = "#1168bd", Color = "#ffffff", Shape = Shape.RoundedBox });
                 styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });
