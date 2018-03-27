@@ -20,7 +20,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
             public static void Configure(Model model)
             {
-                InvoiceTransactionsSystem = model.AddSoftwareSystem(Location.Internal, "ITS", "Invoice Transaction System.");
+                InvoiceTransactionsSystem = model.AddSoftwareSystem(Location.Internal, "ITS", "The Invoice Transaction System");
                 InvoiceTransactionsSystem.AddTags(AdditionalTags.TargetSystem);
                 Users.InvoiceTeam.Uses(InvoiceTransactionsSystem, "Uses");
                 Users.FleetManager.Uses(InvoiceTransactionsSystem, "Uses");

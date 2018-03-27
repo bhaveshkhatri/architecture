@@ -22,7 +22,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
         {
             public static void Configure()
             {
-                var admin = Containers.TargetSystem.WebClient.AddComponent("Admin Component", "Used by administrators of the Invoice Transaction System.", "Angular Module/Component");
+                var admin = Containers.TargetSystem.WebClient.AddComponent("Admin Component", "Used by administrators of ITS.", "Angular Module/Component");
                 admin.Uses(Containers.TargetSystem.ApiService, "Uses", "HTTPS + Token");
                 Users.InvoiceManager.Uses(admin, "Uses");
                 Users.ToolSupport.Uses(admin, "Uses");
@@ -31,12 +31,12 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 dashboard.Uses(Containers.TargetSystem.ApiService, "Uses", "HTTPS + Token");
                 Users.InvoiceTeam.Uses(dashboard, "Uses");
 
-                var customerContractComponent = Containers.TargetSystem.WebClient.AddComponent("Customer Contract Component", "Used to manage customer contracts in the system.", "Angular Module/Component");
+                var customerContractComponent = Containers.TargetSystem.WebClient.AddComponent("Customer Contract Component", "Used to manage customer contracts in ITS.", "Angular Module/Component");
                 customerContractComponent.Uses(Containers.TargetSystem.ApiService, "Uses", "HTTPS + Token");
                 Users.InvoiceTeam.Uses(customerContractComponent, "Uses");
                 Users.FleetManager.Uses(customerContractComponent, "Uses");
 
-                var invoiceUpload = Containers.TargetSystem.WebClient.AddComponent("Invoice Upload Component", "Used to upload invoices to the system.", "Angular Module/Component");
+                var invoiceUpload = Containers.TargetSystem.WebClient.AddComponent("Invoice Upload Component", "Used to upload invoices to ITS.", "Angular Module/Component");
                 invoiceUpload.Uses(Containers.TargetSystem.ApiService, "Uses", "HTTPS + Token");
                 Users.ShopUser.Uses(invoiceUpload, "Uses");
 
