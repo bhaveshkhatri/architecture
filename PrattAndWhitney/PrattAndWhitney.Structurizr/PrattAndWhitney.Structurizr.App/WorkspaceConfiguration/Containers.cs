@@ -1,4 +1,5 @@
-﻿using PrattAndWhitney.Structurizr.App.Extensions;
+﻿using PrattAndWhitney.Structurizr.App.Common;
+using PrattAndWhitney.Structurizr.App.Extensions;
 using Structurizr;
 
 namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
@@ -20,13 +21,13 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
             public static void Configure()
             {
-                EventBus = SoftwareSystems.Target.InfrastructureServices.AddContainer("Event Bus", "The ITS Event Bus.", "RabbitMQ v5");
+                EventBus = SoftwareSystems.Target.InfrastructureServices.AddContainer("Event Bus", "The ITS Event Bus.", Constants.Technologies.RabbitMQ);
                 EventBus.AddTags(AdditionalTags.EventBus);
 
-                DataCacheMaster = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Master", "The ITS Data Cache Master.", "RabbitMQ v5");
+                DataCacheMaster = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Master", "The ITS Data Cache Master.", Constants.Technologies.RabbitMQ);
                 DataCacheMaster.AddTags(AdditionalTags.Cache);
 
-                DataCacheSlave = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Slave", "The ITS Data Cache Slave.", "RabbitMQ v5");
+                DataCacheSlave = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Slave", "The ITS Data Cache Slave.", Constants.Technologies.RabbitMQ);
                 DataCacheSlave.AddTags(AdditionalTags.Cache);
                 DataCacheMaster.Uses(DataCacheSlave, "Replication");
             }

@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Constants.cs" />
     <Compile Include="WorkspaceConfiguration\Components.cs" />
     <Compile Include="WorkspaceConfiguration\Containers.cs" />
     <Compile Include="WorkspaceConfiguration\Deployments.cs" />
