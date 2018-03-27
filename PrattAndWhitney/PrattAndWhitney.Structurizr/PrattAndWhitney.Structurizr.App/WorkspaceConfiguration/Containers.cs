@@ -74,12 +74,12 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
         public static class Microservices
         {
             public static Container Workflow { get; private set; }
-            public static Container LoadInvoice { get; private set; }
+            public static Container LoadDocument { get; private set; }
 
             public static void Configure()
             {
                 Workflow = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Workflow Microservice", "The Invoice Transactions System Workflow Service.");
-                LoadInvoice = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Load Invoice Microservice", "The Invoice Transactions System Load Invoice Service.");
+                LoadDocument = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Load Document Microservice", "Loads document files (e.g. Excel invoices, TEEP) into the system.");
                 SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Export Microservice", "The Invoice Transactions System Export Service.");
                 SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Email Microservice", "The Invoice Transactions System Email Service.");
                 SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Translation Microservice", "TBD.");

@@ -28,7 +28,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
             serviceHost.AddDeploymentNode("WorkflowContainer***", "Service instance container.", "TBD-Docker", 2)
                 .Add(Containers.Microservices.Workflow);
             serviceHost.AddDeploymentNode("LoadInvoiceContainer***", "Service instance container.", "TBD-Docker", 2)
-                .Add(Containers.Microservices.LoadInvoice);
+                .Add(Containers.Microservices.LoadDocument);
 
             var dataCacheMaster = datacenter.AddDeploymentNode("DataCacheMaster", "A caching server VM residing in Azure.", "Windows Server 2016", 1)
                 .Add(Containers.Infrastructure.DataCacheMaster);
