@@ -23,15 +23,22 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
             InvoiceTeam = model.AddPerson(Location.Internal, "Invoice Team", "Managers and Analysts");
             InvoiceAnalyst = model.AddPerson(Location.Internal, "Invoice Analyst", " ");
             InvoiceManager = model.AddPerson(Location.Internal, "Invoice Manager", " ");
-            FleetManager = model.AddPerson(Location.Internal, "Fleet Manager", " ");
-            FinanceUser = model.AddPerson(Location.Internal, "Finance User", " ");
-            CostsUser = model.AddPerson(Location.Internal, "Costs User", " ");
-            ToolSupport = model.AddPerson(Location.Internal, "Tool Support", " ");
-            PowerPlantEngineer = model.AddPerson(Location.External, "Power Plant Engineer", " ");
-            OnSiteManager = model.AddPerson(Location.External, "On-Site Manager", " ");
+
             ShopTeam = model.AddPerson(Location.External, "Shop Team", "Managers and Users");
             ShopUser = model.AddPerson(Location.External, "Shop User", " ");
             ShopManager = model.AddPerson(Location.External, "Shop Manager", " ");
+
+            ToolSupport = model.AddPerson(Location.Internal, "Tool Support", " ");
+
+            FleetManager = model.AddPerson(Location.Internal, "Fleet Manager", " ");
+
+            FinanceUser = model.AddPerson(Location.Internal, "Finance User", " ");
+
+            CostsUser = model.AddPerson(Location.Internal, "Costs User", " ");
+
+            PowerPlantEngineer = model.AddPerson(Location.External, "Power Plant Engineer", " ");
+
+            OnSiteManager = model.AddPerson(Location.External, "On-Site Manager", " ");
         }
     }
 }
