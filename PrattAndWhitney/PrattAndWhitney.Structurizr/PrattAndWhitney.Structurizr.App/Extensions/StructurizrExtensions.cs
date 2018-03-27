@@ -27,7 +27,7 @@ namespace PrattAndWhitney.Structurizr.App.Extensions
         public static Container AddMicroserviceContainer(this SoftwareSystem softwareSystem, string name, string description = "", string technology = "")
         {
             var descriptionToUse = string.IsNullOrWhiteSpace(description) ? string.Format("{0}.", name) : description;
-            var technologyToUse = string.IsNullOrWhiteSpace(technology) ? "TBD-.NET Core" : technology;
+            var technologyToUse = string.IsNullOrWhiteSpace(technology) ? ".NET Core 2.0" : technology;
             var container = softwareSystem.AddContainer(name, descriptionToUse, technologyToUse);
             container.AddTags(AdditionalTags.Microservice);
 

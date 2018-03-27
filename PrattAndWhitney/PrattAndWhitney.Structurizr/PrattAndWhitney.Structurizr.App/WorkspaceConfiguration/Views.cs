@@ -18,9 +18,9 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
         {
             public static void Configure(Workspace workspace)
             {
-                workspace.Views.CreateEnterpriseContextLandscapeViewFor(Enterprises.Target, PaperSize.A3_Landscape);
+                workspace.Views.CreateEnterpriseContextLandscapeViewFor(Enterprises.Target, PaperSize.A4_Landscape);
 
-                workspace.Views.CreateSystemContextViewFor(SoftwareSystems.Target.InvoiceTransactionsSystem, PaperSize.A3_Landscape);
+                workspace.Views.CreateSystemContextViewFor(SoftwareSystems.Target.InvoiceTransactionsSystem, PaperSize.A4_Landscape);
             }
         }
 
@@ -30,7 +30,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
             {
                 workspace.Views.CreateContainerViewFor(SoftwareSystems.Target.InvoiceTransactionsSystem, PaperSize.A3_Landscape);
 
-                workspace.Views.CreateContainerViewFor(SoftwareSystems.Target.InfrastructureServices, PaperSize.A3_Landscape);
+                //workspace.Views.CreateContainerViewFor(SoftwareSystems.Target.InfrastructureServices, PaperSize.A3_Landscape);
             }
         }
 
@@ -58,7 +58,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
             {
                 var styles = workspace.Views.Configuration.Styles;
 
-                styles.Add(new ElementStyle(Tags.Element) { FontSize = 36 });
+                styles.Add(new ElementStyle(Tags.Element) { FontSize = 34 });
 
                 styles.Add(new ElementStyle(Tags.SoftwareSystem) { Background = "#1168bd", Color = "#ffffff", Shape = Shape.RoundedBox });
                 styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });

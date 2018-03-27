@@ -6,12 +6,12 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
     {
         public static void Configure(Model model)
         {
-            model.AddDeploymentNode("ITS Client Desktop", "The desktop environment of an ITS user", "TBD - Windows 7")
-                .AddDeploymentNode("Desktop Browser", "Client Desktop Browser", "TBD - Internet Explorer")
+            model.AddDeploymentNode("ITS Client Desktop", "The desktop environment of an ITS user", "Windows 7 and later")
+                .AddDeploymentNode("Desktop Browser", "Client Desktop Browser", "Internet Explorer, Chrome")
                 .Add(Containers.TargetSystem.WebClient);
 
-            model.AddDeploymentNode("ITS Client Mobile", "The mobile environment of an ITS user", "TBD - iPhone 6+ iOS 10+")
-                .AddDeploymentNode("Mobile Browser", "Client Mobile Browser", "TBD - Safari")
+            model.AddDeploymentNode("ITS Client Mobile", "The mobile environment of an ITS user", "iPhone 6+ iOS 10+")
+                .AddDeploymentNode("Mobile Browser", "Client Mobile Browser", "Safari")
                 .Add(Containers.TargetSystem.WebClient);
 
             var datacenter = model.AddDeploymentNode("Pratt & Whitney Datacenter", "Pratt & Whitney Datacenter", "TBD - Azure");
@@ -25,9 +25,9 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 .Add(Containers.TargetSystem.ApiService);
 
             var serviceHost = datacenter.AddDeploymentNode("MicroserviceHost***", "A server VM residing in Azure.", "Windows Server 2016", 2);
-            serviceHost.AddDeploymentNode("WorkflowContainer***", "Service instance container.", "TBD-Docker", 2)
+            serviceHost.AddDeploymentNode("WorkflowContainer***", "Service instance container.", "TBD-Docker or console", 2)
                 .Add(Containers.Microservices.Workflow);
-            serviceHost.AddDeploymentNode("LoadInvoiceContainer***", "Service instance container.", "TBD-Docker", 2)
+            serviceHost.AddDeploymentNode("LoadInvoiceContainer***", "Service instance container.", "TBD-Docker or console", 2)
                 .Add(Containers.Microservices.LoadDocument);
 
             var dataCacheMaster = datacenter.AddDeploymentNode("DataCacheMaster", "A caching server VM residing in Azure.", "Windows Server 2016", 1)

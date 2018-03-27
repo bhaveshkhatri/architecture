@@ -44,43 +44,43 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
             public static SoftwareSystem Fleetcare { get; private set; }
             public static SoftwareSystem SharePoint { get; private set; }
             public static SoftwareSystem FileSystem { get; private set; }
-            public static SoftwareSystem Aso { get; private set; }
+            //public static SoftwareSystem Aso { get; private set; }
 
             public static void Configure(Model model)
             {
                 ActiveDirectory = model.AddSoftwareSystem(Location.Internal, "Active Directory", "Active Directory");
                 Target.InvoiceTransactionsSystem.Uses(ActiveDirectory, "LDAP");
 
-                EagleData = model.AddSoftwareSystem(Location.Internal, "Eagle Data", "TBD.");
+                EagleData = model.AddSoftwareSystem(Location.Internal, "Eagle Data", " ");
                 EagleData.AddProperty(Properties.KeyContact, "TBD");
-                Target.InvoiceTransactionsSystem.Uses(EagleData, "TBD");
+                Target.InvoiceTransactionsSystem.Uses(EagleData, "Uses");
 
-                WorkScoping = model.AddSoftwareSystem(Location.Internal, "New Workscoping Tool", "TBD.");
+                WorkScoping = model.AddSoftwareSystem(Location.Internal, "New Workscoping Tool", " ");
                 WorkScoping.AddProperty(Properties.KeyContact, "TBD");
                 WorkScoping.AddTags(AdditionalTags.FutureState);
-                Target.InvoiceTransactionsSystem.Uses(WorkScoping, "TBD");
+                Target.InvoiceTransactionsSystem.Uses(WorkScoping, "Uses");
 
                 Odin = model.AddSoftwareSystem(Location.Internal, "ODIN", "Allocation tool. ");
                 Odin.AddProperty(Properties.KeyContact, "TBD");
-                Target.InvoiceTransactionsSystem.Uses(Odin, "TBD - Uses Access DB");
+                Target.InvoiceTransactionsSystem.Uses(Odin, "Uses");
 
                 Sap = model.AddSoftwareSystem(Location.Internal, "SAP", "SAP implementation (master data).");
                 Sap.AddProperty(Properties.KeyContact, "TBD");
-                Target.InvoiceTransactionsSystem.Uses(Sap, "TBD");
+                Target.InvoiceTransactionsSystem.Uses(Sap, "Uses");
 
-                Speid = model.AddSoftwareSystem(Location.Internal, "SPEID", "Contract information. ");
+                Speid = model.AddSoftwareSystem(Location.Internal, "SPEID", "Contract information.");
                 Speid.AddProperty(Properties.KeyContact, "TBD");
-                Target.InvoiceTransactionsSystem.Uses(Speid, "TBD");
+                Target.InvoiceTransactionsSystem.Uses(Speid, "Uses");
 
-                Fleetcare = model.AddSoftwareSystem(Location.Internal, "Fleetcare", "Customer Invoices");
+                Fleetcare = model.AddSoftwareSystem(Location.Internal, "Fleetcare", "Customer Invoices.");
                 Fleetcare.AddProperty(Properties.KeyContact, "TBD");
-                Target.InvoiceTransactionsSystem.Uses(Fleetcare, "TBD");
+                Target.InvoiceTransactionsSystem.Uses(Fleetcare, "Uses");
 
-                SharePoint = model.AddSoftwareSystem(Location.Internal, "SharePoint", "TBD.");
+                SharePoint = model.AddSoftwareSystem(Location.Internal, "SharePoint", " ");
                 SharePoint.AddProperty(Properties.KeyContact, "TBD");
-                Target.InvoiceTransactionsSystem.Uses(SharePoint, "TBD");
+                Target.InvoiceTransactionsSystem.Uses(SharePoint, "Uses");
 
-                FileSystem = model.AddSoftwareSystem(Location.Internal, "Filesystem", "TBD.");
+                FileSystem = model.AddSoftwareSystem(Location.Internal, "Filesystem", " ");
                 FileSystem.AddTags(AdditionalTags.Subsystem);
                 FileSystem.AddTags(AdditionalTags.Files);
                 FileSystem.AddProperty(Properties.KeyContact, "TBD");
@@ -100,36 +100,36 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
             public static void Configure(Model model)
             {
-                CostManagementMetrics = model.AddSoftwareSystem(Location.Internal, "Cost Management Metrics", "TBD.");
+                CostManagementMetrics = model.AddSoftwareSystem(Location.Internal, "Cost Management Metrics", " ");
                 CostManagementMetrics.AddProperty(Properties.KeyContact, "Dafina Georgievska/Matt Wentworth");
-                CostManagementMetrics.Uses(Target.InvoiceTransactionsSystem, "TBD");
+                CostManagementMetrics.Uses(Target.InvoiceTransactionsSystem, "Uses");
 
-                Spidrs = model.AddSoftwareSystem(Location.Internal, "SPIDRS", "TBD - Financial Accounting.");
+                Spidrs = model.AddSoftwareSystem(Location.Internal, "SPIDRS", "Financial Accounting.");
                 Spidrs.AddProperty(Properties.KeyContact, "Mike Faulk – Tsunami Tsolutions");
-                Spidrs.Uses(Target.InvoiceTransactionsSystem, "TBD");
+                Spidrs.Uses(Target.InvoiceTransactionsSystem, "Uses");
 
-                QuoteErrorTool = model.AddSoftwareSystem(Location.Internal, "Quote Tool / Error Tool", "This is temporary");
+                QuoteErrorTool = model.AddSoftwareSystem(Location.Internal, "Quote Tool / Error Tool", "Temporary");
                 QuoteErrorTool.AddProperty(Properties.KeyContact, "Kim Rose");
                 QuoteErrorTool.AddTags(AdditionalTags.SunsetPhaseOut);
-                QuoteErrorTool.Uses(Target.InvoiceTransactionsSystem, "TBD");
+                QuoteErrorTool.Uses(Target.InvoiceTransactionsSystem, "Uses");
 
-                Teradata = model.AddSoftwareSystem(Location.Internal, "Teradata", "TBD.");
+                Teradata = model.AddSoftwareSystem(Location.Internal, "Teradata", " ");
                 Teradata.AddProperty(Properties.KeyContact, "TBD");
                 Teradata.AddTags(AdditionalTags.SunsetPhaseOut);
-                Teradata.Uses(Target.InvoiceTransactionsSystem, "TBD");
+                Teradata.Uses(Target.InvoiceTransactionsSystem, "Uses");
 
-                WingToCashDownstream = model.AddSoftwareSystem(Location.Internal, "W2C", "TBD");
+                WingToCashDownstream = model.AddSoftwareSystem(Location.Internal, "W2C", "Downstream W2C Systems");
                 WingToCashDownstream.AddProperty(Properties.KeyContact, "Chandra Kankanala");
                 WingToCashDownstream.AddTags(AdditionalTags.FutureState);
-                WingToCashDownstream.Uses(Target.InvoiceTransactionsSystem, "TBD");
+                WingToCashDownstream.Uses(Target.InvoiceTransactionsSystem, "Uses");
 
-                AllocationReport = model.AddSoftwareSystem(Location.Internal, "Allocation Report ($)", "TBD.");
+                AllocationReport = model.AddSoftwareSystem(Location.Internal, "Allocation Report ($)", " ");
                 AllocationReport.AddProperty(Properties.KeyContact, "TBD");
-                AllocationReport.Uses(Target.InvoiceTransactionsSystem, "TBD");
+                AllocationReport.Uses(Target.InvoiceTransactionsSystem, "Uses");
 
-                FleetManagementDashboard = model.AddSoftwareSystem(Location.Internal, "Fleet Management Dashboard", "TBD.");
+                FleetManagementDashboard = model.AddSoftwareSystem(Location.Internal, "Fleet Management Dashboard", " ");
                 FleetManagementDashboard.AddProperty(Properties.KeyContact, "TBD");
-                FleetManagementDashboard.Uses(Target.InvoiceTransactionsSystem, "TBD");
+                FleetManagementDashboard.Uses(Target.InvoiceTransactionsSystem, "Uses");
             }
         }
 
@@ -139,8 +139,8 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
             public static void Configure(Model model)
             {
-                Aso = model.AddSoftwareSystem(Location.Unspecified, "ASO", "TBD - Davinia says it's sort of a replacement for AIM.");
-                Aso.AddProperty(Properties.KeyContact, "TBD");
+                //Aso = model.AddSoftwareSystem(Location.Unspecified, "ASO", "TBD - Davinia says it's sort of a replacement for AIM.");
+                //Aso.AddProperty(Properties.KeyContact, "TBD");
             }
         }
     }

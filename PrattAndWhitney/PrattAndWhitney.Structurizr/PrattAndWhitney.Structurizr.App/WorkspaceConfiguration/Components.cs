@@ -22,34 +22,34 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
         {
             public static void Configure()
             {
-                var admin = Containers.TargetSystem.WebClient.AddComponent("Admin Component", "Used by administrators of the Invoice Transaction System.", "TBD");
+                var admin = Containers.TargetSystem.WebClient.AddComponent("Admin Component", "Used by administrators of the Invoice Transaction System.", "Angular Module/Component");
                 admin.Uses(Containers.TargetSystem.ApiService, "Uses", "HTTPS + Token");
-                Users.InvoiceManager.Uses(admin, "Uses", "TBD.");
-                Users.ToolSupport.Uses(admin, "Uses", "TBD.");
+                Users.InvoiceManager.Uses(admin, "Uses");
+                Users.ToolSupport.Uses(admin, "Uses");
 
-                var dashboard = Containers.TargetSystem.WebClient.AddComponent("Dashboard Component", "Used by invoice team members.", "TBD");
+                var dashboard = Containers.TargetSystem.WebClient.AddComponent("Dashboard Component", "Used by invoice team members.", "Angular Module/Component");
                 dashboard.Uses(Containers.TargetSystem.ApiService, "Uses", "HTTPS + Token");
-                Users.InvoiceTeam.Uses(dashboard, "Uses", "TBD.");
+                Users.InvoiceTeam.Uses(dashboard, "Uses");
 
-                var customerContractComponent = Containers.TargetSystem.WebClient.AddComponent("Customer Contract Component", "Used to manage customer contracts in the system.", "TBD");
+                var customerContractComponent = Containers.TargetSystem.WebClient.AddComponent("Customer Contract Component", "Used to manage customer contracts in the system.", "Angular Module/Component");
                 customerContractComponent.Uses(Containers.TargetSystem.ApiService, "Uses", "HTTPS + Token");
-                Users.InvoiceTeam.Uses(customerContractComponent, "Uses", "TBD.");
-                Users.FleetManager.Uses(customerContractComponent, "Uses", "TBD.");
+                Users.InvoiceTeam.Uses(customerContractComponent, "Uses");
+                Users.FleetManager.Uses(customerContractComponent, "Uses");
 
-                var invoiceUpload = Containers.TargetSystem.WebClient.AddComponent("Invoice Upload Component", "Used to upload invoices to the system.", "TBD");
+                var invoiceUpload = Containers.TargetSystem.WebClient.AddComponent("Invoice Upload Component", "Used to upload invoices to the system.", "Angular Module/Component");
                 invoiceUpload.Uses(Containers.TargetSystem.ApiService, "Uses", "HTTPS + Token");
-                Users.ShopUser.Uses(invoiceUpload, "Uses", "TBD.");
+                Users.ShopUser.Uses(invoiceUpload, "Uses");
 
-                var login = Containers.TargetSystem.WebClient.AddComponent("Login Component", "Used by all users.", "TBD");
+                var login = Containers.TargetSystem.WebClient.AddComponent("Login Component", "Used by all users.", "Angular Module/Component");
 
-                var securityComponent = Containers.TargetSystem.WebClient.AddComponent("Security Component", "Authentication token client.", "TBD");
+                var securityComponent = Containers.TargetSystem.WebClient.AddComponent("Security Component", "Authentication token client.", "Angular Module/Component");
                 securityComponent.Uses(Containers.TargetSystem.ApiService, "Authenticate", "HTTPS");
                 login.Uses(securityComponent, "Uses");
 
-                var routeGuards = Containers.TargetSystem.WebClient.AddComponent("Route Guards", "Enable or disable access to modules/routes based on permissions.", "TBD");
+                var routeGuards = Containers.TargetSystem.WebClient.AddComponent("Route Guards", "Enable or disable access to modules/routes based on permissions.", "Angular Route Configuration");
                 routeGuards.Uses(securityComponent, "Uses");
 
-                var notificationHubProxy = Containers.TargetSystem.WebClient.AddComponent("Notification Hub Proxy", "Receives and processes system notifications.", "TBD-SignalR Hub Proxy");
+                var notificationHubProxy = Containers.TargetSystem.WebClient.AddComponent("Notification Hub Proxy", "Receives and processes system notifications.", "SignalR Hub Proxy");
                 notificationHubProxy.Uses(Containers.TargetSystem.ApiService, "Connects to hub", "WebSockets");
             }
         }
@@ -61,7 +61,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 var invoiceApi = Containers.TargetSystem.ApiService.AddApiComponent("Invoice API", "Invoice related API.");
                 var contractApi = Containers.TargetSystem.ApiService.AddApiComponent("Contract API", "Contract related API.");
                 var securityApi = Containers.TargetSystem.ApiService.AddApiComponent("Security API", "Authentication and authorization related API.");
-                var notificationHub = Containers.TargetSystem.ApiService.AddComponent("Notification Hub", "Routes notifications to clients.", "TBD-SignalR Hub");
+                var notificationHub = Containers.TargetSystem.ApiService.AddComponent("Notification Hub", "Routes notifications to clients.", "SignalR Hub");
                 var securityComponent = Containers.TargetSystem.ApiService.AddComponent("Security Component", "Security component.", "TBD");
                 contractApi.Uses(securityComponent, "Check user acccess and permissions.");
                 invoiceApi.Uses(securityComponent, "Check user acccess and permissions.");

@@ -20,13 +20,13 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
             public static void Configure()
             {
-                EventBus = SoftwareSystems.Target.InfrastructureServices.AddContainer("Event Bus", "The Invoice Transactions System Event Bus.", "TBD-RabbitMQ");
+                EventBus = SoftwareSystems.Target.InfrastructureServices.AddContainer("Event Bus", "The Invoice Transactions System Event Bus.", "RabbitMQ");
                 EventBus.AddTags(AdditionalTags.EventBus);
 
-                DataCacheMaster = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Master", "The Invoice Transactions System Data Cache Master.", "TBD-Redis");
+                DataCacheMaster = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Master", "The Invoice Transactions System Data Cache Master.", "RabbitMQ");
                 DataCacheMaster.AddTags(AdditionalTags.Cache);
 
-                DataCacheSlave = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Slave", "The Invoice Transactions System Data Cache Slave.", "TBD-Redis");
+                DataCacheSlave = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Slave", "The Invoice Transactions System Data Cache Slave.", "RabbitMQ");
                 DataCacheSlave.AddTags(AdditionalTags.Cache);
                 DataCacheMaster.Uses(DataCacheSlave, "Replication");
             }
@@ -41,7 +41,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
             public static void Configure()
             {
-                WebApplication = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Application", "Delivers the Invoice Transactions System Web Client Single-Page Application.", "TBD-ASP.NET");
+                WebApplication = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Application", "Delivers the Invoice Transactions System Web Client Single-Page Application.", "ASP.NET Core 2.0");
                 Users.InvoiceTeam.Uses(WebApplication, "Uses");
                 Users.ShopUser.Uses(WebApplication, "Uses");
                 Users.FleetManager.Uses(WebApplication, "Uses");
@@ -52,22 +52,22 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 Users.FleetManager.Uses(WebClient, "Uses");
                 WebApplication.Uses(WebClient, "Delivers");
 
-                ApiService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("API Service", "The Invoice Transactions System API Service.", "TBD-ASP.NET Web API");
+                ApiService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("API Service", "The Invoice Transactions System API Service.", "ASP.NET Core 2.0 Web API");
                 ApiService.AddTags(AdditionalTags.Gateway);
-                SoftwareSystems.Downstream.CostManagementMetrics.Uses(ApiService, "Uses", "HTTPS");
-                SoftwareSystems.Downstream.Spidrs.Uses(ApiService, "Uses", "HTTPS");
+                //SoftwareSystems.Downstream.CostManagementMetrics.Uses(ApiService, "Uses", "HTTPS");
+                //SoftwareSystems.Downstream.Spidrs.Uses(ApiService, "Uses", "HTTPS");
                 SoftwareSystems.Downstream.FleetManagementDashboard.Uses(ApiService, "Uses", "HTTPS");
                 SoftwareSystems.Downstream.WingToCashDownstream.Uses(ApiService, "Uses", "HTTPS");
-                SoftwareSystems.Downstream.AllocationReport.Uses(ApiService, "Uses", "HTTPS");
+                //SoftwareSystems.Downstream.AllocationReport.Uses(ApiService, "Uses", "HTTPS");
                 WebClient.Uses(ApiService, "Uses", "HTTPS");
                 
                 var sqlServer = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("SQL Server", "The Invoice Transactions SQL Server.", "Microsoft SQL Server");
                 sqlServer.AddTags(AdditionalTags.Database);
 
                 DataManagementService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Data Management Service", "The Invoice Transactions Data Management Service.");
-                DataManagementService.Uses(SoftwareSystems.Upstream.SharePoint, "Uses", "TBD");
+                DataManagementService.Uses(SoftwareSystems.Upstream.SharePoint, "Uses", " ");
                 DataManagementService.Uses(SoftwareSystems.Upstream.FileSystem, "Uses", "OS/NAS");
-                DataManagementService.Uses(sqlServer, "Uses", "TBD-OLAP/OLTP");
+                DataManagementService.Uses(sqlServer, "Uses", "OLAP/OLTP");
             }
         }
 
@@ -82,11 +82,20 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 LoadDocument = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Load Document Microservice", "Loads document files (e.g. Excel invoices, TEEP) into the system.");
                 SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Export Microservice", "The Invoice Transactions System Export Service.");
                 SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Email Microservice", "The Invoice Transactions System Email Service.");
-                SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Translation Microservice", "TBD.");
-                SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Central Logging Microservice", "TBD.");
-                SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("External Systems Microservices", "TBD.").AddTags(AdditionalTags.Multiple);
+                SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Translation Microservice", "Custom function translation service.");
+                SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Central Logging Microservice", "Centralizaed logging across ITS.");
+
+                var external = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Upstream Systems Microservices", "Actions and data from upstream systems.");
+                external.AddTags(AdditionalTags.Multiple);
+                external.Uses(SoftwareSystems.Upstream.EagleData, "Uses");
+                external.Uses(SoftwareSystems.Upstream.WorkScoping, "Uses");
+                external.Uses(SoftwareSystems.Upstream.Odin, "Uses");
+                external.Uses(SoftwareSystems.Upstream.Sap, "Uses");
+                external.Uses(SoftwareSystems.Upstream.Fleetcare, "Uses");
+                external.Uses(SoftwareSystems.Upstream.Speid, "Uses");
+
                 var identityMicroservice = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("Identity Microservice", "The Invoice Transactions System Identity Service.");
-                identityMicroservice.Uses(SoftwareSystems.Upstream.ActiveDirectory, "Uses", "TBD");
+                identityMicroservice.Uses(SoftwareSystems.Upstream.ActiveDirectory, "Uses", "LDAP");
             }
         }
     }
