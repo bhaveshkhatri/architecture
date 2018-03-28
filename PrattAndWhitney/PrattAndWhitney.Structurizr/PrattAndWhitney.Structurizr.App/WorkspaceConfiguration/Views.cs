@@ -65,15 +65,17 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 styles.Add(new ElementStyle(Tags.Container) { Background = "#438dd5", Color = "#ffffff" });
                 styles.Add(new ElementStyle(Tags.Component) { Background = "#85bbf0", Color = "#ffffff" });
 
+                styles.Add(new ElementStyle(AdditionalTags.ExternalToSystem) { Background = "#6699ff" });
                 styles.Add(new ElementStyle(AdditionalTags.FutureState) { Border = Border.Dashed, Background = "#3cb371" });
                 styles.Add(new ElementStyle(AdditionalTags.SunsetPhaseOut) { Border = Border.Dashed, Background = "#ff8c00" });
                 styles.Add(new ElementStyle(AdditionalTags.EventBus) { Shape = Shape.Pipe, Height = 300, Width = 750 });
                 styles.Add(new ElementStyle(AdditionalTags.Database) { Shape = Shape.Cylinder });
                 styles.Add(new ElementStyle(AdditionalTags.Hub) { Shape = Shape.Hexagon });
-                styles.Add(new ElementStyle(AdditionalTags.Gateway) { Shape = Shape.Hexagon });
+                styles.Add(new ElementStyle(AdditionalTags.Api) { Shape = Shape.Hexagon });
                 styles.Add(new ElementStyle(AdditionalTags.Files) { Shape = Shape.Folder });
                 styles.Add(new ElementStyle(AdditionalTags.InfrastructureServices) { Shape = Shape.Circle });
-                styles.Add(new ElementStyle(AdditionalTags.Multiple) { Border = Border.Dashed });
+                styles.Add(new ElementStyle(AdditionalTags.Multiple) { Border = Border.Dashed });   
+                styles.Add(new ElementStyle(AdditionalTags.Frontend) { Background = "#3385ff" });
 
                 styles.Add(new RelationshipStyle(AdditionalTags.PotentiallyUsedRelation) { Color = "#ee7600" });
                 styles.Add(new RelationshipStyle(AdditionalTags.CurrentButNotRecommendedRelation) { Color = "#ff0000" });

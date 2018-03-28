@@ -43,18 +43,20 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
             public static void Configure()
             {
                 WebApplication = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Application", "Delivers the ITS Web Client Single-Page Application.", Constants.TechnologyStack.WebAppPlatform);
+                WebApplication.AddTags(AdditionalTags.Frontend);
                 Users.InvoiceTeam.Uses(WebApplication, "Uses");
                 Users.ShopUser.Uses(WebApplication, "Uses");
                 Users.FleetManager.Uses(WebApplication, "Uses");
 
                 WebClient = SoftwareSystems.Target.InvoiceTransactionsSystem.AddContainer("Web Client SPA", "The ITS Web Client Single-Page Application.", Constants.TechnologyStack.FrontendFramework);
+                WebClient.AddTags(AdditionalTags.Frontend);
                 Users.InvoiceTeam.Uses(WebClient, "Uses");
                 Users.ShopUser.Uses(WebClient, "Uses");
                 Users.FleetManager.Uses(WebClient, "Uses");
                 WebApplication.Uses(WebClient, "Delivers");
 
                 ApiService = SoftwareSystems.Target.InvoiceTransactionsSystem.AddMicroserviceContainer("API Service", "The ITS API Service.", Constants.TechnologyStack.ApiPlatform);
-                ApiService.AddTags(AdditionalTags.Gateway);
+                ApiService.AddTags(AdditionalTags.Api);
                 SoftwareSystems.Downstream.FleetManagementDashboard.Uses(ApiService, "Uses", "HTTPS");
                 SoftwareSystems.Downstream.WingToCashDownstream.Uses(ApiService, "Uses", "HTTPS");
                 WebClient.Uses(ApiService, "Uses", "HTTPS");

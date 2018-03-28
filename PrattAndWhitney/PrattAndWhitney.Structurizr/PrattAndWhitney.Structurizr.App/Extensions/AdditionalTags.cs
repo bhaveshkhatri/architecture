@@ -90,11 +90,11 @@
             }
         }
 
-        public static string Gateway
+        public static string Api
         {
             get
             {
-                return "Gateway";
+                return "API";
             }
         }
 
@@ -119,6 +119,22 @@
             get
             {
                 return "Multiple";
+            }
+        }
+
+        public static string Frontend
+        {
+            get
+            {
+                return "Frontend";
+            }
+        }
+
+        public static string ExternalToSystem
+        {
+            get
+            {
+                return "External";
             }
         }
     }
