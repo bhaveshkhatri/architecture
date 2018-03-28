@@ -33,7 +33,7 @@ namespace PrattAndWhitney.Structurizr.App.Extensions
             container.AddTags(AdditionalTags.Microservice);
 
             var infrastructureServices = softwareSystem.Model.SoftwareSystems.Single(x => x.Tags.Contains(AdditionalTags.InfrastructureServices));
-            container.Uses(infrastructureServices, "Message Transfer, Cache Access");
+            container.Uses(infrastructureServices, "Messaging \nand caching");
 
             return container;
         }
