@@ -60,7 +60,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
                 styles.Add(new ElementStyle(Tags.Element) { FontSize = 32 });
 
-                styles.Add(new ElementStyle(Tags.SoftwareSystem) { Background = "#1168bd", Color = "#ffffff", Shape = Shape.RoundedBox });
+                styles.Add(new ElementStyle(Tags.SoftwareSystem) { Background = "#25468b", Color = "#ffffff", Shape = Shape.RoundedBox });
                 styles.Add(new ElementStyle(Tags.Person) { Background = "#08427b", Color = "#ffffff", Shape = Shape.Person });
                 styles.Add(new ElementStyle(Tags.Container) { Background = "#438dd5", Color = "#ffffff" });
                 styles.Add(new ElementStyle(Tags.Component) { Background = "#85bbf0", Color = "#ffffff" });
