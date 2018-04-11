@@ -2,6 +2,14 @@
 {
     public static class Properties
     {
+        public static string DetailedDescription
+        {
+            get
+            {
+                return "Detailed Description";
+            }
+        }
+
         public static string KeyContact
         {
             get
