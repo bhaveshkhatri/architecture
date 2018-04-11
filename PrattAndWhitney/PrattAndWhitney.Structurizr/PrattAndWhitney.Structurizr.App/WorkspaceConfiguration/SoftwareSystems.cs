@@ -51,7 +51,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 ActiveDirectory.AddTags(AdditionalTags.ExternalToSystem);
                 Target.InvoiceTransactionsSystem.Uses(ActiveDirectory, "LDAP");
 
-                EagleData = model.AddSoftwareSystem(Location.Internal, "Eagle Data", " ");
+                EagleData = model.AddSoftwareSystem(Location.Internal, "Eagle Data", "Parts/Utilization, Events, Modules");
                 EagleData.AddTags(AdditionalTags.ExternalToSystem);
                 EagleData.AddProperty(Properties.KeyContact, "TBD");
                 Target.InvoiceTransactionsSystem.Uses(EagleData, "Uses");
@@ -72,7 +72,7 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 Sap.AddProperty(Properties.KeyContact, "TBD");
                 Target.InvoiceTransactionsSystem.Uses(Sap, "Uses");
 
-                Speid = model.AddSoftwareSystem(Location.Internal, "SPEID", "Contract information.");
+                Speid = model.AddSoftwareSystem(Location.Internal, "SPEID", "Contract information, ESN coverage, Roster.");
                 Speid.AddTags(AdditionalTags.ExternalToSystem);
                 Speid.AddProperty(Properties.KeyContact, "TBD");
                 Target.InvoiceTransactionsSystem.Uses(Speid, "Uses");
