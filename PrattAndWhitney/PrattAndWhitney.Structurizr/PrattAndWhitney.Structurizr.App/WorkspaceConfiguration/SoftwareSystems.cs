@@ -51,12 +51,12 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
                 ActiveDirectory.AddTags(AdditionalTags.ExternalToSystem);
                 Target.InvoiceTransactionsSystem.Uses(ActiveDirectory, "LDAP");
 
-                EagleData = model.AddSoftwareSystem(Location.Internal, "Eagle Data", "Parts/Utilization, Events, Modules");
+                EagleData = model.AddSoftwareSystem(Location.Internal, "Eagle Data", "Parts/Utilization, Events, Modules.");
                 EagleData.AddTags(AdditionalTags.ExternalToSystem);
                 EagleData.AddProperty(Properties.KeyContact, "TBD");
                 Target.InvoiceTransactionsSystem.Uses(EagleData, "Uses");
 
-                WorkScoping = model.AddSoftwareSystem(Location.Internal, "New Workscoping Tool", " ");
+                WorkScoping = model.AddSoftwareSystem(Location.Internal, "New Workscoping Tool", "Manage requirements for an engine going into a shop for maintenance.");
                 WorkScoping.AddTags(AdditionalTags.ExternalToSystem);
                 WorkScoping.AddProperty(Properties.KeyContact, "TBD");
                 WorkScoping.AddTags(AdditionalTags.FutureState);
