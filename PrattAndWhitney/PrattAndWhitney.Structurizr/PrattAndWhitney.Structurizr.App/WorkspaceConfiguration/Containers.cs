@@ -21,13 +21,13 @@ namespace PrattAndWhitney.Structurizr.App.WorkspaceConfiguration
 
             public static void Configure()
             {
-                EventBus = SoftwareSystems.Target.InfrastructureServices.AddContainer("Event Bus", "The ITS Event Bus.", Constants.TechnologyStack.Transport);
+                EventBus = SoftwareSystems.Target.InfrastructureServices.AddContainer("Event Bus", "The ITS Event Bus.", Constants.TechnologyStack.TransportAndWorkflowState);
                 EventBus.AddTags(AdditionalTags.EventBus);
 
-                DataCacheMaster = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Master", "The ITS Data Cache Master.", Constants.TechnologyStack.Transport);
+                DataCacheMaster = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Master", "The ITS Data Cache Master.", Constants.TechnologyStack.Cache);
                 DataCacheMaster.AddTags(AdditionalTags.Cache);
 
-                DataCacheSlave = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Slave", "The ITS Data Cache Slave.", Constants.TechnologyStack.Transport);
+                DataCacheSlave = SoftwareSystems.Target.InfrastructureServices.AddContainer("Data Cache Slave", "The ITS Data Cache Slave.", Constants.TechnologyStack.Cache);
                 DataCacheSlave.AddTags(AdditionalTags.Cache);
                 DataCacheMaster.Uses(DataCacheSlave, "Replication");
             }
