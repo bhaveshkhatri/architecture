@@ -17,7 +17,7 @@
             public static string NotificationsClient { get { return Notifications + " Hub Proxy"; } }
             public static string Transport { get { return "RabbitMQ"; } }
             public static string TransportAndWorkflowState { get { return Transport + " and MassTransit"; } }
-            public static string WebAppPlatform { get { return "ASP" + ApplicationPlatform; } }
+            public static string WebAppPlatform { get { return "ASP.NET"; } }
             public static string Cache { get { return Transport; } }
         }
     }
